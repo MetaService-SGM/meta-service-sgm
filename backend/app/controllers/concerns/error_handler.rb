@@ -20,4 +20,3 @@ module ErrorHandler
       render json: { error: exception.record.errors.full_messages }, status: :unprocessable_entity
     end
   end
-  
