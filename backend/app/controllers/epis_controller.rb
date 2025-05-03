@@ -5,6 +5,10 @@ class EpisController < ApplicationController
     @epis = Epi.all
   end
 
+  def show
+    @epi = Epi.find(params[:id])
+  end
+
   def new
     @epi = Epi.new
   end
@@ -18,7 +22,9 @@ class EpisController < ApplicationController
     end
   end
   
-  def edit; end
+  def edit
+    @epi = Epi.find(params[:id])
+  end
 
   def update
     if @epi.update(epi_params)

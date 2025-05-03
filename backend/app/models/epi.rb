@@ -1,5 +1,5 @@
 class Epi < ApplicationRecord
   has_many :entrega_epis, dependent: :destroy
 
-  validates :descricao, :ca, presence: true
+  validates :nome, :ca, presence: true
 end
