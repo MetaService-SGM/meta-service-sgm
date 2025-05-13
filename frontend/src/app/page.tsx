@@ -1,4 +1,4 @@
-import Sidebar from "@/components /SideBar/Sidebar";
+import Sidebar from "@/components/Sidebar";
 
 
 
