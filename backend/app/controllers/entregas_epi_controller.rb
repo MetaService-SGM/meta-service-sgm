@@ -2,7 +2,7 @@ class EntregasEpiController < ApplicationController
   before_action :set_entrega_epi, only: %i[show edit update destroy]
 
   def index
-    @entregas_epi = EntregaEpi.includes(:funcionario, :ordem_servico).all
+    @entregas_epi = EntregaEpi.includes(:colaborador, :epi).all
   end
 
   def show; end
@@ -42,6 +42,6 @@ class EntregasEpiController < ApplicationController
   end
 
   def entrega_epi_params
-    params.require(:entrega_epi).permit(:data_retirada, :epi_descricao, :epi_ca, :num_camisa, :num_calca, :num_botina, :preco, :funcionario_id, :ordem_servico_id)
+    params.require(:entrega_epi).permit(:data_entrega, :data_devolucao, :observacao, :quantidade, :epi_id, :colaborador_id)
   end
 end

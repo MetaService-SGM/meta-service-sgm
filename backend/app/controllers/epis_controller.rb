@@ -1,13 +1,11 @@
 class EpisController < ApplicationController
-  before_action :set_epis, only: %i[show edit update destroy]
+  before_action :set_epi, only: %i[show edit update destroy]
 
   def index
     @epis = Epi.all
   end
 
-  def show
-    @epi = Epi.find(params[:id])
-  end
+  def show; end
 
   def new
     @epi = Epi.new
@@ -21,10 +19,8 @@ class EpisController < ApplicationController
       render :new
     end
   end
-  
-  def edit
-    @epi = Epi.find(params[:id])
-  end
+
+  def edit; end
 
   def update
     if @epi.update(epi_params)
@@ -46,6 +42,6 @@ class EpisController < ApplicationController
   end
 
   def epi_params
-    params.require(:epi).permit(:cod_prod, :prod_descricao, :fornecedor, :qde_entrada, :qde_saida, :qde_saldo, :valor_estoque)
+    params.require(:epi).permit(:tipo, :tamanho, :colaborador_id)
   end
 end
