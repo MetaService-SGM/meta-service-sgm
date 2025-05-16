@@ -1,11 +1,22 @@
 "use client";
 
 import Image from "next/image";
-import {useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { FaHouse } from "react-icons/fa6";
+import { MdSpaceDashboard } from "react-icons/md";
+import { IoPersonSharp } from "react-icons/io5";
+import { IoDocumentText } from "react-icons/io5";
+import { GoBellFill } from "react-icons/go";
+import { FaGear } from "react-icons/fa6";
+import { FaEdit } from "react-icons/fa";
+import { BiMessageSquareEdit } from "react-icons/bi";
+import { MdEditSquare } from "react-icons/md";
+import { AiFillPieChart } from "react-icons/ai";
+import { IoCopy } from "react-icons/io5";
 
 // Interface para as propriedades do botão da sidebar
 interface SidebarButtonProps {
-  logo?: string;
+  logo?: string | React.ReactNode;
   alt?: string;
   width?: number;
   height?: number;
@@ -38,14 +49,14 @@ const SidebarButton = ({
   return (
     <button
       onClick={handleClick}
-      className={`flex items-center w-full p-3 rounded-lg transition-colors ${
+      className={`flex items-center w-full p-3 transition-colors ${
         active
           ? "bg-blue-100 text-blue-600"
-          : "hover:bg-[#F2F7FF] cursor-pointer hover:border-l-5 hover:border-l-[#2B426E]"
+          : "hover:bg-[#F2F7FF] cursor-pointer hover:border-l-4 hover:border-l-[#2B426E]"
       }`}
     >
-      {logo && (
-        <div className="mr-3">
+      {typeof logo === "string" ? (
+        <div className="mr-4"> {/* Aumentei a margem direita de mr-3 para mr-4 */}
           <Image
             src={logo}
             alt={alt}
@@ -53,6 +64,10 @@ const SidebarButton = ({
             height={height}
             className="object-contain"
           />
+        </div>
+      ) : (
+        <div className="mr-4 text-lg"> {/* Aumentei a margem e adicionei text-lg para ícones */}
+          {logo}
         </div>
       )}
       {label && <span className="font-medium">{label}</span>}
@@ -65,58 +80,58 @@ const SidebarButton = ({
  */
 const NAV_ITEMS = [
   {
-    logo: "/images/icons/bemvindo-sidebar-icon.png",
+    logo: <FaHouse />,
     src: "/",
     alt: "Ícone de boas-vindas",
     label: "Bem-vindo",
   },
   {
-    logo: "/images/icons/dashboard-sidebar-icon.png",
-    src: "/",
+    logo: <MdSpaceDashboard />,
+    src: "/dashboard",
     alt: "Ícone de dashboard",
     label: "Dashboard",
   },
   {
-    logo: "/images/icons/pessoal-sidebar-icon.png",
-    src: "/",
+    logo: <IoPersonSharp />,
+    src: "/staff",
     alt: "Ícone de pessoal",
     label: "Gerenciamento de Pessoal",
   },
   {
-    logo: "/images/icons/empresa-sidebar-icon.png",
-    src: "/",
+    logo: <IoCopy />,
+    src: "/companies",
     alt: "Ícone de empresas",
     label: "Empresas Contratadas",
   },
   {
-    logo: "/images/icons/documents-sidebar-icon.png",
-    src: "/",
+    logo: <IoDocumentText />,
+    src: "/documents",
     alt: "Ícone de documentos",
     label: "Documentos e Vencimentos",
     width: 13.33,
     height: 16.67,
   },
   {
-    logo: "/images/icons/materiais-sidebar-icon.png",
-    src: "/",
+    logo: <AiFillPieChart />,
+    src: "/materials",
     alt: "Ícone de materiais",
     label: "Gerenciamento de Materiais",
   },
   {
-    logo: "/images/icons/ordemservico-sidebar-icon.png",
-    src: "/",
+    logo: <MdEditSquare />,
+    src: "/orders",
     alt: "Ícone de ordens",
-    label: "Ordem de Serviços",
+    label: "Ordem de Serviço",
   },
   {
-    logo: "/images/icons/alertas-sidebar-icon.png",
-    src: "/",
+    logo: <GoBellFill />,
+    src: "/alerts",
     alt: "Ícone de alertas",
     label: "Alertas",
   },
   {
-    logo: "/images/icons/configuracoes-sidebar-icon.png",
-    src: "/",
+    logo: <FaGear />,
+    src: "/settings",
     alt: "Ícone de configurações",
     label: "Configurações",
   },
@@ -148,13 +163,13 @@ export default function Sidebar() {
       </div>
 
       {/* Espaçamento */}
-      <div className="w-full h-10" />
+      <div className="w-full h-30" />
 
       {/* Botão de logout */}
       <div className="p-4 border-t border-gray-200 flex justify-center shrink-0">
         <button
           onClick={handleLogout}
-          className="w-44 h-12 bg-[#2b426e] rounded-[5px] text-white font-medium flex items-center justify-center gap-2 hover:bg-[#1d2e4a] transition-colors"
+          className="w-44 h-8 bg-[#2b426e] rounded-[5px] text-white font-medium flex items-center justify-center gap-2 hover:cursor-pointer hover:bg-[#1d2e4a] transition-colors"
         >
           <Image
             src="/images/icons/sair-sidebar-icon.png"
