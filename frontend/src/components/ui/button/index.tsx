@@ -21,7 +21,8 @@ const buttonVariants = cva(
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
         success: "bg-[#0DBF8D] text-white hover:bg-emerald-600",
-        alert: "bg-[#FFE5B0] text-white hover:bg-yellow-200"
+        alert: "bg-[#FFE5B0] text-white hover:bg-yellow-200",
+        page: "bg-[#F2F7FF] text-neutral-900 hover:bg-[#E6EFFC] border border-neutral-700"
       },
       size: {
         default: "h-10 w-20 px-4 py-2 has-[>svg]:px-3",
@@ -58,4 +59,4 @@ function Button({
   )
 }
 
-export { Button, buttonVariants }
+export { Button, buttonVariants }

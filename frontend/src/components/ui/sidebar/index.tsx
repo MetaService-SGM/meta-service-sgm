@@ -5,14 +5,13 @@ import { useRouter } from "next/navigation";
 import { FaHouse } from "react-icons/fa6";
 import { MdSpaceDashboard } from "react-icons/md";
 import { IoPersonSharp } from "react-icons/io5";
-import { IoDocumentText } from "react-icons/io5";
 import { GoBellFill } from "react-icons/go";
 import { FaGear } from "react-icons/fa6";
-import { FaEdit } from "react-icons/fa";
-import { BiMessageSquareEdit } from "react-icons/bi";
 import { MdEditSquare } from "react-icons/md";
 import { AiFillPieChart } from "react-icons/ai";
 import { IoCopy } from "react-icons/io5";
+import { IoIosLogOut } from "react-icons/io";
+import { Button } from "../button";
 
 // Interface para as propriedades do botão da sidebar
 interface SidebarButtonProps {
@@ -49,14 +48,16 @@ const SidebarButton = ({
   return (
     <button
       onClick={handleClick}
-      className={`flex items-center w-full p-3 transition-colors ${
+      className={`flex items-center w-full p-3 transition-colors gap-1 ${
         active
           ? "bg-blue-100 text-blue-600"
           : "hover:bg-[#F2F7FF] cursor-pointer hover:border-l-4 hover:border-l-[#2B426E]"
       }`}
     >
       {typeof logo === "string" ? (
-        <div className="mr-4"> {/* Aumentei a margem direita de mr-3 para mr-4 */}
+        <div className="mr-4">
+          {" "}
+          {/* Aumentei a margem direita de mr-3 para mr-4 */}
           <Image
             src={logo}
             alt={alt}
@@ -66,7 +67,9 @@ const SidebarButton = ({
           />
         </div>
       ) : (
-        <div className="mr-4 text-lg"> {/* Aumentei a margem e adicionei text-lg para ícones */}
+        <div className="mr-4 text-lg">
+          {" "}
+          {/* Aumentei a margem e adicionei text-lg para ícones */}
           {logo}
         </div>
       )}
@@ -102,14 +105,6 @@ const NAV_ITEMS = [
     src: "/companies",
     alt: "Ícone de empresas",
     label: "Empresas Contratadas",
-  },
-  {
-    logo: <IoDocumentText />,
-    src: "/documents",
-    alt: "Ícone de documentos",
-    label: "Documentos e Vencimentos",
-    width: 13.33,
-    height: 16.67,
   },
   {
     logo: <AiFillPieChart />,
@@ -155,31 +150,22 @@ export default function Sidebar() {
 
       {/* Itens de navegação */}
       <div className="flex-1 overflow-y-auto px-6 py-2">
-        <div className="space-y-3">
+        <div className="space-y-4">
           {NAV_ITEMS.map((item, index) => (
             <SidebarButton key={`nav-item-${index}`} {...item} />
           ))}
         </div>
       </div>
 
-      {/* Espaçamento */}
-      <div className="w-full h-30" />
-
       {/* Botão de logout */}
       <div className="p-4 border-t border-gray-200 flex justify-center shrink-0">
-        <button
+        <Button
           onClick={handleLogout}
-          className="w-44 h-8 bg-[#2b426e] rounded-[5px] text-white font-medium flex items-center justify-center gap-2 hover:cursor-pointer hover:bg-[#1d2e4a] transition-colors"
+          className="w-44 h-8 mt-16"
         >
-          <Image
-            src="/images/icons/sair-sidebar-icon.png"
-            alt="Ícone de logout"
-            width={20}
-            height={20}
-            className="object-contain"
-          />
+          <IoIosLogOut />
           Sair
-        </button>
+        </Button>
       </div>
     </nav>
   );
