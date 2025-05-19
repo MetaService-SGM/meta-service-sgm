@@ -1,13 +1,17 @@
-import * as React from "react"
+"use client";
+
+import { useState, useEffect } from "react";
+import * as React from "react";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   MoreHorizontalIcon,
-} from "lucide-react"
+} from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button, buttonVariants } from "@/components/ui/button";
 
+// Componentes de Paginação
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (
     <nav
@@ -17,7 +21,7 @@ function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
       className={cn("mx-auto flex w-full justify-center", className)}
       {...props}
     />
-  )
+  );
 }
 
 function PaginationContent({
@@ -27,20 +31,23 @@ function PaginationContent({
   return (
     <ul
       data-slot="pagination-content"
-      className={cn("flex flex-row items-center gap-1", className)}
+      className={cn(
+        "flex flex-row items-center justify-center gap-1",
+        className
+      )}
       {...props}
     />
-  )
+  );
 }
 
 function PaginationItem({ ...props }: React.ComponentProps<"li">) {
-  return <li data-slot="pagination-item" {...props} />
+  return <li data-slot="pagination-item" {...props} />;
 }
 
 type PaginationLinkProps = {
-  isActive?: boolean
+  isActive?: boolean;
 } & Pick<React.ComponentProps<typeof Button>, "size"> &
-  React.ComponentProps<"a">
+  React.ComponentProps<"a">;
 
 function PaginationLink({
   className,
@@ -55,14 +62,14 @@ function PaginationLink({
       data-active={isActive}
       className={cn(
         buttonVariants({
-          variant: isActive ?  "default" : "page",
+          variant: isActive ? "default" : "page",
           size,
         }),
         className
       )}
       {...props}
     />
-  )
+  );
 }
 
 function PaginationPrevious({
@@ -79,7 +86,7 @@ function PaginationPrevious({
       <ChevronLeftIcon />
       <span className="hidden sm:block">Anterior</span>
     </PaginationLink>
-  )
+  );
 }
 
 function PaginationNext({
@@ -96,7 +103,7 @@ function PaginationNext({
       <span className="hidden sm:block">Próximo</span>
       <ChevronRightIcon />
     </PaginationLink>
-  )
+  );
 }
 
 function PaginationEllipsis({
@@ -111,9 +118,76 @@ function PaginationEllipsis({
       {...props}
     >
       <MoreHorizontalIcon className="size-4" />
-      <span className="sr-only">More pages</span>
+      <span className="sr-only">Mais páginas</span>
     </span>
-  )
+  );
+}
+
+// Interface e função principal
+interface PaginationSectionProps<T> {
+  data: T[];
+  itemsPerPage?: number;
+  onPageChange?: (pageData: T[], currentPage: number) => void;
+}
+
+function PaginationSection<T>({
+  data,
+  itemsPerPage = 2,
+  onPageChange,
+}: PaginationSectionProps<T>) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = currentPage * itemsPerPage;
+  
+
+  useEffect(() => {
+    const currentItems = data.slice(start,end);
+    onPageChange?.(currentItems, currentPage);
+  }, [start, end, data, onPageChange, currentPage]);
+
+  return (
+    <div className="mt-6 flex justify-center fixed bottom-4 left-0 w-full">
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentPage((prev) => Math.max(prev - 1, 1));
+              }}
+            />
+          </PaginationItem>
+
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <PaginationItem key={page}>
+              <PaginationLink
+                href="#"
+                isActive={page === currentPage}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setCurrentPage(page);
+                }}
+              >
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+
+          <PaginationItem>
+            <PaginationNext
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+              }}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </div>
+  );
 }
 
 export {
@@ -124,4 +198,5 @@ export {
   PaginationPrevious,
   PaginationNext,
   PaginationEllipsis,
-}
+  PaginationSection,
+};
