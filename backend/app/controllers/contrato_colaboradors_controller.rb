@@ -45,14 +45,28 @@ class ContratoColaboradorsController < ApplicationController
     end
 
     
-    def contrato_colaborador_params
-      params.require(:contrato_colaborador).permit(
-        :data_inicio,
-        :data_fim,
-        :quantidade_horas,
-        :valor_hora,
-        :id_contrato_geral,
-        :id_colaborador
-      )
-    end
+   def contrato_colaborador_params
+     params.require(:contrato_colaborador).permit(
+      :data_inicio,
+      :data_fim,
+      :quantidade_horas,
+      :valor_hora,
+      :id_contrato_geral,
+      :id_colaborador,
+      :tipo_contrato,
+      :unidade,
+      :turno,
+      :moeda,
+      :salario,
+      :data_admissao,
+      :periodo_experiencia,
+      :matricula,
+      :superior_direto,
+      :grau_hierarquico,
+      :data_contrato,
+      :duracao_contrato,
+      :vencimento_contrato,
+      :total_dias
+    )
+   end
 end

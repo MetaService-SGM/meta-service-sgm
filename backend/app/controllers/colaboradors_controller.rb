@@ -38,13 +38,30 @@ class ColaboradorsController < ApplicationController
     @colaborador.destroy!
   end
 
-  private
+ private
     
-    def set_colaborador
-      @colaborador = Colaborador.find(params[:id])
-    end
+  def set_colaborador
+    @colaborador = Colaborador.find(params[:id])
+  end
 
-    def colaborador_params
-      params.require(:colaborador).permit(:nome, :cpf, :cbo)
-    end
+  def colaborador_params
+    params.require(:colaborador).permit(
+      :nome,
+      :cpf,
+      :cbo,
+      :nome_completo,
+      :nome_social,
+      :funcao,
+      :genero,
+      :data_nasc,
+      :cor_ou_raca,
+      :estado_civil,
+      :pais,
+      :nacionalidade,
+      :situacao,
+      :escolaridade,
+      :altura,
+      :peso
+  )
+  end
 end
