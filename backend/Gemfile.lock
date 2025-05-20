@@ -120,6 +120,8 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     json (2.10.2)
+    jsonapi-serializer (2.2.0)
+      activesupport (>= 4.2)
     language_server-protocol (3.17.0.4)
     lint_roller (1.1.0)
     logger (1.7.0)
@@ -289,6 +291,7 @@ DEPENDENCIES
   devise (~> 4.9)
   devise_token_auth
   dotenv-rails
+  jsonapi-serializer (~> 2.2)
   pg (~> 1.1)
   puma (~> 6.0)
   pundit (~> 2.4)

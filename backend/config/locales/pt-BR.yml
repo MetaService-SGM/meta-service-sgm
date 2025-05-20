@@ -1,0 +1,5 @@
+pt-BR:
+  errors:
+    not_found: "Recurso não encontrado."
+    unauthorized: "Você não tem autorização para realizar esta ação."
+    parameter_missing: "Parâmetro obrigatório ausente: %{param}."
