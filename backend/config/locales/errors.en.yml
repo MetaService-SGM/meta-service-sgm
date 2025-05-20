@@ -1,0 +1,7 @@
+en:
+  errors:
+    unauthorized: "You are not authorized to perform this action."
+    not_found: "Resource not found."
+    missing_params: "Nenhum parâmetro foi enviado."
+    internal_server_error: "An unexpected error occurred. Please try again later."
+    parameter_missing: "Missing required parameter: %{param}."

@@ -1,41 +1,39 @@
 class MaterialsController < ApplicationController
-  before_action :set_material, only: %i[show update destroy]
-
   def index
-    @materials = Material.all
+    authorize Material
+    @materials = policy_scope(Material)
     render json: @materials
   end
 
   def show
-    render json: @material
+    authorize material
+    render json: material
   end
 
   def create
-    @material = Material.new(material_params)
-    if @material.save
-      render json: @material, status: :created
-    else
-      render json: { errors: @material.errors.full_messages }, status: :unprocessable_entity
-    end
+    authorize Material
+    @material = Material.create!(material_params)
+    render json: @material, status: :created
   end
 
   def update
-    if @material.update(material_params)
-      render json: @material
-    else
-      render json: { errors: @material.errors.full_messages }, status: :unprocessable_entity
-    end
+    authorize material
+    material.update!(material_params)
+    render json: material, status: :ok
   end
 
   def destroy
-    @material.destroy
+    authorize material
+    material.destroy
     head :no_content
   end
 
   private
 
-  def set_material
-    @material = Material.find(params[:id])
+  def material
+    @material ||= Material.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: I18n.t('errors.not_found') }, status: :not_found
   end
 
   def material_params
