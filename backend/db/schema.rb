@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_07_111531) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_19_233719) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_111531) do
     t.string "cbo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "nome_completo", limit: 100
+    t.string "nome_social", limit: 50
+    t.string "funcao", limit: 50
+    t.string "genero", limit: 20
+    t.date "data_nasc"
+    t.string "cor_ou_raca", limit: 30
+    t.string "estado_civil", limit: 20
+    t.string "pais", limit: 50
+    t.string "nacionalidade", limit: 50
+    t.string "situacao", limit: 20
+    t.string "escolaridade", limit: 20
+    t.decimal "altura", precision: 4, scale: 2
+    t.decimal "peso", precision: 5, scale: 2
   end
 
   create_table "contrato_colaboradors", force: :cascade do |t|
@@ -41,6 +54,20 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_111531) do
     t.integer "id_colaborador"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "tipo_contrato", limit: 20
+    t.string "unidade", limit: 100
+    t.string "turno", limit: 50
+    t.string "moeda", limit: 15
+    t.decimal "salario", precision: 10, scale: 2
+    t.date "data_admissao"
+    t.integer "periodo_experiencia"
+    t.string "matricula", limit: 20, null: false
+    t.string "superior_direto", limit: 100
+    t.string "grau_hierarquico", limit: 50
+    t.date "data_contrato"
+    t.integer "duracao_contrato"
+    t.date "vencimento_contrato"
+    t.integer "total_dias"
   end
 
   create_table "contrato_gerals", force: :cascade do |t|
@@ -75,15 +102,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_111531) do
     t.string "tipo"
     t.integer "qtdMinima"
     t.integer "qtdAtual"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "equipamentode_protecaos", force: :cascade do |t|
-    t.string "descricao"
-    t.string "ca"
-    t.string "tamanho"
-    t.decimal "preco"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -158,5 +176,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_111531) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "contrato_colaboradors", "colaboradors", column: "id_colaborador"
   add_foreign_key "entrega_epis", "epis"
 end
