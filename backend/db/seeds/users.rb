@@ -22,7 +22,8 @@ users.each do |attrs|
     role: attrs[:role],
     cpf: attrs[:cpf],
     tipo_contrato: attrs[:tipo_contrato],
-    ativo: attrs[:ativo]
+    ativo: attrs[:ativo],
+    confirmed_at: Time.current 
   )
 end
 

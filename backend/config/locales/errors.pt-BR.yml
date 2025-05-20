@@ -1,0 +1,5 @@
+pt-BR:
+  errors:
+    unauthorized: "Você não tem autorização para realizar esta ação."
+    not_found: "Recurso não encontrado."
+    internal_server_error: "Ocorreu um erro inesperado. Tente novamente mais tarde."
