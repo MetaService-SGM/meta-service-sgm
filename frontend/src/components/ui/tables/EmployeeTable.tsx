@@ -62,7 +62,7 @@ export default function EmployeeTable(props: EmployeeTableProps) {
                     ? 'bg-green-100 text-green-800' 
                     : 'bg-red-100 text-red-800'
                 }`}>
-                  {e.employeeStatus ? "Ativo" : "Inativo"}
+                  {e.employeeStatus ? "Chamar" : "Não chamar"}
                 </span>
               </td>
             </tr>

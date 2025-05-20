@@ -68,7 +68,7 @@ export const mockAlerts: Alert[] = [
     ]
 
 
-export const mockproducts: Product[] = [
+export const mockProducts: Product[] = [
   {
     productId: uuidv4(),
     productName: "Bota de Segurança PVC",
