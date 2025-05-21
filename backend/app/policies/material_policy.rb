@@ -25,4 +25,3 @@ class MaterialPolicy < ApplicationPolicy
       end
     end
   end
-  
