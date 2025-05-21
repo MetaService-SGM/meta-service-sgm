@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_19_233719) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_20_222911) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -83,6 +83,22 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_19_233719) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "enderecos", force: :cascade do |t|
+    t.string "ponto_referencia"
+    t.string "ponto_encontro"
+    t.string "cep"
+    t.string "uf"
+    t.string "municipio"
+    t.string "bairro"
+    t.string "logradouro"
+    t.string "numero"
+    t.string "complemento"
+    t.bigint "colaborador_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["colaborador_id"], name: "index_enderecos_on_colaborador_id"
+  end
+
   create_table "entrega_epis", force: :cascade do |t|
     t.datetime "data_entrega"
     t.datetime "data_devolucao"
@@ -102,6 +118,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_19_233719) do
     t.string "tipo"
     t.integer "qtdMinima"
     t.integer "qtdAtual"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "equipamentode_protecaos", force: :cascade do |t|
+    t.string "descricao"
+    t.string "ca"
+    t.string "tamanho"
+    t.decimal "preco"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -177,5 +202,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_19_233719) do
   end
 
   add_foreign_key "contrato_colaboradors", "colaboradors", column: "id_colaborador"
+  add_foreign_key "enderecos", "colaboradors"
   add_foreign_key "entrega_epis", "epis"
 end

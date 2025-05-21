@@ -1,4 +1,4 @@
-class PrestadorPolicy < ApplicationPolicy
+class EnderecoPolicy < ApplicationPolicy
     def index?
       true
     end
