@@ -1,11 +1,12 @@
-// Indica que este é um componente Client-Side (Next.js 13+)
 "use client";
 
 // Importações de bibliotecas e componentes
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { InputField } from "@/components/ui/input/inputField";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Eye, EyeOff } from "lucide-react";
 
 // Configuração dos campos do formulário
 const INPUT_ITENS = [
@@ -14,18 +15,18 @@ const INPUT_ITENS = [
     type: "email",
     label: "E-mail",
     placeholder: "Digite seu e-mail",
-    autoComplete: "username", // Sugere preenchimento automático de nome de usuário
-    showPasswordToggle: false, // Não mostra toggle de senha para campo de email
+    autoComplete: "email",
+    showPasswordToggle: false,
   },
   {
     id: "password",
     type: "password",
     label: "Senha",
     placeholder: "Digite sua senha",
-    autoComplete: "current-password", // Sugere preenchimento automático de senha
-    showPasswordToggle: true, // Mostra toggle para visualizar senha
+    autoComplete: "current-password",
+    showPasswordToggle: true,
   },
-];
+] as const;
 
 export default function Login() {
   // Estados do componente
@@ -38,8 +39,8 @@ export default function Login() {
   const [loading, setLoading] = useState(false); // Controla estado de carregamento
   const router = useRouter(); // Hook para navegação
 
-  // Efeito que verifica autenticação ao carregar o componente
   useEffect(() => {
+    // Efeito que verifica autenticação ao carregar o componente
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
 
@@ -73,9 +74,9 @@ export default function Login() {
 
     try {
       // Requisição para API de autenticação
-      const response = await fetch("rota da autenticação", {
+      const response = await fetch("sua_api_de_autenticacao", {
         // URL vazia - precisa ser preenchida
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -105,9 +106,13 @@ export default function Login() {
 
       // Redireciona para página inicial após login
       router.push("/bemvindo");
-    } catch (error: any) {
-      // Tratamento de erros genéricos
-      setErro(error.message || "Erro ao fazer login");
+    } catch (error) {
+      if (error instanceof Error) {
+        setErro(error.message);
+      } else {
+        // Tratamento de erros genéricos
+        setErro("Erro ao fazer login");
+      }
     } finally {
       setLoading(false); // Desativa estado de carregamento
     }
@@ -115,9 +120,9 @@ export default function Login() {
 
   // Renderização do componente
   return (
-    <main className="min-h-screen flex md:flex-row bg-gray-50">
-      {/* Seção esquerda - Contém o logo */}
-      <div className="flex w-1/2 relative bg-gradient-to-b from-[#14add6] to-[#384295] items-center justify-center p-8">
+    <main className="min-h-screen flex flex-col md:flex-row bg-gray-50">
+      {/* Seção esquerda - Logo */}
+      <div className="w-full md:w-1/2 bg-gradient-to-b from-[#14add6] to-[#384295] flex items-center justify-center p-8">
         <div className="bg-white rounded-xl shadow-xl flex items-center justify-center w-[250px] h-[200px]">
           <Image
             src="/images/logo/logo-sgm-principal.png"
@@ -131,24 +136,30 @@ export default function Login() {
       </div>
 
       {/* Seção direita - Formulário de login */}
-      <div className="w-1/2 flex flex-col justify-center">
-        <div>
-          {/* Título da página */}
-          <h1 className="text-[#2b426e] mb-2 ">Bem-Vindo!</h1>
-        </div>
-
-        <div>
-          <div className="">
-            <div className="text-center"></div> {/* Espaço reservado */}
-            {/* Formulário */}
-            <form onSubmit={handleSubmit} className="">
-              {/* Renderiza dinamicamente os campos do formulário */}
-              {INPUT_ITENS.map((input) => (
-                <InputField
-                  key={input.id}
-                  type={input.type}
+      <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 md:p-16 gap-10">
+        {/* Título da página */}
+        <h1 className="text-3xl font-medium text-[#2b426e]">Bem-Vindo!</h1>
+        <form
+          onSubmit={handleSubmit}
+          className="h-1/2 space-y-4 w-full max-w-md"
+        >
+          {/* Renderiza dinamicamente os campos do formulário */}
+          {INPUT_ITENS.map((input) => (
+            <div key={input.id} className="space-y-2">
+              <label
+                htmlFor={input.id}
+                className="block text-sm font-medium text-gray-700"
+              >
+                {input.label}
+              </label>
+              <div className="relative">
+                <Input
+                  type={
+                    input.showPasswordToggle && showPassword
+                      ? "text"
+                      : input.type
+                  }
                   id={input.id}
-                  label={input.label}
                   placeholder={input.placeholder}
                   autoComplete={input.autoComplete}
                   value={formData[input.id as keyof typeof formData]}
@@ -156,19 +167,42 @@ export default function Login() {
                   disabled={loading}
                   showPasswordToggle={input.showPasswordToggle}
                 />
-              ))}
-            </form>
-            {/* Link para recuperação de senha */}
-            <div className="text-left text-sm text-gray-500">
-              <a
-                href="#"
-                className="text-blue-600 hover:text-blue-800 hover:underline transition"
-              >
-                Esqueceu sua senha?
-              </a>
+                {input.showPasswordToggle && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4 text-gray-500" />
+                    ) : (
+                      <Eye className="h-4 w-4 text-gray-500" />
+                    )}
+                  </Button>
+                )}
+              </div>
             </div>
+          ))}
+          {/* Link para recuperação de senha */}
+          <div className="text-right">
+            <a
+              href="#"
+              className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition"
+            >
+              Esqueceu sua senha?
+            </a>
           </div>
-        </div>
+          {erro && (
+            <div className="text-red-500 text-sm py-2" role="alert">
+              {erro}
+            </div>
+          )}
+          <Button type="submit" disabled={loading} className="w-full">
+            {loading ? "Entrando..." : "Entrar"}
+          </Button>
+        </form>
       </div>
     </main>
   );

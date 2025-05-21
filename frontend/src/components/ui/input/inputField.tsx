@@ -1,4 +1,3 @@
-// components/InputField.tsx
 "use client";
 
 import { useState } from "react";

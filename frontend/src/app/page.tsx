@@ -1,5 +1,6 @@
-import LoginPage from "./pages/LoginPage";
+import Login from "./pages/login/page";
+
 
 export default function Home() {
-  return <LoginPage></LoginPage>;
+  return <Login></Login>;
 }
