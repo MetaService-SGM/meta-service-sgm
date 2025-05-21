@@ -1,9 +1,5 @@
-import { Header } from "@/components/ui/header";
+import LoginPage from "./pages/LoginPage";
 
 export default function Home() {
-  return (
-    <div>
-  <Header/>
-    </div>
-  );
+  return <LoginPage></LoginPage>;
 }

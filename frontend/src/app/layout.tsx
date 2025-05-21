@@ -4,12 +4,12 @@ import "./reset.css";
 import "./globals.css";
 
 // Fontes
-const nunito = Nunito({
-  variable: "--font-nunito",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  style: ["normal", "italic"],
-});
+// const nunito = Nunito({
+//   variable: "--font-nunito",
+//   subsets: ["latin"],
+//   weight: ["300", "400", "500", "600", "700"],
+//   style: ["normal", "italic"],
+// });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,7 +39,6 @@ export default function RootLayout({
         className={`
           ${geistSans.variable}
           ${geistMono.variable}
-          ${nunito.variable}
           antialiased
         `}
       >
