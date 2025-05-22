@@ -13,7 +13,6 @@ import { IoCopy } from "react-icons/io5";
 import { IoIosLogOut } from "react-icons/io";
 import { Button } from "../button";
 
-// Interface para as propriedades do botão da sidebar
 interface SidebarButtonProps {
   logo?: string | React.ReactNode;
   alt?: string;
@@ -25,9 +24,6 @@ interface SidebarButtonProps {
   src?: string;
 }
 
-/**
- * Componente de botão para a sidebar
- */
 const SidebarButton = ({
   logo,
   alt = "Ícone",
@@ -56,8 +52,6 @@ const SidebarButton = ({
     >
       {typeof logo === "string" ? (
         <div className="mr-4">
-          {" "}
-          {/* Aumentei a margem direita de mr-3 para mr-4 */}
           <Image
             src={logo}
             alt={alt}
@@ -67,20 +61,13 @@ const SidebarButton = ({
           />
         </div>
       ) : (
-        <div className="mr-4 text-lg">
-          {" "}
-          {/* Aumentei a margem e adicionei text-lg para ícones */}
-          {logo}
-        </div>
+        <div className="mr-4 text-lg">{logo}</div>
       )}
-      {label && <span className="font-medium">{label}</span>}
+      {label && <span className="font-medium text-sm">{label}</span>}
     </button>
   );
 };
 
-/**
- * Dados de navegação da sidebar
- */
 const NAV_ITEMS = [
   {
     logo: <FaHouse />,
@@ -132,9 +119,6 @@ const NAV_ITEMS = [
   },
 ];
 
-/**
- * Componente principal da Sidebar
- */
 export default function Sidebar() {
   const router = useRouter();
 
@@ -144,25 +128,22 @@ export default function Sidebar() {
   };
 
   return (
-    <nav className="sidebar fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-gray-200 flex flex-col">
-      {/* Espaçamento no topo */}
-      <div className="h-[100px] shrink-0" />
-
-      {/* Itens de navegação */}
+    <nav className="sidebar w-[20%] bg-white border-r border-gray-200 flex flex-col min-h-screen">
       <div className="flex-1 overflow-y-auto px-6 py-2">
         <div className="space-y-4">
           {NAV_ITEMS.map((item, index) => (
-            <SidebarButton key={`nav-item-${index}`} {...item} />
+            <div
+              key={`nav-item-${index}`}
+              className={index === 0 ? "mt-6" : ""}
+            >
+              <SidebarButton {...item} />
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Botão de logout */}
       <div className="p-4 border-t border-gray-200 flex justify-center shrink-0">
-        <Button
-          onClick={handleLogout}
-          className="w-44 h-8 mt-16"
-        >
+        <Button onClick={handleLogout} className="w-[90%] h-8 mt-16">
           <IoIosLogOut />
           Sair
         </Button>
