@@ -32,7 +32,7 @@ export function InputField({
     <div>
       <label
         htmlFor={id}
-        className="block font-normal font-medium text-black mb-1"
+        className="block font-normal text-black mb-1"
       >
         {label}
       </label>
