@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/input/inputField";
 
-export default function Login() {
+export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
