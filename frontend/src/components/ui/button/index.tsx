@@ -13,15 +13,22 @@ const buttonVariants = cva(
     variants: {
       // Variantes de estilo (cores, aparência)
       variant: {
-        default: "bg-[#2B426E] text-primary-foreground shadow-xs hover:bg-[#2B426E]/90",
-        destructive: "bg-[#E97671] text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
-        outline: "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
-        secondary: "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+        default:
+          "bg-[#2B426E] font-bold text-white shadow-xs hover:bg-[#2B426E]/90",
+        destructive:
+          "bg-[#E97671] text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+        outline:
+          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+        secondary:
+          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+        ghost:
+          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
         success: "bg-[#0DBF8D] text-white hover:bg-emerald-600",
         alert: "bg-[#FFE5B0] text-white hover:bg-yellow-200",
-        page: "bg-[#F2F7FF] text-neutral-900 hover:bg-[#E6EFFC] border border-neutral-700"
+        page: "bg-[#F2F7FF] text-neutral-900 hover:bg-[#E6EFFC] border border-neutral-700",
+        login:
+          "shadow-[0px_4px_4px_0px_rgba bg-[#2B426E] font-bold text-white shadow-xs hover:bg-[#2B426E]/90 ",
       },
       // Variantes de tamanho
       size: {
@@ -37,7 +44,7 @@ const buttonVariants = cva(
       size: "default",
     },
   }
-)
+);
 
 // Componente Button principal
 function Button({

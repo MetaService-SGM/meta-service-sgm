@@ -1,205 +1,183 @@
 "use client";
 
-// Importações de bibliotecas e componentes
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Eye, EyeOff } from "lucide-react";
-
-// Configuração dos campos do formulário
-const INPUT_ITENS = [
-  {
-    id: "email",
-    type: "email",
-    label: "E-mail",
-    placeholder: "Digite seu e-mail",
-    autoComplete: "email",
-    showPasswordToggle: false,
-  },
-  {
-    id: "password",
-    type: "password",
-    label: "Senha",
-    placeholder: "Digite sua senha",
-    autoComplete: "current-password",
-    showPasswordToggle: true,
-  },
-] as const;
+import { InputField } from "@/components/ui/input/inputField";
 
 export default function Login() {
-  // Estados do componente
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [showPassword, setShowPassword] = useState(false); // Controla visibilidade da senha
-  const [erro, setErro] = useState(""); // Armazena mensagens de erro
-  const [loading, setLoading] = useState(false); // Controla estado de carregamento
-  const router = useRouter(); // Hook para navegação
+  const [erro, setErro] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
+  // Verifica se já existe token salvo e redireciona o usuário logado
   useEffect(() => {
-    // Efeito que verifica autenticação ao carregar o componente
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
 
-    // Se usuário já estiver autenticado, redireciona para página inicial
     if (token && role) {
       router.push("/bemvindo");
     }
   }, [router]);
 
-  // Manipulador de mudanças nos campos do formulário
+  // Manipula alterações dos campos do formulário
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [id]: value, // Atualiza dinamicamente o campo correspondente
+      [id]: value,
     }));
   };
 
-  // Manipulador de envio do formulário
+  // Manipula envio do formulário
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validação simples de campos obrigatórios
+    // Validação simples dos campos
     if (!formData.email || !formData.password) {
       setErro("Por favor, preencha todos os campos");
       return;
     }
 
-    setLoading(true); // Ativa estado de carregamento
-    setErro(""); // Limpa erros anteriores
+    setLoading(true);
+    setErro("");
 
     try {
-      // Requisição para API de autenticação
-      const response = await fetch("sua_api_de_autenticacao", {
-        // URL vazia - precisa ser preenchida
+      // Requisição para API de autenticação (substituir pela sua URL real)
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: formData.email.trim(), // Remove espaços do email
+          email: formData.email.trim(),
           password: formData.password,
         }),
       });
 
       const data = await response.json();
 
-      // Tratamento de erros da API
       if (!response.ok) {
         throw new Error(data.message || "Credenciais inválidas");
       }
 
-      // Verifica se recebeu dados completos
       if (!data.token || !data.user) {
         throw new Error("Dados de autenticação incompletos");
       }
 
-      // Armazena dados de autenticação no localStorage
+      // Salvando dados no localStorage
       localStorage.setItem("token", data.token);
       localStorage.setItem("userId", data.user.id);
       localStorage.setItem("name", data.user.name);
       localStorage.setItem("role", data.user.role);
 
-      // Redireciona para página inicial após login
+      // Redireciona após login bem-sucedido
       router.push("/bemvindo");
     } catch (error) {
+      // Tratamento de erros
       if (error instanceof Error) {
         setErro(error.message);
       } else {
-        // Tratamento de erros genéricos
         setErro("Erro ao fazer login");
       }
     } finally {
-      setLoading(false); // Desativa estado de carregamento
+      setLoading(false);
     }
   };
+  // Lista de inputs utilizada no formulário
+  const INPUT_ITEMS = [
+    {
+      id: "email",
+      type: "email",
+      label: "E-mail",
+      placeholder: "Digite seu e-mail",
+      autoComplete: "email",
+      showPasswordToggle: false,
+    },
+    {
+      id: "password",
+      type: "password",
+      label: "Senha",
+      placeholder: "Digite sua senha",
+      autoComplete: "current-password",
+      showPasswordToggle: true,
+    },
+  ] as const;
 
-  // Renderização do componente
   return (
-    <main className="min-h-screen flex flex-col md:flex-row bg-gray-50">
-      {/* Seção esquerda - Logo */}
-      <div className="w-full md:w-1/2 bg-gradient-to-b from-[#14add6] to-[#384295] flex items-center justify-center p-8">
-        <div className="bg-white rounded-xl shadow-xl flex items-center justify-center w-[250px] h-[200px]">
+    <main className="min-h-screen flex flex-row bg-gradient-to-b from-[#14add6] to-[#384295]">
+      {/* Seção Esquerda - Logo */}
+      <div className="w-1/2 flex items-center justify-center p-8">
+        <div className="shadow-xl flex items-center justify-center">
           <Image
-            src="/images/logo/logo-sgm-principal.png"
+            src="/images/logo/logo-sgm-principal-com-fundo.png"
             alt="Logo SGM"
-            width={200}
-            height={178}
-            priority // Prioriza carregamento da imagem
-            className="object-contain" // Mantém proporção da imagem
+            width={335}
+            height={303}
+            priority
+            className="object-contain"
           />
         </div>
       </div>
 
-      {/* Seção direita - Formulário de login */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 md:p-16 gap-10">
-        {/* Título da página */}
-        <h1 className="text-3xl font-medium text-[#2b426e]">Bem-Vindo!</h1>
+      {/* Seção Direita - Formulário */}
+      <div className="md:w-1/2 rounded-bl-3xl flex flex-col justify-center items-center p-16 gap-10 bg-gray-50 mb-3">
+        <h1
+          style={{ fontFamily: "var(--font-nunito)" }}
+          className="text-3xl font-semibold text-[#2b426e]"
+        >
+          Bem-vindo!
+        </h1>
+
         <form
           onSubmit={handleSubmit}
           className="h-1/2 space-y-4 w-full max-w-md"
         >
-          {/* Renderiza dinamicamente os campos do formulário */}
-          {INPUT_ITENS.map((input) => (
-            <div key={input.id} className="space-y-2">
-              <label
-                htmlFor={input.id}
-                className="block text-sm font-medium text-gray-700"
-              >
-                {input.label}
-              </label>
-              <div className="relative">
-                <Input
-                  type={
-                    input.showPasswordToggle && showPassword
-                      ? "text"
-                      : input.type
-                  }
-                  id={input.id}
-                  placeholder={input.placeholder}
-                  autoComplete={input.autoComplete}
-                  value={formData[input.id as keyof typeof formData]}
-                  onChange={handleChange}
-                  disabled={loading}
-                  showPasswordToggle={input.showPasswordToggle}
-                />
-                {input.showPasswordToggle && (
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4 text-gray-500" />
-                    ) : (
-                      <Eye className="h-4 w-4 text-gray-500" />
-                    )}
-                  </Button>
-                )}
-              </div>
-            </div>
+          {/* Renderização dos campos de input */}
+          {INPUT_ITEMS.map((input) => (
+            <InputField
+              key={input.id}
+              type={input.type}
+              id={input.id}
+              placeholder={input.placeholder}
+              autoComplete={input.autoComplete}
+              label={input.label}
+              value={formData[input.id as keyof typeof formData]}
+              onChange={handleChange}
+              disabled={loading}
+              showPasswordToggle={input.showPasswordToggle}
+            />
           ))}
-          {/* Link para recuperação de senha */}
-          <div className="text-right">
+
+          {/* Link de recuperação de senha */}
+          <div className="text-left">
             <a
               href="#"
-              className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition"
+              className="text-sm font-normal text-[#384295] hover:underline transition"
             >
               Esqueceu sua senha?
             </a>
           </div>
+
+          {/* Mensagem de erro */}
           {erro && (
             <div className="text-red-500 text-sm py-2" role="alert">
               {erro}
             </div>
           )}
-          <Button type="submit" disabled={loading} className="w-full">
+
+          {/* Botão de envio */}
+          <Button
+            variant="login"
+            type="submit"
+            disabled={loading}
+            className="w-full"
+          >
             {loading ? "Entrando..." : "Entrar"}
           </Button>
         </form>
