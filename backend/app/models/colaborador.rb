@@ -5,6 +5,7 @@ class Colaborador < ApplicationRecord
     has_many :entrega_epis, dependent: :destroy
     has_many :dependentes, dependent: :destroy
     
+  validates :cpf, presence: true, uniqueness: true
   validate :cpf_valido
 
   private
