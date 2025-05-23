@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_23_141744) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_20_222911) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -30,6 +30,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_23_141744) do
     t.string "cbo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "nome_completo", limit: 100
+    t.string "nome_social", limit: 50
+    t.string "funcao", limit: 50
+    t.string "genero", limit: 20
+    t.date "data_nasc"
+    t.string "cor_ou_raca", limit: 30
+    t.string "estado_civil", limit: 20
+    t.string "pais", limit: 50
+    t.string "nacionalidade", limit: 50
+    t.string "situacao", limit: 20
+    t.string "escolaridade", limit: 20
+    t.decimal "altura", precision: 4, scale: 2
+    t.decimal "peso", precision: 5, scale: 2
   end
 
   create_table "contrato_colaboradors", force: :cascade do |t|
@@ -41,6 +54,20 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_23_141744) do
     t.integer "id_colaborador"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "tipo_contrato", limit: 20
+    t.string "unidade", limit: 100
+    t.string "turno", limit: 50
+    t.string "moeda", limit: 15
+    t.decimal "salario", precision: 10, scale: 2
+    t.date "data_admissao"
+    t.integer "periodo_experiencia"
+    t.string "matricula", limit: 20, null: false
+    t.string "superior_direto", limit: 100
+    t.string "grau_hierarquico", limit: 50
+    t.date "data_contrato"
+    t.integer "duracao_contrato"
+    t.date "vencimento_contrato"
+    t.integer "total_dias"
   end
 
   create_table "contrato_gerals", force: :cascade do |t|
@@ -54,6 +81,22 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_23_141744) do
     t.integer "id_servico"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "enderecos", force: :cascade do |t|
+    t.string "ponto_referencia"
+    t.string "ponto_encontro"
+    t.string "cep"
+    t.string "uf"
+    t.string "municipio"
+    t.string "bairro"
+    t.string "logradouro"
+    t.string "numero"
+    t.string "complemento"
+    t.bigint "colaborador_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["colaborador_id"], name: "index_enderecos_on_colaborador_id"
   end
 
   create_table "entrega_epis", force: :cascade do |t|
@@ -131,14 +174,34 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_23_141744) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
-    t.string "password_digest"
     t.integer "role"
     t.string "cpf"
     t.string "tipo_contrato"
     t.boolean "ativo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "provider", default: "email", null: false
+    t.string "uid", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.json "tokens"
+    t.boolean "allow_password_change", default: false
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.datetime "remember_created_at"
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.integer "failed_attempts", default: 0, null: false
+    t.string "unlock_token"
+    t.datetime "locked_at"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "contrato_colaboradors", "colaboradors", column: "id_colaborador"
+  add_foreign_key "enderecos", "colaboradors"
   add_foreign_key "entrega_epis", "epis"
 end

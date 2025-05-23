@@ -28,4 +28,7 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  errors:
+    not_found: "Resource not found."
+    unauthorized: "You are not authorized to perform this action."
+    parameter_missing: "Missing required parameter: %{param}."

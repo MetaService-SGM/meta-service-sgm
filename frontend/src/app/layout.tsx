@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Nunito } from "next/font/google";
 import "./reset.css";
 import "./globals.css";
 
-// Fontes
+
 const nunito = Nunito({
   variable: "--font-nunito",
   subsets: ["latin"],
@@ -40,6 +40,7 @@ export default function RootLayout({
           ${geistSans.variable}
           ${geistMono.variable}
           ${nunito.variable}
+
           antialiased
         `}
       >

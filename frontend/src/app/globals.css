@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@tailwind utilities;
+
 
 @custom-variant dark (&:is(.dark *));
 
@@ -28,6 +30,8 @@ body {
   padding: 0;
   margin: 0;
   background-color: #AEAEAE;
+  line-height: 1.5; 
+  font-family: var(--font-nunito);
 }
 
 @theme inline {

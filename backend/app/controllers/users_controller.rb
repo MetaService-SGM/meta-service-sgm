@@ -1,62 +1,40 @@
-# frozen_string_literal: true
-
 class UsersController < ApplicationController
-  include ErrorHandler
-  include LocaleHandler
-
-  before_action :set_user, only: %i[show update destroy]
-
   def index
-    @users = User.all
-    render json: @users
+    authorize User
+    @q = policy_scope(User).ransack(params[:q])
+    @users = @q.result
+
+    render json: @users.map { |user| UserSerializer.call(user) }
   end
 
   def show
-    render json: @user
+    authorize user
+    render json: UserSerializer.call(user)
   end
 
   def create
-    @user = User.new(user_params)
-    if @user.save
-      render json: @user, status: :created
-    else
-      render_error(@user)
-    end
+    authorize User
+    @user = User.create!(permitted_attributes(User))
+    render json: UserSerializer.call(@user), status: :created
   end
 
   def update
-    if @user.update(user_params)
-      render json: @user
-    else
-      render_error(@user)
-    end
+    authorize user
+    user.update!(permitted_attributes(User))
+    render json: UserSerializer.call(user), status: :ok
   end
 
   def destroy
-    @user.destroy
+    authorize user
+    raise Pundit::NotAuthorizedError if user.id == current_user.id
+    user.destroy
+
     head :no_content
   end
 
   private
 
-  def set_user
-    @user = User.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_not_found('User')
-  end
-
-  def user_params
-    params.require(:user).permit(
-      :name,
-      :email,
-      :password,
-      :password_confirmation,
-      :role,
-      :provider,
-      :uid,
-      :cpf,
-      :tipo_contrato,
-      :ativo
-    )
+  def user
+    @user ||= User.find(params[:id])
   end
 end
