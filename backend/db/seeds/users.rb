@@ -3,7 +3,7 @@
 puts "Apagando usuários existentes..."
 User.destroy_all
 
-puts "Criando usuários..."
+puts "🌱 Criando usuários..."
 
 users = [
   { name: "Admin 1", email: "admin1@example.com", password: "password123", role: :admin, cpf: "11111111111", tipo_contrato: "CLT", ativo: true },
@@ -27,4 +27,4 @@ users.each do |attrs|
   )
 end
 
-puts "Usuários criados com sucesso!"
+puts "✅ Usuários criados com sucesso!"
