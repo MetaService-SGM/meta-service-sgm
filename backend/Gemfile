@@ -45,6 +45,7 @@ group :development, :test do
   gem 'dotenv-rails', groups: %i[development test]
   gem 'rspec-rails', '~> 6.0'
   gem 'rubocop', require: false
+  gem 'faker'
 end
 
 group :development do
@@ -53,8 +54,8 @@ group :development do
 end
 
 gem 'devise', '~> 4.9'
-
+gem 'cpf_cnpj'
 gem 'devise_token_auth'
 
-gem 'ransack', '~> 3.0'
+gem 'ransack', '~> 4.0'
 gem "jsonapi-serializer", "~> 2.2"

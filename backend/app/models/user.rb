@@ -1,3 +1,5 @@
+require 'cpf_cnpj'
+
 class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
   
@@ -14,8 +16,15 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :cpf, format: { with: /\A\d{11}\z/, message: "deve conter 11 dígitos" }, allow_blank: true
   validates :role, presence: true
-
+  validate :cpf_valido
+  
   private
+
+  def cpf_valido
+    unless CPF.valid?(cpf)
+      errors.add(:cpf, I18n.t("errors.messages.invalid"))
+    end
+  end  
 
   def skip_confirmation!
     self.confirmed_at = Time.current
