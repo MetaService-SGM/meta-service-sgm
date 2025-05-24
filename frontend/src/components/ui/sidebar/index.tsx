@@ -83,7 +83,7 @@ const NAV_ITEMS = [
   },
   {
     logo: <IoPersonSharp />,
-    src: "/staff",
+    src: "/pessoal",
     alt: "Ícone de pessoal",
     label: "Gerenciamento de Pessoal",
   },
@@ -128,7 +128,7 @@ export default function Sidebar() {
   };
 
   return (
-    <nav className="sidebar w-[20%] bg-white border-r border-gray-200 flex flex-col min-h-screen">
+    <nav className="sidebar w-[20%]  bg-white border-r border-gray-200 flex flex-col h-[calc(100vh-3.5rem)]">
       <div className="flex-1 overflow-y-auto px-6 py-2">
         <div className="space-y-4">
           {NAV_ITEMS.map((item, index) => (

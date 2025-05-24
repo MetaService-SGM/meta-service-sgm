@@ -29,7 +29,7 @@ body {
   flex-direction: column;
   padding: 0;
   margin: 0;
-  background-color: #AEAEAE;
+  background-color: #F2F7FF;
   line-height: 1.5; 
   font-family: var(--font-nunito);
 }

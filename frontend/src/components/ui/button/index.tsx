@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils" // Utilitário para combinar classes CSS
 // Definição das variantes do botão usando class-variance-authority
 const buttonVariants = cva(
   // Classes base que se aplicam a todos os botões
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive cursor-pointer",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive cursor-pointer shadow-md ",
   {
     // Objeto de variantes
     variants: {
@@ -27,8 +27,8 @@ const buttonVariants = cva(
         success: "bg-[#0DBF8D] text-white hover:bg-emerald-600",
         alert: "bg-[#FFE5B0] text-white hover:bg-yellow-200",
         page: "bg-[#F2F7FF] text-neutral-900 hover:bg-[#E6EFFC] border border-neutral-700",
-        login:
-          "shadow-[0px_4px_4px_0px_rgba bg-[#2B426E] font-bold text-white shadow-xs hover:bg-[#2B426E]/90 ",
+        login: "shadow-[0px_4px_4px_0px_rgba bg-[#2B426E] font-bold text-white shadow-xs hover:bg-[#2B426E]/90 ",
+        select: "relative bg-[#F2F7FF] text-transparent bg-clip-text bg-gradient-to-r from-[#14ADD6] to-[#384295] font-bold "
       },
       // Variantes de tamanho
       size: {

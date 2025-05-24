@@ -146,84 +146,84 @@ function BreadcrumbResponsive() {
   const endItems = items.slice(-ITEMS_TO_DISPLAY + 1);
 
   return (
-    <Breadcrumb>
-      <BreadcrumbList>
-        {/* Home */}
-        <BreadcrumbItem>
-          <BreadcrumbLink asChild>
-            <Link href="/">Home</Link>
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-
-        {middleItems.length > 0 && (
-          <>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              {isDesktop ? (
-                <DropdownMenu open={open} onOpenChange={setOpen}>
-                  <DropdownMenuTrigger className="flex items-center gap-1">
-                    <BreadcrumbEllipsis />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start">
-                    {middleItems.map((item, i) => (
-                      <DropdownMenuItem key={i}>
-                        <Link href={item.href}>{item.label}</Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <Drawer open={open} onOpenChange={setOpen}>
-                  <DrawerTrigger>
-                    <BreadcrumbEllipsis />
-                  </DrawerTrigger>
-                  <DrawerContent>
-                    <DrawerHeader>
-                      <DrawerTitle>Navegar para</DrawerTitle>
-                      <DrawerDescription>
-                        Selecione uma página para navegar.
-                      </DrawerDescription>
-                    </DrawerHeader>
-                    <div className="grid gap-1 px-4">
+    <div className="top-0 z-10 m-4 px-4 py-2 rounded-t-xl">
+      <Breadcrumb>
+        <BreadcrumbList>
+          {/* Home */}
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/">Home</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          {middleItems.length > 0 && (
+            <>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                {isDesktop ? (
+                  <DropdownMenu open={open} onOpenChange={setOpen}>
+                    <DropdownMenuTrigger className="flex items-center gap-1">
+                      <BreadcrumbEllipsis />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
                       {middleItems.map((item, i) => (
-                        <Link key={i} href={item.href} className="py-1 text-sm">
-                          {item.label}
-                        </Link>
+                        <DropdownMenuItem key={i}>
+                          <Link href={item.href}>{item.label.charAt(0).toLocaleUpperCase() + item.label.slice(1)}</Link>
+                        </DropdownMenuItem>
                       ))}
-                    </div>
-                    <DrawerFooter className="pt-4">
-                      <DrawerClose asChild>
-                        <Button variant="outline">Fechar</Button>
-                      </DrawerClose>
-                    </DrawerFooter>
-                  </DrawerContent>
-                </Drawer>
-              )}
-            </BreadcrumbItem>
-          </>
-        )}
-
-        {endItems.map((item, index) => (
-          <React.Fragment key={index}>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              {index === endItems.length - 1 ? (
-                <BreadcrumbPage className="max-w-20 truncate md:max-w-none">
-                  {item.label}
-                </BreadcrumbPage>
-              ) : (
-                <BreadcrumbLink
-                  asChild
-                  className="max-w-20 truncate md:max-w-none"
-                >
-                  <Link href={item.href}>{item.label}</Link>
-                </BreadcrumbLink>
-              )}
-            </BreadcrumbItem>
-          </React.Fragment>
-        ))}
-      </BreadcrumbList>
-    </Breadcrumb>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Drawer open={open} onOpenChange={setOpen}>
+                    <DrawerTrigger>
+                      <BreadcrumbEllipsis />
+                    </DrawerTrigger>
+                    <DrawerContent>
+                      <DrawerHeader>
+                        <DrawerTitle>Navegar para</DrawerTitle>
+                        <DrawerDescription>
+                          Selecione uma página para navegar.
+                        </DrawerDescription>
+                      </DrawerHeader>
+                      <div className="grid gap-1 px-4">
+                        {middleItems.map((item, i) => (
+                          <Link key={i} href={item.href} className="py-1 text-sm">
+                            {item.label.charAt(0).toLocaleUpperCase() + item.label.slice(1)}
+                          </Link>
+                        ))}
+                      </div>
+                      <DrawerFooter className="pt-4">
+                        <DrawerClose asChild>
+                          <Button variant="outline">Fechar</Button>
+                        </DrawerClose>
+                      </DrawerFooter>
+                    </DrawerContent>
+                  </Drawer>
+                )}
+              </BreadcrumbItem>
+            </>
+          )}
+          {endItems.map((item, index) => (
+            <React.Fragment key={index}>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                {index === endItems.length - 1 ? (
+                  <BreadcrumbPage className="max-w-20 truncate md:max-w-none">
+                    {item.label.charAt(0).toLocaleUpperCase() + item.label.slice(1)}
+                  </BreadcrumbPage>
+                ) : (
+                  <BreadcrumbLink
+                    asChild
+                    className="max-w-20 truncate md:max-w-none"
+                  >
+                    <Link href={item.href}>{item.label.charAt(0).toLocaleUpperCase() + item.label.slice(1)}</Link>
+                  </BreadcrumbLink>
+                )}
+              </BreadcrumbItem>
+            </React.Fragment>
+          ))}
+        </BreadcrumbList>
+      </Breadcrumb>
+    </div>
   );
 }
 

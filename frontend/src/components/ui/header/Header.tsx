@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export const Header = () => {
   return (
-    <header className="bg-blue-950 border-b border-sidebar-border text-white p-2">
+    <header className="bg-[#2B426E] text-white px-10 py-1.5">
       <div className="flex items-center justify-between max-w-[1860px] mx-auto w-full px-6 sm:px-10 lg:px-20 py-4">
         {/* Logo */}
         <div className="flex items-center">
@@ -14,8 +14,8 @@ export const Header = () => {
           >
             <Image
               src="/images/logo/logo-sgm-sidebar.png"
-              width={130}
-              height={90}
+              width={120}
+              height={80}
               alt="Logo SGM"
               className="object-contain"
             />
