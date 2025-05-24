@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_24_173920) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_24_205416) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -129,6 +129,31 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_24_173920) do
     t.integer "id_servico"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "dados_contratos", force: :cascade do |t|
+    t.string "tipo_contrato"
+    t.string "unidade"
+    t.string "turno"
+    t.string "moeda"
+    t.decimal "salario", precision: 10, scale: 2
+    t.date "data_admissao"
+    t.integer "periodo_experiencia"
+    t.string "matricula"
+    t.string "superior_direto"
+    t.string "grau_hierarquico"
+    t.date "data_contrato"
+    t.integer "duracao_contrato"
+    t.date "vencimento_contrato"
+    t.integer "total_dias"
+    t.bigint "colaborador_id", null: false
+    t.bigint "cargo_id", null: false
+    t.bigint "departamento_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cargo_id"], name: "index_dados_contratos_on_cargo_id"
+    t.index ["colaborador_id"], name: "index_dados_contratos_on_colaborador_id"
+    t.index ["departamento_id"], name: "index_dados_contratos_on_departamento_id"
   end
 
   create_table "departamentos", force: :cascade do |t|
@@ -274,6 +299,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_24_173920) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "contrato_colaboradors", "colaboradors", column: "id_colaborador"
+  add_foreign_key "dados_contratos", "cargos"
+  add_foreign_key "dados_contratos", "colaboradors"
+  add_foreign_key "dados_contratos", "departamentos"
   add_foreign_key "dependentes", "colaboradors"
   add_foreign_key "entrega_epis", "epis"
 end
