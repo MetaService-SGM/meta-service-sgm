@@ -1,5 +1,3 @@
-# db/seeds.rb
-
 puts "Iniciando Seed Geral..."
 
 load Rails.root.join('db/seeds/users.rb')
@@ -12,5 +10,6 @@ load Rails.root.join('db/seeds/enderecos.rb')
 load Rails.root.join("db/seeds/contatos.rb")
 load Rails.root.join("db/seeds/cargos.rb")
 load Rails.root.join("db/seeds/departamentos.rb")
+load Rails.root.join("db/seeds/dados_contratos.rb")
 
 puts "Seed finalizada!"
