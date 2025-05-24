@@ -18,4 +18,5 @@ Rails.application.routes.draw do
   resources :contatos, only: %i[index show create update destroy]
   resources :empresas, only: %i[index show create update destroy]
   resources :cargos, only: %i[index show create update destroy]
+  resources :departamentos, only: %i[index show create update destroy]
 end
