@@ -6,6 +6,7 @@ class Colaborador < ApplicationRecord
   has_many :dependentes, dependent: :destroy
   has_many :enderecos, as: :enderecoable, dependent: :destroy
   has_many :contatos, as: :contatoable, dependent: :destroy
+  has_one :dados_contrato, dependent: :destroy
     
   def self.ransackable_attributes(auth_object = nil)
     %w[cpf nome created_at updated_at]
