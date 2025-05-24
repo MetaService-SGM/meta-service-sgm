@@ -18,6 +18,16 @@ class User < ApplicationRecord
   validates :role, presence: true
   validate :cpf_valido
   
+  def self.ransackable_attributes(auth_object = nil)
+    %w[
+      name email role cpf tipo_contrato ativo admin
+    ]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    []
+  end
+
   private
 
   def cpf_valido
