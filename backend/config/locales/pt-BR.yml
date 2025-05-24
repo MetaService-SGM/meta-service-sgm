@@ -1,6 +1,6 @@
 pt-BR:
   errors:
-    not_found: "Recurso não encontrado."
+    not_found: "%{resource} não encontrado(a)."
     unauthorized: "Você não tem autorização para realizar esta ação."
     parameter_missing: "Parâmetro obrigatório ausente: %{param}."
     messages:
