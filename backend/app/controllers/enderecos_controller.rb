@@ -2,36 +2,33 @@ class EnderecosController < ApplicationController
   before_action :set_endereco, only: %i[show update destroy]
 
   def index
-    @enderecos = Endereco.all
-    render json: @enderecos.map { |e| EnderecoSerializer.new(e) }
+    authorize Endereco
+    @q = Endereco.ransack(params[:q])
+    @enderecos = @q.result
+    render json: @enderecos.map { |e| EnderecoSerializer.call(e) rescue nil }.compact
   end
 
   def show
-    render json: EnderecoSerializer.new(@endereco)
+    authorize @endereco
+    render_success(EnderecoSerializer.call(@endereco))
   end
 
   def create
     @endereco = Endereco.new(endereco_params)
     authorize @endereco
-    if @endereco.save
-      render json: EnderecoSerializer.new(@endereco), status: :created
-    else
-      render json: { errors: @endereco.errors.full_messages }, status: :unprocessable_entity
-    end
+    @endereco.save!
+    render_success(EnderecoSerializer.call(@endereco), status: :created)
   end
 
   def update
     authorize @endereco
-    if @endereco.update(endereco_params)
-      render json: EnderecoSerializer.new(@endereco)
-    else
-      render json: { errors: @endereco.errors.full_messages }, status: :unprocessable_entity
-    end
+    @endereco.update!(endereco_params)
+    render_success(EnderecoSerializer.call(@endereco))
   end
 
   def destroy
     authorize @endereco
-    @endereco.destroy
+    @endereco.destroy!
     head :no_content
   end
 
@@ -42,7 +39,18 @@ class EnderecosController < ApplicationController
   end
 
   def endereco_params
-    params.require(:endereco).permit(:ponto_referencia, :ponto_encontro, :cep, :uf, :municipio,
-                                     :bairro, :logradouro, :numero, :complemento, :colaborador_id)
+    params.require(:endereco).permit(
+      :ponto_referencia,
+      :ponto_encontro,
+      :cep,
+      :uf,
+      :municipio,
+      :bairro,
+      :logradouro,
+      :numero,
+      :complemento,
+      :enderecoable_type,
+      :enderecoable_id
+    )
   end
 end
