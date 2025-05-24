@@ -1,7 +1,7 @@
 puts "Apagando prestadores existentes..."
 Prestador.destroy_all
 
-puts "Criando prestadores..."
+puts "🌱 Criando prestadores..."
 
 prestadors = [
   { nome: "Serviços Gerais LTDA", cnpj: "12345678000199", endereco: "Rua A, 123", telefone: "(11) 99999-1111", email: "contato@servgerais.com" },
@@ -15,4 +15,4 @@ prestadors.each do |attrs|
   Prestador.create!(attrs)
 end
 
-puts "Prestadores criados com sucesso!"
+puts "✅ Prestadores criados com sucesso!"

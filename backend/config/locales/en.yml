@@ -32,3 +32,5 @@ en:
     not_found: "Resource not found."
     unauthorized: "You are not authorized to perform this action."
     parameter_missing: "Missing required parameter: %{param}."
+    messages:
+      invalid: "Invalid CPF number."

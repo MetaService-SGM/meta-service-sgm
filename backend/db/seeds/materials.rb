@@ -1,7 +1,7 @@
 puts "Apagando materiais existentes..."
 Material.destroy_all
 
-puts "Criando materiais..."
+puts "🌱 Criando materiais..."
 
 materials = [
   { nome: "Capacete de Segurança", categoria: "EPI", unidade_medida: "unidade", quantidade_minima: 10, quantidade_atual: 25 },
@@ -15,4 +15,4 @@ materials.each do |attrs|
   Material.create!(attrs)
 end
 
-puts "Materiais criados com sucesso!"
+puts "✅ Materiais criados com sucesso!"
