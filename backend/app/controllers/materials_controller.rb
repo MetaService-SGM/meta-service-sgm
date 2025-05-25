@@ -1,42 +1,38 @@
 class MaterialsController < ApplicationController
   def index
-    authorize Material
-    @materials = policy_scope(Material)
-    render json: @materials
+    materials = Material.ransack(params[:q]).result
+    render json: materials.map { |material| MaterialSerializer.call(material) }
   end
 
   def show
-    authorize material
-    render json: material
+    material = Material.find(params[:id])
+    render json: MaterialSerializer.call(material)
   end
 
   def create
-    authorize Material
-    @material = Material.create!(material_params)
-    render json: @material, status: :created
+    material = Material.create!(material_params)
+    render json: MaterialSerializer.call(material), status: :created
   end
 
   def update
-    authorize material
+    material = Material.find(params[:id])
     material.update!(material_params)
-    render json: material, status: :ok
+    render json: MaterialSerializer.call(material)
   end
 
   def destroy
-    authorize material
-    material.destroy
+    material = Material.find(params[:id])
+    material.destroy!
     head :no_content
   end
 
   private
 
-  def material
-    @material ||= Material.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render json: { error: I18n.t('errors.not_found') }, status: :not_found
-  end
-
   def material_params
-    params.require(:material).permit(:nome, :categoria, :unidade_medida, :quantidade_minima, :quantidade_atual)
+    params.require(:material).permit(
+      :nome, :categoria, :unidade_medida,
+      :quantidade_minima, :quantidade_atual,
+      :certif_aprov, :tipo, :cor, :tamanho
+    )
   end
 end
