@@ -3,16 +3,33 @@ Material.destroy_all
 
 puts "🌱 Criando materiais..."
 
-materials = [
-  { nome: "Capacete de Segurança", categoria: "EPI", unidade_medida: "unidade", quantidade_minima: 10, quantidade_atual: 25 },
-  { nome: "Luva de Proteção", categoria: "EPI", unidade_medida: "par", quantidade_minima: 50, quantidade_atual: 80 },
-  { nome: "Botina de Segurança", categoria: "EPI", unidade_medida: "par", quantidade_minima: 20, quantidade_atual: 40 },
-  { nome: "Protetor Auricular", categoria: "EPI", unidade_medida: "unidade", quantidade_minima: 30, quantidade_atual: 60 },
-  { nome: "Máscara Respiratória", categoria: "EPI", unidade_medida: "unidade", quantidade_minima: 15, quantidade_atual: 35 }
-]
+require 'faker'
 
-materials.each do |attrs|
+categorias = ['EPI', 'Limpeza', 'Papelaria', 'Ferramenta', 'Informática']
+unidades = ['unitário', 'par', 'centímetros', 'polegadas', 'metros']
+cores = %w[Preta Branca Azul Vermelha Amarela Verde Transparente]
+tamanhos = %w[P M G 38 39 40 41 42]
+
+50.times do
+  categoria = categorias.sample
+
+  attrs = {
+    nome: Faker::Commerce.product_name,
+    categoria: categoria,
+    unidade_medida: unidades.sample,
+    quantidade_minima: rand(5..50),
+    quantidade_atual: rand(10..200),
+    tipo: Faker::Commerce.material,
+    cor: cores.sample,
+    tamanho: [true, false].sample ? tamanhos.sample : nil
+  }
+
+  if categoria == 'EPI'
+    attrs[:certif_aprov] = "CA#{rand(10000..99999)}"
+  end
+
   Material.create!(attrs)
 end
+
 
 puts "✅ Materiais criados com sucesso!"

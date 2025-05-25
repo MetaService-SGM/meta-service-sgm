@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_24_205416) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_25_034459) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -245,6 +245,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_24_205416) do
     t.float "quantidade_atual"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "certif_aprov"
+    t.string "tipo"
+    t.string "cor"
+    t.string "tamanho"
+    t.integer "cod_int"
+    t.index ["cod_int"], name: "index_materials_on_cod_int", unique: true
   end
 
   create_table "prestadors", force: :cascade do |t|
