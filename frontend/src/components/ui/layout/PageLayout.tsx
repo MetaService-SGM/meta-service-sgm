@@ -9,7 +9,7 @@ type PageLayoutProps = {
 
 export function PageLayout({ children }: PageLayoutProps) {
   return (
-    <div className=" min-h-svh">
+    <div className="min-h-svh">
       <Header />
       <div className="flex">
         <Sidebar />

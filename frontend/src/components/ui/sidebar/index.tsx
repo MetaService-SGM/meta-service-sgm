@@ -128,7 +128,7 @@ export default function Sidebar() {
   };
 
   return (
-    <nav className="sidebar w-[20%]  bg-white border-r border-gray-200 flex flex-col h-[calc(100vh-3.5rem)]">
+    <nav className="sticky top-0 left-0 bottom-0 z-10 w-[20%] bg-white border-r border-gray-200 flex flex-col h-screen">
       <div className="flex-1 overflow-y-auto px-6 py-2">
         <div className="space-y-4">
           {NAV_ITEMS.map((item, index) => (
