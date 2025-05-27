@@ -5,7 +5,6 @@ export default function BemvindoPage() {
   const dataFormatada = formatDatePTBR();
 
   return (
-    // <PageLayout fixedHeight="1300px">
     <PageLayout>
 
       <div className="h-full flex items-center justify-center">

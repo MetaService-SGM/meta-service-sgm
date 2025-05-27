@@ -13,8 +13,9 @@ export function PageLayout({ children, fixedHeight }: PageLayoutProps) {
     <div className="min-h-svh">
       <Header />
       <div className="flex">
+        <div className="bg-white min-h-svh w-[25%]"></div>
         <Sidebar />
-        <MainBackground fixedHeight={fixedHeight}>
+        <MainBackground>
           {children}
         </MainBackground>
       </div>
