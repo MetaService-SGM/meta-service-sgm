@@ -1,9 +1,4 @@
 Rails.application.routes.draw do
-  get 'cargos/index'
-  get 'cargos/show'
-  get 'cargos/create'
-  get 'cargos/update'
-  get 'cargos/destroy'
   mount_devise_token_auth_for 'User', at: 'auth'
   
   resources :colaboradors
@@ -20,4 +15,5 @@ Rails.application.routes.draw do
   resources :cargos, only: %i[index show create update destroy]
   resources :departamentos, only: %i[index show create update destroy]
   resources :dados_contratos, only: %i[index show create update destroy]
+  resources :contato_emergencia, only: %i[index show create update destroy]
 end
