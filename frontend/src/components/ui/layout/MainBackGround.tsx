@@ -2,6 +2,12 @@ import React, { ReactNode } from "react";
 import { BreadcrumbResponsive } from "../breadcrumb";
 
 
+interface MainBackgroundProps {
+  children: ReactNode;
+  className?: string;
+  fixedHeight?: string | number;
+}
+
 export function MainBackground({
   children,
   className = "",
