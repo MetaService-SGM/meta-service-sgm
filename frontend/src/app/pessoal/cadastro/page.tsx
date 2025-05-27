@@ -1,13 +1,12 @@
 "use client";
 
-import { CalendarDatePicker } from "@/components/ui/calendar";
+import { DatePicker } from "@/components/ui/date-picker";
 import React from "react";
 
 export default function EmployeeRegistration() {
-  
   return (
-  <>
-  <CalendarDatePicker/>
-  </>
+    <>
+      <DatePicker />
+    </>
   );
 }
