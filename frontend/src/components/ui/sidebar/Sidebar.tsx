@@ -1,5 +1,6 @@
 "use client";
 
+import { ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { FaHouse, FaGear } from "react-icons/fa6";
 import { MdSpaceDashboard, MdEditSquare } from "react-icons/md";
@@ -91,5 +92,17 @@ export default function Sidebar() {
         </Button>
       </div>
     </nav>
+  );
+}
+
+type SidebarBackgroundProps = {
+  children: ReactNode;
+};
+
+export function SidebarBackground({ children }: SidebarBackgroundProps) {
+  return (
+    <div className="bg-white min-h-svh w-[26%] shadow-[4px_0px_4px_0px_rgba(0,0,0,0.25)]">
+      {children}
+    </div>
   );
 }
