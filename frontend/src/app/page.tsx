@@ -1,5 +1,6 @@
 // import Sidebar from "@/components/ui/sidebar/Sidebar";
 import BemvindoPage from "./bemVindo";
+import EmployeeRegistration from "./pessoal/cadastro/page";
 // import { MainBackground } from "@/components/ui/layout/MainBackGround";
 // import LoginPage from "./pages/LoginPage/page";
 
@@ -7,7 +8,7 @@ export default function Home() {
   return (
     <>
       {/*<LoginPage></LoginPage> */}
-      <BemvindoPage></BemvindoPage>
+      {/* <BemvindoPage></BemvindoPage> */}
       {/* <Header>
     <div className="flex">
      <Sidebar></Sidebar>
@@ -17,6 +18,7 @@ export default function Home() {
      </div>
      <PageLayout>
        <div>Conteudo principal da pagina</div> */}
+       <EmployeeRegistration></EmployeeRegistration>
     </>
   );
 }

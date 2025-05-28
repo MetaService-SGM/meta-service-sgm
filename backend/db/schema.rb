@@ -48,6 +48,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_27_143251) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "certificacaos", force: :cascade do |t|
+    t.string "nome"
+    t.date "data_emissao"
+    t.date "validade"
+    t.bigint "colaborador_id", null: false
+    t.bigint "cargo_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cargo_id"], name: "index_certificacaos_on_cargo_id"
+    t.index ["colaborador_id"], name: "index_certificacaos_on_colaborador_id"
+  end
+
   create_table "clientes", force: :cascade do |t|
     t.string "nome"
     t.string "cnpj"
@@ -234,6 +246,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_27_143251) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "equipamentode_protecaos", force: :cascade do |t|
+    t.string "descricao"
+    t.string "ca"
+    t.string "tamanho"
+    t.decimal "preco"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "material_contratos", force: :cascade do |t|
     t.float "quantidade_solicitada"
     t.float "quantidade_utilizada"
@@ -314,6 +335,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_27_143251) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "certificacaos", "cargos"
+  add_foreign_key "certificacaos", "colaboradors"
   add_foreign_key "contato_emergencia", "colaboradors"
   add_foreign_key "contrato_colaboradors", "colaboradors", column: "id_colaborador"
   add_foreign_key "dados_contratos", "cargos"
