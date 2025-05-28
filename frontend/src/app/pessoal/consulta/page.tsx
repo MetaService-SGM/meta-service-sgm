@@ -26,11 +26,14 @@ export default function Home() {
             <span className="text-green-600 font-bold">Chamar</span>
           </div>
 
-          <div className="bg-gray-200 rounded-lg p-4 shadow-sm">
+          <div className="bg-gray-200 rounded-lg p-4 shadow-sm ">
             <h2 className="font-bold mb-4 text-center text-xl">
               Dados Pessoais
             </h2>
-            <ul className="text-sm text-gray-700 space-y-1">
+            <ul className="text-sm text-gray-700 ml-3 mb-4 space-y-1">
+              <li>
+                <strong>Nome Social:</strong> Anderson Lima 
+              </li>
               <li>
                 <strong>Apelido:</strong> Eminho
               </li>
@@ -63,7 +66,7 @@ export default function Home() {
 
           <div className="bg-gray-200 rounded-lg p-4 shadow-sm">
             <h2 className="font-bold mb-4 text-center text-xl">Endereço</h2>
-            <ul className="text-sm text-gray-700 space-y-1">
+            <ul className="text-sm text-gray-700 ml-3 mb-4 space-y-1">
               <li>
                 <strong>Ponto de Encontro:</strong> Entrada do Parque
               </li>
@@ -93,7 +96,7 @@ export default function Home() {
 
           <div className="bg-gray-200 rounded-lg p-4 shadow-sm">
             <h2 className="font-bold mb-4 text-center text-xl">Educação</h2>
-            <ul className="text-sm text-gray-700 space-y-1">
+            <ul className="text-sm text-gray-700 ml-3  mb-4 space-y-1">
               <li>
                 <strong>Escolaridade:</strong> Ensino Médio Completo
               </li>
@@ -111,7 +114,7 @@ export default function Home() {
 
           <div className="bg-gray-200 rounded-lg p-4 shadow-sm">
             <h2 className="font-bold mb-4 text-center text-xl">Contatos</h2>
-            <ul className="text-sm text-gray-700 space-y-1">
+            <ul className="text-sm text-gray-700 ml-3 mb-4 space-y-1">
               <li>
                 <strong>Celular 1:</strong> (11) 91234-5678 (Vivo)
               </li>
@@ -137,7 +140,7 @@ export default function Home() {
             <h2 className="font-bold mb-4 text-center text-xl">
               Informações Profissionais
             </h2>
-            <ul className="text-sm text-gray-700 space-y-1">
+            <ul className="text-sm text-gray-700 ml-3 mb-4 space-y-1">
               <li>
                 <strong>Certificado:</strong> NR-10, Empilhadeira
               </li>
@@ -157,13 +160,13 @@ export default function Home() {
                 <strong>Validade ASO:</strong> 05/02/2026
               </li>
               <li>
-                <strong>Capacete:</strong> Aprovado
+                <strong>Capacete:</strong> Tam: único
               </li>
               <li>
-                <strong>Luvas:</strong> Aprovado
+                <strong>Luvas:</strong> Tam: P
               </li>
               <li>
-                <strong>Calçado:</strong> Aprovado
+                <strong>Calçado:</strong> Tam: 43
               </li>
               <li>
                 <strong>Altura:</strong> 1.78 m
@@ -178,7 +181,10 @@ export default function Home() {
             <h2 className="font-bold mb-4 text-center text-xl">
               Dados Contratuais
             </h2>
-            <ul className="text-sm text-gray-700 space-y-1">
+            <ul className="text-sm text-gray-700 ml-3 mb-4 space-y-1">
+              <li>
+                <strong>Empresa:</strong> SGM 
+              </li>
               <li>
                 <strong>Departamento:</strong> Manutenção / Soldagem
               </li>
@@ -192,7 +198,7 @@ export default function Home() {
                 <strong>Turno:</strong> 6x1 (6h às 18h)
               </li>
               <li>
-                <strong>Salário:</strong> R$ 3.800,00
+                <strong>Salário:</strong> R$ 30,00/h
               </li>
               <li>
                 <strong>Admissão:</strong> 10/02/2023
@@ -208,7 +214,7 @@ export default function Home() {
 
           <div className="bg-gray-200 rounded-lg p-4 shadow-sm">
             <h2 className="font-bold mb-4 text-center text-xl">Dependentes</h2>
-            <ul className="text-sm text-gray-700 space-y-1">
+            <ul className="text-sm text-gray-700 ml-3 mb-4 space-y-1">
               <li>
                 <strong>Nome:</strong> Lucas Henrique da Silva
               </li>
