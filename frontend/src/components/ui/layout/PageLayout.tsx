@@ -8,7 +8,7 @@ type PageLayoutProps = {
   fixedHeight?: string; 
 };
 
-export function PageLayout({ children, fixedHeight }: PageLayoutProps) {
+export function PageLayout({ children }: PageLayoutProps) {
   return (
     <div className="min-h-svh">
       <Header />
