@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_26_145550) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_27_143251) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -90,6 +90,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_145550) do
     t.decimal "altura", precision: 4, scale: 2
     t.decimal "peso", precision: 5, scale: 2
     t.index ["cpf"], name: "index_colaboradors_on_cpf", unique: true
+  end
+
+  create_table "contato_emergencia", force: :cascade do |t|
+    t.string "nome"
+    t.string "telefone"
+    t.string "parentesco"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "colaborador_id", null: false
+    t.index ["colaborador_id"], name: "index_contato_emergencia_on_colaborador_id"
   end
 
   create_table "contatos", force: :cascade do |t|
@@ -327,6 +337,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_145550) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "certificacaos", "cargos"
   add_foreign_key "certificacaos", "colaboradors"
+  add_foreign_key "contato_emergencia", "colaboradors"
   add_foreign_key "contrato_colaboradors", "colaboradors", column: "id_colaborador"
   add_foreign_key "dados_contratos", "cargos"
   add_foreign_key "dados_contratos", "colaboradors"
