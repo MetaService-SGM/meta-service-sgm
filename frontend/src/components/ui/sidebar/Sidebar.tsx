@@ -71,38 +71,32 @@ export default function Sidebar() {
   };
 
   return (
-    <nav className="fixed sidebar w-[20%] bg-white border-r border-gray-200 flex flex-col min-h-svh">
-      <div className="flex-1 overflow-y-auto px-6 py-2">
-        <div className="space-y-4">
-          {NAV_ITEMS.map((item, index) => (
-            <div
-              key={`nav-item-${index}`}
-              className={index === 0 ? "mt-6" : ""}
-            >
-              <SidebarButton {...item} />
-            </div>
-          ))}
+    <>
+      {/* Placeholder para ocupar espaço no layout */}
+      <div className="bg-white min-h-svh w-[26%] shadow-[4px_0px_4px_0px_rgba(0,0,0,0.25)]" />
+
+      {/* Sidebar fixa sobre o placeholder */}
+      <nav className="fixed sidebar w-[20%] flex flex-col min-h-svh">
+        <div className="flex-1 overflow-y-auto px-6 py-2">
+          <div className="space-y-4">
+            {NAV_ITEMS.map((item, index) => (
+              <div
+                key={`nav-item-${index}`}
+                className={index === 0 ? "mt-6" : ""}
+              >
+                <SidebarButton {...item} />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="p-4 border-t border-gray-200 flex justify-center shrink-0">
-        <Button onClick={handleLogout} className="w-[90%] h-8 mt-16">
-          <IoIosLogOut />
-          Sair
-        </Button>
-      </div>
-    </nav>
-  );
-}
-
-type SidebarBackgroundProps = {
-  children: ReactNode;
-};
-
-export function SidebarBackground({ children }: SidebarBackgroundProps) {
-  return (
-    <div className="bg-white min-h-svh w-[26%] shadow-[4px_0px_4px_0px_rgba(0,0,0,0.25)]">
-      {children}
-    </div>
+        <div className="p-4 border-t border-gray-200 flex justify-center shrink-0">
+          <Button onClick={handleLogout} className="w-[90%] h-8 mt-16">
+            <IoIosLogOut />
+            Sair
+          </Button>
+        </div>
+      </nav>
+    </>
   );
 }
