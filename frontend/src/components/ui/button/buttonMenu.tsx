@@ -8,7 +8,7 @@ export default function ButtonMenu() {
     router.push("/pessoal/consulta"); // caminho da página de destino
   };
   const handleClickRegister = () => {
-    router.push("/pessoal/cadastro"); // caminho da página de destino
+    router.push("/pessoal/cadastro/dadosPessoais"); // caminho da página de destino
   };
 
   return (

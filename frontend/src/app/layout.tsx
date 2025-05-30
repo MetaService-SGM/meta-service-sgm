@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Nunito } from "next/font/google";
 import "./reset.css";
 import "./globals.css";
-
+import { PageTransitionLoader } from "@/components/ui/page-transition-loader";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -34,18 +34,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br">
-      <body
-        className={`
-          ${geistSans.variable}
-          ${geistMono.variable}
-          ${nunito.variable}
-
-          antialiased
-        `}
-      >
-        {children}
-      </body>
-    </html>
+   <>
+      <html lang="pt-br">
+        <body
+          className={`
+            ${geistSans.variable}
+            ${geistMono.variable}
+            ${nunito.variable}
+            antialiased
+          `}
+        >
+          <PageTransitionLoader />
+          {children}
+        </body>
+      </html>
+    </>
   );
 }
