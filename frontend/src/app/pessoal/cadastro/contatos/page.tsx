@@ -12,7 +12,7 @@ export default function EmployeeRegistration() {
         <h1 className="text-2xl font-bold text-[#2B426E]">
           Cadastro de Colaboradores
         </h1>
-        <StepIndicator activeStep={1} />
+        <StepIndicator activeStep={3} />
       </div>
     </PageLayout>
   );

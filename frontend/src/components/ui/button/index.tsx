@@ -28,7 +28,8 @@ const buttonVariants = cva(
         alert: "bg-[#FFE5B0] text-white hover:bg-yellow-200",
         page: "bg-[#F2F7FF] text-neutral-900 hover:bg-[#E6EFFC] border border-neutral-700",
         login: "shadow-[0px_4px_4px_0px_rgba bg-[#2B426E] font-bold text-white shadow-xs hover:bg-[#2B426E]/90 ",
-        select: "relative bg-[#F2F7FF] text-transparent bg-clip-text bg-gradient-to-r from-[#14ADD6] to-[#384295] font-bold "
+        select: "relative bg-[#F2F7FF] text-transparent bg-clip-text bg-gradient-to-r from-[#14ADD6] to-[#384295] font-bold ",
+        step: ""
       },
       // Variantes de tamanho
       size: {

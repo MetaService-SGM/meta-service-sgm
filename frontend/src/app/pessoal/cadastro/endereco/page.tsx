@@ -15,7 +15,6 @@ export default function EmployeeRegistration() {
         </h1>
         <StepIndicator activeStep={2} />
         <AddressForm />
-  
       </div>
     </PageLayout>
   );
