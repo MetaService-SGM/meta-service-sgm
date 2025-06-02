@@ -13,6 +13,9 @@ gem 'puma', '~> 6.0'
 # Adição da gem pundit
 gem 'pundit', '~> 2.4'
 
+gem 'active_storage_validations'
+
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
