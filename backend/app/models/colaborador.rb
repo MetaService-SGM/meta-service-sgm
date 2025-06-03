@@ -8,7 +8,21 @@ class Colaborador < ApplicationRecord
   has_many :contatos, as: :contatoable, dependent: :destroy
   has_many :contatos_emergencia, dependent: :destroy
   has_one :dados_contrato, dependent: :destroy
-    
+
+  has_one_attached :foto
+  
+  enum escolaridade: {
+    ensino_fundamental_incompleto: "Ensino Fundamental Incompleto",
+    ensino_fundamental_completo: "Ensino Fundamental Completo",
+    ensino_medio_incompleto: "Ensino Médio Incompleto",
+    ensino_medio_completo: "Ensino Médio Completo",
+    ensino_superior_incompleto: "Ensino Superior Incompleto",
+    ensino_superior_completo: "Ensino Superior Completo",
+    pos_graduacao: "Pós-graduação",
+    mestrado: "Mestrado",
+    doutorado: "Doutorado"
+  }, _prefix: true
+  
   def self.ransackable_attributes(auth_object = nil)
     %w[cpf nome created_at updated_at]
   end

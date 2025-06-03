@@ -6,7 +6,7 @@ class DadosContratoSerializer
       unidade: obj.unidade,
       turno: obj.turno,
       moeda: obj.moeda,
-      salario: obj.salario,
+      salario_hora: obj.salario_hora,
       data_admissao: obj.data_admissao,
       periodo_experiencia: obj.periodo_experiencia,
       matricula: obj.matricula,

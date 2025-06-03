@@ -1,100 +1,38 @@
 puts '🌱 Criando colaboradores...'
 
-colaboradores = [
-  {
-    nome: 'Ana Beatriz',
-    nome_completo: 'Ana Beatriz da Silva Souza',
-    nome_social: 'Bia Souza',
-    funcao: 'Auxiliar Administrativo',
-    cpf: CPF.generate,
-    genero: 'Feminino',
-    data_nasc: Date.new(1992, 5, 10),
-    cor_ou_raca: 'Parda',
-    estado_civil: 'Solteira',
-    pais: 'Brasil',
-    situacao: 'ativo',
-    nacionalidade: 'Brasileira',
-    cbo: '4110-05', 
-    escolaridade: 'En. Médio Completo',
-    altura: 1.65,
-    peso: 60.5
-  },
-  {
-    nome: 'Carlos Eduardo',
-    nome_completo: 'Carlos Eduardo Moreira',
-    nome_social: '',
-    funcao: 'Técnico de Segurança',
-    cpf: CPF.generate,
-    genero: 'Masculino',
-    data_nasc: Date.new(1985, 9, 22),
-    cor_ou_raca: 'Branca',
-    estado_civil: 'Casado',
-    pais: 'Brasil',
-    situacao: 'inativo',
-    nacionalidade: 'Brasileira',
-    cbo: '3516-05', 
-    escolaridade: 'Superior Completo',
-    altura: 1.78,
-    peso: 82.0
-  },
-  {
-    nome: 'Juliana Lima',
-    nome_completo: 'Juliana Rocha Lima',
-    nome_social: 'Ju Lima',
-    funcao: 'Engenheira de Segurança',
-    cpf: CPF.generate,
-    genero: 'Feminino',
-    data_nasc: Date.new(1989, 3, 15),
-    cor_ou_raca: 'Negra',
-    estado_civil: 'Solteira',
-    pais: 'Brasil',
-    situacao: 'ativo',
-    nacionalidade: 'Brasileira',
-    cbo: '2149-05', 
-    escolaridade: 'Pós-graduação',
-    altura: 1.70,
-    peso: 68.0
-  },
-  {
-    nome: 'Rafael Costa',
-    nome_completo: 'Rafael Gomes Costa',
-    nome_social: '',
-    funcao: 'Analista de RH',
-    cpf: CPF.generate,
-    genero: 'Masculino',
-    data_nasc: Date.new(1990, 7, 8),
-    cor_ou_raca: 'Branca',
-    estado_civil: 'Divorciado',
-    pais: 'Brasil',
-    situacao: 'inativo',
-    nacionalidade: 'Brasileira',
-    cbo: '2524-10', 
-    escolaridade: 'Superior Incompleto',
-    altura: 1.80,
-    peso: 85.0
-  },
-  {
-    nome: 'Fernanda Oliveira',
-    nome_completo: 'Fernanda Dias Oliveira',
-    nome_social: 'Fer Oliveira',
-    funcao: 'Coordenadora Técnica',
-    cpf: CPF.generate,
-    genero: 'Feminino',
-    data_nasc: Date.new(1987, 12, 1),
-    cor_ou_raca: 'Amarela',
-    estado_civil: 'Casada',
-    pais: 'Brasil',
-    situacao: 'ativo',
-    nacionalidade: 'Brasileira',
-    cbo: '1236-05', 
-    escolaridade: 'Mestrado',
-    altura: 1.68,
-    peso: 62.0
-  }
-]
+Faker::Config.locale = 'pt-BR'
 
-colaboradores.each do |attrs|
-  Colaborador.create!(attrs)
+generos = ['Masculino', 'Feminino', 'Não informado']
+cores = ['Branca', 'Parda', 'Negra', 'Amarela', 'Vermelha']
+estados_civis = ['Solteiro', 'Casado', 'Divorciado', 'Viúvo', "Emancebado"]
+situacoes = ['ativo', 'inativo']
+escolaridades = Colaborador.escolaridades.keys
+funcoes = ['Auxiliar Administrativo', 'Técnico de Segurança', 'Engenheiro', 'Analista de RH', 'Coordenador Técnico']
+cbos = ['4110-05', '3516-05', '2149-05', '2524-10', '1236-05']
+
+5.times do
+  genero = generos.sample
+  nome_completo = Faker::Name.name_with_middle
+  nome = nome_completo.split.first
+  nome_social = [Faker::Name.first_name, ''].sample
+  Colaborador.create!(
+    nome: nome,
+    nome_completo: nome_completo,
+    nome_social: nome_social,
+    funcao: funcoes.sample,
+    cpf: CPF.generate,
+    genero: genero,
+    data_nasc: Faker::Date.birthday(min_age: 25, max_age: 60),
+    cor_ou_raca: cores.sample,
+    estado_civil: estados_civis.sample,
+    pais: 'Brasil',
+    situacao: situacoes.sample,
+    nacionalidade: 'Brasileira',
+    cbo: cbos.sample,
+    escolaridade: escolaridades.sample,
+    altura: rand(1.55..1.90).round(2),
+    peso: rand(50.0..95.0).round(1)
+  )
 end
 
 puts '✅ Colaboradores criados com sucesso!'

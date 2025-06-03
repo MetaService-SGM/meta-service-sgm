@@ -45,6 +45,6 @@ class ContatoEmergenciaController < ApplicationController
   end
 
   def contato_emergencia_params
-    params.require(:contato_emergencia).permit(:colaborador_id, :nome, :telefone, :parentesco)
+    params.require(:contato_emergencia).permit(:colaborador_id, :nome, :telefone, :operadora, :parentesco)
   end
 end

@@ -1,13 +1,13 @@
 puts '🌱 Criando endereços...'
 
+Faker::Config.locale = 'pt-BR'
+
 if Colaborador.exists?
   puts "Seeding endereços para colaboradores..."
 
   Colaborador.limit(5).each do |colaborador|
     begin
       Endereco.create!(
-        ponto_referencia: Faker::Address.community,
-        ponto_encontro: Faker::Address.street_address,
         cep: Faker::Base.regexify(/\d{5}-?\d{3}/),
         uf: Faker::Address.state_abbr,
         municipio: Faker::Address.city,
@@ -33,7 +33,6 @@ if Empresa.exists?
   Empresa.limit(5).each do |empresa|
     begin
       Endereco.create!(
-        ponto_referencia: Faker::Address.community,
         cep: Faker::Base.regexify(/\d{5}-?\d{3}/),
         uf: Faker::Address.state_abbr,
         municipio: Faker::Address.city,

@@ -34,3 +34,24 @@ en:
     parameter_missing: "Missing required parameter: %{param}."
     messages:
       invalid: "Invalid CPF number."
+  activerecord:
+    models:
+      contato: "Contact"
+    attributes:
+      contato:
+        numero: "Number"
+        email: "Email"
+        whatsapp: "WhatsApp"
+        telegram: "Telegram"
+        signal: "Signal"
+      colaborador:
+        escolaridades:
+          ensino_fundamental_incompleto: "Incomplete Elementary School"
+          ensino_fundamental_completo: "Complete Elementary School"
+          ensino_medio_incompleto: "Incomplete High School"
+          ensino_medio_completo: "Complete High School"
+          ensino_superior_incompleto: "Incomplete Higher Education"
+          ensino_superior_completo: "Complete Higher Education"
+          pos_graduacao: "Postgraduate"
+          mestrado: "Master's Degree"
+          doutorado: "Doctorate"
