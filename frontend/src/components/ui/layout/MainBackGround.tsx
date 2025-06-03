@@ -6,7 +6,10 @@ type MainBackgroundProps = {
   className?: string;
 };
 
-export function MainBackground({ children, className = "" }: MainBackgroundProps) {
+export function MainBackground({
+  children,
+  className = "",
+}: MainBackgroundProps) {
   return (
     <div
       className={`flex flex-col shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] rounded-xl mt-4 ml-4 mr-4 w-full bg-white mx-auto overflow-hidden ${className}`}
@@ -17,13 +20,9 @@ export function MainBackground({ children, className = "" }: MainBackgroundProps
       </div>
 
       {/* Conteúdo rolável */}
-      <div className="flex-1 flex flex-col px-4 py-2 p-4">
-         
+      <div className="flex-1 flex flex-col h-[calc(100vh-4rem)]  p-4 mx-5 mt-2 overflow-y-auto">
         {children}
       </div>
     </div>
   );
 }
-
-
-

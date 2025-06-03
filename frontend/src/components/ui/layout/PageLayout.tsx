@@ -1,21 +1,20 @@
 import React, { ReactNode } from "react";
 import { Header } from "../header/Header";
-import Sidebar from "../sidebar";
 import { MainBackground } from "./MainBackGround";
+import Sidebar from "../sidebar/Sidebar";
 
 type PageLayoutProps = {
   children: ReactNode;
+  fixedHeight?: string;
 };
 
 export function PageLayout({ children }: PageLayoutProps) {
   return (
-    <div className=" min-h-svh">
+    <div className="min-h-svh">
       <Header />
       <div className="flex">
         <Sidebar />
-        <MainBackground>
-          {children}
-        </MainBackground>
+        <MainBackground>{children}</MainBackground>
       </div>
     </div>
   );

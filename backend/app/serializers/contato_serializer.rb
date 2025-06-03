@@ -1,7 +1,8 @@
 class ContatoSerializer
   include JSONAPI::Serializer
 
-  attributes :id, :numero, :email, :whatsapp, :telegram, :signal, :contatoable_type, :contatoable_id
+  attributes :id, :telefone, :tipo_telefone, :operadora, :email, :whatsapp, :telegram,
+             :signal, :contatoable_type, :contatoable_id
 
   def self.call(object)
     new(object).serializable_hash

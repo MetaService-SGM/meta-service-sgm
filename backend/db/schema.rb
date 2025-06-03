@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_26_145550) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_29_113541) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,7 +49,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_145550) do
   end
 
   create_table "certificacaos", force: :cascade do |t|
-    t.string "nome"
+    t.string "nome", limit: 100
     t.date "data_emissao"
     t.date "validade"
     t.bigint "colaborador_id", null: false
@@ -86,14 +86,25 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_145550) do
     t.string "pais", limit: 50
     t.string "nacionalidade", limit: 50
     t.string "situacao", limit: 20
-    t.string "escolaridade", limit: 20
+    t.string "escolaridade", limit: 30
     t.decimal "altura", precision: 4, scale: 2
     t.decimal "peso", precision: 5, scale: 2
     t.index ["cpf"], name: "index_colaboradors_on_cpf", unique: true
   end
 
+  create_table "contato_emergencia", force: :cascade do |t|
+    t.string "nome"
+    t.string "telefone"
+    t.string "parentesco"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "colaborador_id", null: false
+    t.string "operadora"
+    t.index ["colaborador_id"], name: "index_contato_emergencia_on_colaborador_id"
+  end
+
   create_table "contatos", force: :cascade do |t|
-    t.string "numero"
+    t.string "telefone"
     t.string "email"
     t.string "whatsapp"
     t.string "telegram"
@@ -102,32 +113,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_145550) do
     t.bigint "contatoable_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "tipo_telefone"
+    t.string "departamento"
+    t.string "operadora"
     t.index ["contatoable_type", "contatoable_id"], name: "index_contatos_on_contatoable"
-  end
-
-  create_table "contrato_colaboradors", force: :cascade do |t|
-    t.datetime "data_inicio"
-    t.datetime "data_fim"
-    t.float "quantidade_horas"
-    t.float "valor_hora"
-    t.integer "id_contrato_geral"
-    t.integer "id_colaborador"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "tipo_contrato", limit: 20
-    t.string "unidade", limit: 100
-    t.string "turno", limit: 50
-    t.string "moeda", limit: 15
-    t.decimal "salario", precision: 10, scale: 2
-    t.date "data_admissao"
-    t.integer "periodo_experiencia"
-    t.string "matricula", limit: 20, null: false
-    t.string "superior_direto", limit: 100
-    t.string "grau_hierarquico", limit: 50
-    t.date "data_contrato"
-    t.integer "duracao_contrato"
-    t.date "vencimento_contrato"
-    t.integer "total_dias"
   end
 
   create_table "contrato_gerals", force: :cascade do |t|
@@ -148,7 +137,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_145550) do
     t.string "unidade"
     t.string "turno"
     t.string "moeda"
-    t.decimal "salario", precision: 10, scale: 2
+    t.decimal "salario_hora", precision: 10, scale: 2
     t.date "data_admissao"
     t.integer "periodo_experiencia"
     t.string "matricula"
@@ -163,6 +152,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_145550) do
     t.bigint "departamento_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "data_inicio"
+    t.datetime "data_fim"
+    t.float "quantidade_horas"
     t.index ["cargo_id"], name: "index_dados_contratos_on_cargo_id"
     t.index ["colaborador_id"], name: "index_dados_contratos_on_colaborador_id"
     t.index ["departamento_id"], name: "index_dados_contratos_on_departamento_id"
@@ -197,8 +189,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_145550) do
   end
 
   create_table "enderecos", force: :cascade do |t|
-    t.string "ponto_referencia"
-    t.string "ponto_encontro"
     t.string "cep"
     t.string "uf"
     t.string "municipio"
@@ -211,38 +201,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_145550) do
     t.string "enderecoable_type", null: false
     t.bigint "enderecoable_id", null: false
     t.index ["enderecoable_type", "enderecoable_id"], name: "index_enderecos_on_enderecoable"
-  end
-
-  create_table "entrega_epis", force: :cascade do |t|
-    t.datetime "data_entrega"
-    t.datetime "data_devolucao"
-    t.string "observacao"
-    t.integer "id_epi"
-    t.integer "id_colaborador"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "epi_id", null: false
-    t.index ["epi_id"], name: "index_entrega_epis_on_epi_id"
-  end
-
-  create_table "epis", force: :cascade do |t|
-    t.string "nome"
-    t.string "categoria"
-    t.string "ca"
-    t.string "tipo"
-    t.integer "qtdMinima"
-    t.integer "qtdAtual"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "equipamentode_protecaos", force: :cascade do |t|
-    t.string "descricao"
-    t.string "ca"
-    t.string "tamanho"
-    t.decimal "preco"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "material_contratos", force: :cascade do |t|
@@ -327,10 +285,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_145550) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "certificacaos", "cargos"
   add_foreign_key "certificacaos", "colaboradors"
-  add_foreign_key "contrato_colaboradors", "colaboradors", column: "id_colaborador"
+  add_foreign_key "contato_emergencia", "colaboradors"
   add_foreign_key "dados_contratos", "cargos"
   add_foreign_key "dados_contratos", "colaboradors"
   add_foreign_key "dados_contratos", "departamentos"
   add_foreign_key "dependentes", "colaboradors"
-  add_foreign_key "entrega_epis", "epis"
 end
