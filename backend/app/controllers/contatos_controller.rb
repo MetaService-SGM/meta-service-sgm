@@ -41,6 +41,8 @@ class ContatosController < ApplicationController
   private
 
   def contato_params
-    params.require(:contato).permit(:numero, :email, :whatsapp, :telegram, :signal, :contatoable_id, :contatoable_type)
+    params.require(:contato).permit(
+      :telefone, :tipo_telefone, :operadora, :email, :whatsapp, :telegram, :signal,
+      :tipo_telefone, :departamento, :contatoable_id, :contatoable_type)
   end
 end

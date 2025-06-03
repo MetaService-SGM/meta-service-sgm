@@ -4,6 +4,7 @@ Material.destroy_all
 puts "🌱 Criando materiais..."
 
 require 'faker'
+Faker::Config.locale = 'pt-BR'
 
 categorias = ['EPI', 'Limpeza', 'Papelaria', 'Ferramenta', 'Informática']
 unidades = ['unitário', 'par', 'centímetros', 'polegadas', 'metros']

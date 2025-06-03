@@ -13,6 +13,8 @@ gem 'puma', '~> 6.0'
 # Adição da gem pundit
 gem 'pundit', '~> 2.4'
 
+gem 'active_storage_validations'
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
@@ -56,6 +58,6 @@ end
 gem 'devise', '~> 4.9'
 gem 'cpf_cnpj'
 gem 'devise_token_auth'
-
+gem 'image_processing', '~> 1.2'
 gem 'ransack', '~> 4.0'
 gem "jsonapi-serializer", "~> 2.2"

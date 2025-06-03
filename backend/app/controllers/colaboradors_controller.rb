@@ -1,45 +1,46 @@
 class ColaboradorsController < ApplicationController
-  before_action :set_colaborador, only: %i[ show update destroy ]
+  before_action :set_colaborador, only: [:show, :update, :destroy]
 
-  # GET /colaboradors
   def index
     @colaboradors = Colaborador.all
-
-    render json: @colaboradors
+    authorize @colaboradors
+    render json: @colaboradors.map { |col| ColaboradorSerializer.call(col) }
   end
 
-  # GET /colaboradors/1
   def show
-    render json: @colaborador
+    authorize @colaborador
+    render json: ColaboradorSerializer.call(@colaborador)
   end
 
-  # POST /colaboradors
   def create
     @colaborador = Colaborador.new(colaborador_params)
+    authorize @colaborador
 
     if @colaborador.save
-      render json: @colaborador, status: :created, location: @colaborador
+      render json: ColaboradorSerializer.call(@colaborador), status: :created
     else
-      render json: @colaborador.errors, status: :unprocessable_entity
+      render json: { errors: @colaborador.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /colaboradors/1
   def update
+    authorize @colaborador
+
     if @colaborador.update(colaborador_params)
-      render json: @colaborador
+      render json: ColaboradorSerializer.call(@colaborador)
     else
-      render json: @colaborador.errors, status: :unprocessable_entity
+      render json: { errors: @colaborador.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
-  # DELETE /colaboradors/1
   def destroy
-    @colaborador.destroy!
+    authorize @colaborador
+    @colaborador.destroy
+    head :no_content
   end
 
- private
-    
+  private
+
   def set_colaborador
     @colaborador = Colaborador.find(params[:id])
   end
@@ -61,7 +62,8 @@ class ColaboradorsController < ApplicationController
       :situacao,
       :escolaridade,
       :altura,
-      :peso
+      :peso,
+      :foto
   )
   end
 end

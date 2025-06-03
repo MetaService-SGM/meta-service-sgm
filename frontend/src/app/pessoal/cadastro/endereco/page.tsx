@@ -11,7 +11,7 @@ export default function EmployeeRegistration() {
     <PageLayout>
       <EmployeeRegistrationLayout>
         <StepIndicator activeStep={2} />
-
+        
         <AddressForm />
       </EmployeeRegistrationLayout>
     </PageLayout>

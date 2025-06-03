@@ -1,35 +1,22 @@
 puts '🌱 Criando contatos...'
-puts "Seeding contatos para colaboradores..."
+
+Faker::Config.locale = 'pt-BR'
 
 colaboradores = Colaborador.limit(5)
 contatos = []
 
-colaboradores.each_with_index do |colaborador, i|
+colaboradores.each do |colaborador|
   contatos << Contato.create!(
-    numero: Faker::PhoneNumber.cell_phone_in_e164,
+    telefone: Faker::PhoneNumber.cell_phone_in_e164,
     email: Faker::Internet.unique.email,
-    whatsapp: [true, false].sample,
-    telegram: [true, false].sample,
-    signal: [true, false].sample,
+    whatsapp: ['true', 'false'].sample,
+    telegram: ['true', 'false'].sample,
+    signal: ['true', 'false'].sample,
+    tipo_telefone: ['fixo', 'movel'].sample,
+    departamento: ['Financeiro', 'RH', 'TI'].sample,
+    operadora: ['Vivo', 'Claro', 'Tim', 'Oi'].sample,
     contatoable: colaborador
   )
 end
 
 puts "Cadastrados #{contatos.count} contatos para colaboradores"
-
-puts "Seeding contatos para empresas..."
-
-Empresa.find_each do |empresa|
-  Contato.create!(
-    numero: Faker::PhoneNumber.cell_phone_in_e164,
-    email: Faker::Internet.email(domain: "empresa.com"),
-    whatsapp: [true, false].sample,
-    telegram: [true, false].sample,
-    signal: [true, false].sample,
-    contatoable: empresa
-  )
-end
-
-puts puts "Cadastrados #{contatos.count} contatos para Empresas"
-
-puts "✅ Contatos criados com sucesso!"

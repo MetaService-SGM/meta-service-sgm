@@ -1,5 +1,7 @@
 puts "🌱 Criando dependentes..."
 
+Faker::Config.locale = 'pt-BR'
+
 colaboradores = Colaborador.all
 
 10.times do

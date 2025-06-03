@@ -35,10 +35,10 @@ class DadosContratosController < ApplicationController
 
   def dados_contrato_params
     params.require(:dados_contrato).permit(
-        :tipo_contrato, :unidade, :turno, :moeda, :salario, :data_admissao,
+        :tipo_contrato, :unidade, :turno, :moeda, :salario_hora, :data_admissao,
         :periodo_experiencia, :matricula, :superior_direto, :grau_hierarquico,
         :data_contrato, :duracao_contrato, :vencimento_contrato, :total_dias,
-        :colaborador_id, :cargo_id, :departamento_id
+        :colaborador_id, :cargo_id, :departamento_id, :quantidade_horas
     )
   end
 end

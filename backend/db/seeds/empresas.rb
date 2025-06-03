@@ -1,5 +1,6 @@
 require 'faker'
 require 'cpf_cnpj'
+Faker::Config.locale = 'pt-BR'
 
 puts '🌱 Criando empresas...'
 
