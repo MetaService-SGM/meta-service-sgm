@@ -15,8 +15,12 @@ class CertificacaosController < ApplicationController
   def create
     certificacao = Certificacao.new(certificacao_params)
     authorize certificacao
-    certificacao.save!
-    render json: CertificacaoSerializer.call(certificacao), status: :created
+    
+    if certificacao.save
+      render json: CertificacaoSerializer.call(certificacao), status: :created
+    else
+      render json: { errors: certificacao.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def update
@@ -36,7 +40,7 @@ class CertificacaosController < ApplicationController
   end
 
   def certificacao_params
-    params.require(:certificacao).permit(:nome, :data_emissao, :validade, :colaborador_id, :cargo_id)
+    params.require(:certificacao).permit(:nome, :data_emissao, :validade, :colaborador_id, :cargo_id, :pdf)
   end
 
   def authorize_certificacao

@@ -1,0 +1,17 @@
+<h1>Enviar Certificado (PDF)</h1>
+
+<%= form_with model: @certificate, local: true do |form| %>
+  <div>
+    <%= form.label :title, 'Título do Certificado' %><br>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :pdf, 'Arquivo PDF' %><br>
+    <%= form.file_field :pdf %>
+  </div>
+
+  <div>
+    <%= form.submit 'Enviar Certificado' %>
+  </div>
+<% end %>

@@ -1,0 +1,14 @@
+<h1><%= @certificate.title %></h1>
+
+<% if @certificate.pdf.attached? %>
+  <p><strong>Arquivo:</strong></p>
+  <!-- Link para visualizar o PDF em nova aba -->
+  <%= link_to 'Visualizar PDF', url_for(@certificate.pdf), target: '_blank' %>
+
+  <!-- Ou incorporar diretamente o PDF na página -->
+  <div style="margin-top: 20px;">
+    <%= tag.embed src: url_for(@certificate.pdf), type: 'application/pdf', width: '100%', height: '600px' %>
+  </div>
+<% else %>
+  <p>Nenhum PDF foi enviado para este certificado.</p>
+<% end %>
