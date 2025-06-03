@@ -9,7 +9,7 @@ interface FormActionsProps {
   nextLabel?: string;
 }
 
-export function FormActions({
+export function FormActionsButton({
   onCancel,
   onSaveDraft,
   onNext,

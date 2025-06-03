@@ -24,12 +24,12 @@ export function StepIndicator({ activeStep }: StepIndicatorProps) {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col w-full">
-      <h1 className="text-2xl font-bold text-[#2B426E]">
+    <div className="flex flex-col w-full mb-8">
+      <h1 className="text-2xl font-bold text-[#2B426E] mb-4">
         Cadastro de Colaboradores
       </h1>
 
-      <div className="flex flex-wrap sm:flex-nowrap items-center justify-between  p-4 rounded-xl ">
+      <div className="flex flex-wrap sm:flex-nowrap items-center justify-between p-4 rounded-xl">
         {steps.map((stepItem, index) => {
           const step = index + 1;
           const isActive = step === activeStep;

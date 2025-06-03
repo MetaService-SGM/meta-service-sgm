@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import { FormActions } from "../button/FormActionsButton";
 import { StepIndicator } from "../step-indicator";
+import { FormActionsButton } from "../button/FormActionsButton";
 
 interface EmployeeRegistrationLayoutProps {
   children: ReactNode;
@@ -11,9 +11,8 @@ export default function EmployeeRegistrationLayout({
 }: EmployeeRegistrationLayoutProps) {
   return (
     <>
-      <StepIndicator activeStep={2} />
       {children}
-      <FormActions></FormActions>
+      <FormActionsButton></FormActionsButton>
     </>
   );
 }

@@ -193,17 +193,7 @@ export function AddressForm() {
           </div>
         </fieldset>
 
-        <div className="flex justify-end gap-4 mt-6">
-          <Button type="button" variant="outline">
-            Cancelar
-          </Button>
-          <Button type="button" variant="secondary">
-            Salvar rascunho
-          </Button>
-          <Button type="submit" className="bg-[#2B426E] hover:bg-[#1f2f4f] text-white">
-            Próximo
-          </Button>
-        </div>
+              
       </form>
     </Form>
   );

@@ -4,15 +4,16 @@ import React from "react";
 import { AddressForm } from "@/components/ui/adress";
 import { StepIndicator } from "@/components/ui/step-indicator";
 import { PageLayout } from "@/components/ui/layout/PageLayout";
+import EmployeeRegistrationLayout from "@/components/ui/layout/EmployeeRegistrationLayout";
 
 export default function EmployeeRegistration() {
   return (
     <PageLayout>
-      {" "}
-      <div className="flex flex-col w-full h-full bg-white p-6 rounded-lg shadow-md space-y-6">
+      <EmployeeRegistrationLayout>
         <StepIndicator activeStep={2} />
+
         <AddressForm />
-      </div>
+      </EmployeeRegistrationLayout>
     </PageLayout>
   );
 }
