@@ -6,13 +6,13 @@ import { useRouter } from "next/navigation";
 const steps = [
   { label: "Dados Pessoais", path: "/pessoal/cadastro/dadosPessoais" },
   { label: "Endereço", path: "/pessoal/cadastro/endereco" },
-  { label: "Contatos", path: "/" },
-  { label: "Dados Contratuais", path: "/" },
-  { label: "Documentos", path: "/" },
-  { label: "Dependentes", path: "/" },
+  { label: "Contatos", path: "/pessoal/cadastro/contatos" },
+  { label: "Dados Contratuais", path: "/pessoal/cadastro/dadosContratuais" },
+  { label: "Documentos", path: "/pessoal/cadastro/documentos" },
+  { label: "Dependentes", path: "/pessoal/cadastro/dependentes" },
   {
     label: "Informações Pessoais",
-    path: "/pessoal/cadastro/informacoes-pessoais",
+    path: "/pessoal/cadastro/informacoesPessoais",
   },
 ];
 
