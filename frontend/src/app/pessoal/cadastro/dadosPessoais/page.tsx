@@ -6,7 +6,6 @@ import { PageLayout } from "@/components/ui/layout/PageLayout";
 import EmployeeRegistrationLayout from "@/components/ui/layout/EmployeeRegistrationLayout";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FormActionsButton } from "@/components/ui/button/FormActionsButton";
 import {
   Select,
   SelectContent,
@@ -124,7 +123,104 @@ export default function EmployeeRegistration() {
             />
           </div>
         </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Linha 1 - Foto e Pessoa com Deficiência */}
+          <div>
+            <Label htmlFor="foto">Foto</Label>
+            <Input id="foto" type="file" />
+          </div>
 
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <input type="checkbox" id="deficiencia" />
+              <Label htmlFor="deficiencia">Pessoa com Deficiência</Label>
+            </div>
+            <div>
+              <Label htmlFor="tipoDeficiencia">Tipo de Deficiência</Label>
+              <Input
+                id="tipoDeficiencia"
+                type="text"
+                placeholder="Descreva o tipo de deficiência"
+              />
+            </div>
+          </div>
+
+          {/* Linha 2 - Escolaridade e Técnico */}
+          <div>
+            <Label htmlFor="escolaridade">Escolaridade</Label>
+            <Input
+              id="escolaridade"
+              type="text"
+              placeholder="Ex: Ensino Médio Completo"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="tecnico">Curso Técnico</Label>
+            <Input
+              id="tecnico"
+              type="text"
+              placeholder="Informe o curso técnico"
+            />
+          </div>
+
+          {/* Linha 3 - Ensino Superior e Pós-graduação */}
+          <div>
+            <Label htmlFor="superior">Ensino Superior</Label>
+            <Input
+              id="superior"
+              type="text"
+              placeholder="Informe o curso superior"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="posGraduacao">Pós-graduação</Label>
+            <Input
+              id="posGraduacao"
+              type="text"
+              placeholder="Informe sua pós-graduação"
+            />
+          </div>
+
+          {/* Linha 4 - Nacionalidade e Nome do Pai */}
+          <div>
+            <Label htmlFor="nacionalidadePai">Nacionalidade do Pai</Label>
+            <Input
+              id="nacionalidadePai"
+              type="text"
+              placeholder="Nacionalidade do pai"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="nomePai">Nome do Pai</Label>
+            <Input
+              id="nomePai"
+              type="text"
+              placeholder="Digite o nome do pai"
+            />
+          </div>
+
+          {/* Linha 5 - Nacionalidade e Nome da Mãe */}
+          <div>
+            <Label htmlFor="nacionalidadeMae">Nacionalidade da Mãe</Label>
+            <Input
+              id="nacionalidadeMae"
+              type="text"
+              placeholder="Nacionalidade da mãe"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="nomeMae">Nome da Mãe</Label>
+            <Input
+              id="nomeMae"
+              type="text"
+              placeholder="Digite o nome da mãe"
+            />
+          </div>
+        </div>
       </EmployeeRegistrationLayout>
     </PageLayout>
   );
