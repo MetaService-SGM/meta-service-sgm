@@ -1,9 +1,7 @@
 class EnderecoSerializer
   include JSONAPI::Serializer
 
-  attributes :ponto_referencia,
-             :ponto_encontro,
-             :cep,
+  attributes :cep,
              :uf,
              :municipio,
              :bairro,

@@ -6,5 +6,5 @@ class ContatoEmergencia < ApplicationRecord
   belongs_to :colaborador
   
   # Validações conforme as instruções
-  validates :nome, :telefone, :parentesco, presence: true
+  validates :nome, :telefone, :parentesco, :operadora, presence: true
 end

@@ -56,6 +56,6 @@ end
 gem 'devise', '~> 4.9'
 gem 'cpf_cnpj'
 gem 'devise_token_auth'
-
+gem 'image_processing', '~> 1.2'
 gem 'ransack', '~> 4.0'
 gem "jsonapi-serializer", "~> 2.2"
