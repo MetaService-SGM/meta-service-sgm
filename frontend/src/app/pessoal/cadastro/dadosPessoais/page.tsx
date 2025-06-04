@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { DatePicker } from "@/components/ui/date-picker";
 
 // url:
 // localhost:3000/pessoal/cadastro/dadosPessoais
@@ -47,7 +48,7 @@ export default function EmployeeRegistration() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
           <div>
             <Label htmlFor="dataNascimento">Data de Nascimento</Label>
-            <Input id="dataNascimento" type="date" />
+            <DatePicker/>
           </div>
 
           <div>

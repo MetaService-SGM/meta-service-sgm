@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { StepIndicator } from "../step-indicator";
 import { FormActionsButton } from "../button/FormActionsButton";
 
 interface EmployeeRegistrationLayoutProps {

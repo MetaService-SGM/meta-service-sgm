@@ -16,11 +16,12 @@ export function FormActionsButton({
   nextLabel = "Próximo",
 }: FormActionsProps) {
   return (
-    <div className="flex justify-end gap-4 mt-6">
+    <div className="flex justify-end gap-4 my-6">
+      
       <Button type="button" variant="outline" onClick={onCancel}>
         Cancelar
       </Button>
-      <Button type="button" variant="secondary" onClick={onSaveDraft}>
+      <Button type="button" variant="secondary" size="lg" onClick={onSaveDraft}>
         Salvar rascunho
       </Button>
       <Button
