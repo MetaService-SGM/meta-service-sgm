@@ -5,8 +5,8 @@ class UserSerializer < ApplicationSerializer
       email: user.email,
       cpf:  user.cpf,
       role: user.role,
-      tipo_contrato: user.tipo_contrato,
-      ativo: user.ativo,
+      contract_type: user.contract_type,
+      active: user.active,
       admin: user.admin?
     }
 

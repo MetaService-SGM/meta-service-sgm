@@ -1,18 +1,18 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
   
-  resources :colaboradors
-  resources :contrato_colaboradors
-  resources :enderecos, only: %i[index show create update destroy]
+  resources :employees
+  resources :contrato_employees
+  resources :addresses, only: %i[index show create update destroy]
   resources :materials, only: %i[index show create update destroy]
-  resources :prestadors, only: %i[index show create update destroy]
+  resources :providers, only: %i[index show create update destroy]
   resources :users, only: %i[index show create update destroy]
-  resources :dependentes, only: %i[index show create update destroy]
-  resources :contatos, only: %i[index show create update destroy]
-  resources :empresas, only: %i[index show create update destroy]
-  resources :cargos, only: %i[index show create update destroy]
-  resources :certificacaos, only: %i[index show create update destroy]
-  resources :departamentos, only: %i[index show create update destroy]
-  resources :dados_contratos, only: %i[index show create update destroy]
-  resources :contato_emergencia, only: %i[index show create update destroy]
+  resources :dependents, only: %i[index show create update destroy]
+  resources :contacts, only: %i[index show create update destroy]
+  resources :companies, only: %i[index show create update destroy]
+  resources :positions, only: %i[index show create update destroy]
+  resources :certifications, only: %i[index show create update destroy]
+  resources :departments, only: %i[index show create update destroy]
+  resources :employee_contracts, only: %i[index show create update destroy]
+  resources :emergency_contacts, only: %i[index show create update destroy]
 end

@@ -30,9 +30,10 @@ class MaterialsController < ApplicationController
 
   def material_params
     params.require(:material).permit(
-      :nome, :categoria, :unidade_medida,
-      :quantidade_minima, :quantidade_atual,
-      :certif_aprov, :tipo, :cor, :tamanho
+      :name, :category, :unit_of_measure,
+      :minimum_quantity, :current_quantity,
+      :approval_certificate, :material_type,
+      :color, :size, :internal_code
     )
   end
 end

@@ -1,30 +1,30 @@
 class Material < ApplicationRecord
-  before_create :set_cod_int
+  before_create :set_internal_code
   
-  validates :certif_aprov, presence: true, if: -> { categoria&.downcase == 'epi' }
+  validates :approval_certificate, presence: true, if: -> { category&.downcase == 'epi' }
 
   def self.ransackable_attributes(auth_object = nil)
     %w[
-      categoria
-      certif_aprov
-      cod_int
-      cor
+      category
+      approval_certificate
+      internal_code
+      color
       created_at
       id
-      nome
-      quantidade_atual
-      quantidade_minima
-      tamanho
-      tipo
-      unidade_medida
+      name
+      current_quantity
+      minimum_quantity
+      size
+      material_type
+      unit_of_measure
       updated_at
     ]
   end
 
   private
 
-  def set_cod_int
-    last_cod = Material.maximum(:cod_int) || 0
-    self.cod_int = last_cod + 1
+  def set_internal_code
+    last_cod = Material.maximum(:internal_code) || 0
+    self.internal_code = last_cod + 1
   end
   end
