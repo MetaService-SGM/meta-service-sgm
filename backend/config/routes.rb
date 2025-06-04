@@ -15,4 +15,7 @@ Rails.application.routes.draw do
   resources :departments, only: %i[index show create update destroy]
   resources :employee_contracts, only: %i[index show create update destroy]
   resources :emergency_contacts, only: %i[index show create update destroy]
+
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
 end
