@@ -1,0 +1,1299 @@
+---
+openapi: 3.0.1
+info:
+  title: Meta-Service-SGM API V1
+  version: v1
+paths:
+  "/addresses":
+    get:
+      summary: List addresses with filters
+      tags:
+      - Addresses
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: object
+          properties:
+            zip_code_cont:
+              type: string
+            state_cont:
+              type: string
+            city_cont:
+              type: string
+            district_cont:
+              type: string
+            street_cont:
+              type: string
+            number_eq:
+              type: string
+            complement_cont:
+              type: string
+            addressable_type_eq:
+              type: string
+            addressable_id_eq:
+              type: integer
+      responses:
+        '200':
+          description: addresses filtered
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+    post:
+      summary: create address
+      tags:
+      - Addresses
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                zip_code:
+                  type: string
+                state:
+                  type: string
+                city:
+                  type: string
+                district:
+                  type: string
+                street:
+                  type: string
+                number:
+                  type: string
+                complement:
+                  type: string
+                addressable_type:
+                  type: string
+                addressable_id:
+                  type: integer
+  "/addresses/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show address
+      tags:
+      - Addresses
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update address
+      tags:
+      - Addresses
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                city:
+                  type: string
+    delete:
+      summary: delete address
+      tags:
+      - Addresses
+      responses:
+        '204':
+          description: no content
+  "/certifications":
+    get:
+      summary: list certifications
+      tags:
+      - Certifications
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create certification
+      tags:
+      - Certifications
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                issue_date:
+                  type: string
+                  format: date
+                expiration_date:
+                  type: string
+                  format: date
+                employee_id:
+                  type: integer
+                position_id:
+                  type: integer
+              required:
+              - name
+              - issue_date
+              - employee_id
+  "/certifications/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show certification
+      tags:
+      - Certifications
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update certification
+      tags:
+      - Certifications
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                expiration_date:
+                  type: string
+                  format: date
+    delete:
+      summary: delete certification
+      tags:
+      - Certifications
+      responses:
+        '204':
+          description: no content
+  "/companies":
+    get:
+      summary: List companies with filters
+      tags:
+      - Companies
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: object
+          properties:
+            state_registration_eq:
+              type: string
+            municipal_registration_eq:
+              type: string
+            corporate_name_cont:
+              type: string
+            trade_name_cont:
+              type: string
+            business_segment_cont:
+              type: string
+      responses:
+        '200':
+          description: companies filtered
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+    post:
+      summary: create company
+      tags:
+      - Companies
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cnpj:
+                  type: string
+                state_registration:
+                  type: string
+                municipal_registration:
+                  type: string
+                corporate_name:
+                  type: string
+                trade_name:
+                  type: string
+                business_segment:
+                  type: string
+              required:
+              - cnpj
+              - corporate_name
+  "/companies/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show company
+      tags:
+      - Companies
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update company
+      tags:
+      - Companies
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                trade_name:
+                  type: string
+                business_segment:
+                  type: string
+    delete:
+      summary: delete company
+      tags:
+      - Companies
+      responses:
+        '204':
+          description: no content
+  "/contacts":
+    get:
+      summary: List contacts with filters
+      tags:
+      - Contacts
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: object
+          properties:
+            email_cont:
+              type: string
+            phone_cont:
+              type: string
+            phone_type_eq:
+              type: string
+            carrier_eq:
+              type: string
+            contactable_type_eq:
+              type: string
+            contactable_id_eq:
+              type: integer
+      responses:
+        '200':
+          description: contacts filtered
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+    post:
+      summary: create contact
+      tags:
+      - Contacts
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+                email:
+                  type: string
+                whatsapp:
+                  type: string
+                telegram:
+                  type: string
+                signal:
+                  type: string
+                contactable_type:
+                  type: string
+                contactable_id:
+                  type: integer
+                phone_type:
+                  type: string
+                department:
+                  type: string
+                carrier:
+                  type: string
+              required:
+              - phone
+              - contactable_type
+              - contactable_id
+  "/contacts/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show contact
+      tags:
+      - Contacts
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update contact
+      tags:
+      - Contacts
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+                email:
+                  type: string
+                whatsapp:
+                  type: string
+    delete:
+      summary: delete contact
+      tags:
+      - Contacts
+      responses:
+        '204':
+          description: no content
+  "/departments":
+    get:
+      summary: List departments with filters
+      tags:
+      - Departments
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: object
+          properties:
+            name_cont:
+              type: string
+      responses:
+        '200':
+          description: departments filtered
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+    post:
+      summary: create department
+      tags:
+      - Departments
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
+  "/departments/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show department
+      tags:
+      - Departments
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update department
+      tags:
+      - Departments
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+    delete:
+      summary: delete department
+      tags:
+      - Departments
+      responses:
+        '204':
+          description: no content
+  "/dependents":
+    get:
+      summary: List dependents with filters
+      tags:
+      - Dependents
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: object
+          properties:
+            employee_id_eq:
+              type: integer
+            created_at_gteq:
+              type: string
+              format: date-time
+            birth_date_eq:
+              type: string
+              format: date
+            full_name_cont:
+              type: string
+            kinship_eq:
+              type: string
+      responses:
+        '200':
+          description: dependents filtered
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+    post:
+      summary: create dependent
+      tags:
+      - Dependents
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                kinship:
+                  type: string
+                birth_date:
+                  type: string
+                  format: date
+                employee_id:
+                  type: integer
+              required:
+              - full_name
+              - employee_id
+  "/dependents/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show dependent
+      tags:
+      - Dependents
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update dependent
+      tags:
+      - Dependents
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                kinship:
+                  type: string
+    delete:
+      summary: delete dependent
+      tags:
+      - Dependents
+      responses:
+        '204':
+          description: no content
+  "/emergency_contacts":
+    get:
+      summary: list emergency contacts
+      tags:
+      - EmergencyContacts
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create emergency contact
+      tags:
+      - EmergencyContacts
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                phone:
+                  type: string
+                kinship:
+                  type: string
+                employee_id:
+                  type: integer
+                carrier:
+                  type: string
+              required:
+              - full_name
+              - phone
+              - kinship
+              - employee_id
+  "/emergency_contacts/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show emergency contact
+      tags:
+      - EmergencyContacts
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update emergency contact
+      tags:
+      - EmergencyContacts
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+                carrier:
+                  type: string
+    delete:
+      summary: delete emergency contact
+      tags:
+      - EmergencyContacts
+      responses:
+        '204':
+          description: no content
+  "/employee_contracts":
+    get:
+      summary: list employee_contracts
+      tags:
+      - EmployeeContracts
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: object
+          properties:
+            contract_type:
+              type: string
+            unit:
+              type: string
+            shift:
+              type: string
+            currency:
+              type: string
+            hourly_wage:
+              type: number
+            admission_date:
+              type: string
+              format: date
+            trial_period:
+              type: boolean
+            registration_number:
+              type: string
+            direct_supervisor:
+              type: string
+            hierarchy_level:
+              type: string
+            contract_date:
+              type: string
+              format: date
+            contract_duration:
+              type: integer
+            contract_expiration:
+              type: string
+              format: date
+            total_days:
+              type: integer
+            employee_id:
+              type: integer
+            position_id:
+              type: integer
+            department_id:
+              type: integer
+            total_hours:
+              type: integer
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create employee_contract
+      tags:
+      - EmployeeContracts
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contract_type:
+                  type: string
+                unit:
+                  type: string
+                shift:
+                  type: string
+                currency:
+                  type: string
+                hourly_wage:
+                  type: number
+                admission_date:
+                  type: string
+                  format: date
+                trial_period:
+                  type: string
+                registration_number:
+                  type: string
+                direct_supervisor:
+                  type: string
+                hierarchy_level:
+                  type: string
+                contract_date:
+                  type: string
+                  format: date
+                contract_duration:
+                  type: string
+                contract_expiration:
+                  type: string
+                  format: date
+                total_days:
+                  type: integer
+                employee_id:
+                  type: integer
+                position_id:
+                  type: integer
+                department_id:
+                  type: integer
+                start_date:
+                  type: string
+                  format: date
+                end_date:
+                  type: string
+                  format: date
+                total_hours:
+                  type: string
+  "/employee_contracts/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show employee_contract
+      tags:
+      - EmployeeContracts
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update employee_contract
+      tags:
+      - EmployeeContracts
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contract_type:
+                  type: string
+    delete:
+      summary: delete employee_contract
+      tags:
+      - EmployeeContracts
+      responses:
+        '204':
+          description: no content
+  "/employees":
+    get:
+      summary: list employees
+      tags:
+      - Employees
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: object
+          properties:
+            contract_type:
+              type: string
+            unit:
+              type: string
+            shift:
+              type: string
+            currency:
+              type: string
+            hourly_wage:
+              type: number
+            admission_date:
+              type: string
+              format: date
+            trial_period:
+              type: boolean
+            registration_number:
+              type: string
+            direct_supervisor:
+              type: string
+            hierarchy_level:
+              type: string
+            contract_date:
+              type: string
+              format: date
+            contract_duration:
+              type: integer
+            contract_expiration:
+              type: string
+              format: date
+            total_days:
+              type: integer
+            employee_id:
+              type: integer
+            position_id:
+              type: integer
+            department_id:
+              type: integer
+            total_hours:
+              type: integer
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create employee
+      tags:
+      - Employees
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                cpf:
+                  type: string
+                cbo:
+                  type: string
+                full_name:
+                  type: string
+                social_name:
+                  type: string
+                function:
+                  type: string
+                gender:
+                  type: string
+                birth_date:
+                  type: string
+                  format: date
+                ethnicity:
+                  type: string
+                marital_status:
+                  type: string
+                country:
+                  type: string
+                nationality:
+                  type: string
+                status:
+                  type: string
+                education_level:
+                  type: string
+                height:
+                  type: number
+                weight:
+                  type: number
+              required:
+              - first_name
+              - cpf
+  "/employees/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: ID do funcionário
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show employee
+      tags:
+      - Employees
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update employee
+      tags:
+      - Employees
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+    delete:
+      summary: delete employee
+      tags:
+      - Employees
+      responses:
+        '204':
+          description: no content
+  "/materials":
+    get:
+      summary: list materials
+      tags:
+      - Materials
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: object
+          properties:
+            category:
+              type: string
+            approval_certificate:
+              type: string
+            internal_code:
+              type: string
+            color:
+              type: string
+            created_at:
+              type: string
+              format: date_time
+            id:
+              type: integer
+            name:
+              type: string
+            current_quantity:
+              type: integer
+            minimum_quantity:
+              type: integer
+            size:
+              type: string
+            material_type:
+              type: string
+            unit_of_measure:
+              type: string
+            updated_at:
+              type: string
+              format: date_time
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create material
+      tags:
+      - Materials
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                category:
+                  type: string
+                unit_of_measure:
+                  type: string
+                minimum_quantity:
+                  type: integer
+                current_quantity:
+                  type: integer
+                approval_certificate:
+                  type: string
+                material_type:
+                  type: string
+                color:
+                  type: string
+                size:
+                  type: string
+                internal_code:
+                  type: string
+  "/materials/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show material
+      tags:
+      - Materials
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update material
+      tags:
+      - Materials
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                current_quantity:
+                  type: integer
+    delete:
+      summary: delete material
+      tags:
+      - Materials
+      responses:
+        '204':
+          description: no content
+  "/positions":
+    get:
+      summary: list positions
+      tags:
+      - Positions
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create position
+      tags:
+      - Positions
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
+  "/positions/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show position
+      tags:
+      - Positions
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update position
+      tags:
+      - Positions
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+    delete:
+      summary: delete position
+      tags:
+      - Positions
+      responses:
+        '204':
+          description: no content
+  "/providers":
+    get:
+      summary: list providers
+      tags:
+      - Providers
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create provider
+      tags:
+      - Providers
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                cnpj:
+                  type: string
+                address:
+                  type: string
+                phone:
+                  type: string
+                email:
+                  type: string
+  "/providers/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show provider
+      tags:
+      - Providers
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update provider
+      tags:
+      - Providers
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+    delete:
+      summary: delete provider
+      tags:
+      - Providers
+      responses:
+        '204':
+          description: no content
+  "/users":
+    get:
+      summary: list users
+      tags:
+      - Users
+      parameters:
+      - name: q
+        in: query
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            role:
+              type: string
+            cpf:
+              type: string
+            contract_type:
+              type: string
+            active:
+              type: boolean
+            admin:
+              type: boolean
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create user
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                role:
+                  type: string
+                cpf:
+                  type: string
+                contract_type:
+                  type: string
+                active:
+                  type: boolean
+                password:
+                  type: string
+              required:
+              - name
+              - email
+              - password
+  "/users/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show user
+      tags:
+      - Users
+      responses:
+        '200':
+          description: successful
+    patch:
+      summary: update user
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '200':
+          description: updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                role:
+                  type: string
+                contract_type:
+                  type: string
+                active:
+                  type: boolean
+    delete:
+      summary: delete user
+      tags:
+      - Users
+      responses:
+        '204':
+          description: no content
+servers:
+- url: http://localhost:3000
+  description: Develop Server
