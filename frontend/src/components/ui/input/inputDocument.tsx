@@ -5,7 +5,11 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { FiUpload } from "react-icons/fi";
 
-export function InputDocument() {
+interface InputDocumentProps {
+  label?: string;
+}
+
+export function InputDocument({ label = "Documento" }: InputDocumentProps) {
   const [fileName, setFileName] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,7 +19,7 @@ export function InputDocument() {
 
   return (
     <div className="flex flex-col w-full max-w-sm items-start gap-1.5 mx-4">
-      <Label htmlFor="documento">Documento</Label>
+      <Label htmlFor="documento">{label}</Label>
       <div className="relative w-full">
         <FiUpload
           className="absolute left-3 top-1/2 -translate-y-1/2 text-[#2B426E]"
@@ -30,9 +34,7 @@ export function InputDocument() {
         />
       </div>
       {fileName && (
-        <p className="text-sm text-muted-foreground">
-          Selecionado: {fileName}
-        </p>
+        <p className="text-sm text-muted-foreground">Selecionado: {fileName}</p>
       )}
     </div>
   );
