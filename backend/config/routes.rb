@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
-  
+
   resources :employees
-  resources :contrato_employees
   resources :addresses, only: %i[index show create update destroy]
   resources :materials, only: %i[index show create update destroy]
   resources :providers, only: %i[index show create update destroy]
@@ -14,7 +13,24 @@ Rails.application.routes.draw do
   resources :certifications, only: %i[index show create update destroy]
   resources :departments, only: %i[index show create update destroy]
   resources :employee_contracts, only: %i[index show create update destroy]
-  resources :emergency_contacts, only: %i[index show create update destroy]
+
+  resources :work_orders do
+    resources :work_order_materials, only: [:create, :update, :destroy]
+    resources :work_order_employees, only: [:create, :destroy]
+  end
+
+  resources :stock_movements, only: [:index] do
+    collection do
+      post :create_in
+      post :create_out
+      post :create_return
+      post :create_rollback
+    end
+
+    member do
+      patch :approve
+    end
+  end
 
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
