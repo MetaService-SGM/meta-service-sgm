@@ -252,15 +252,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_04_120245) do
   create_table "stock_movements", force: :cascade do |t|
     t.bigint "material_id", null: false
     t.bigint "work_order_id", null: false
-    t.string "movement_type"
+    t.integer "movement_type"
     t.float "quantity"
     t.datetime "moved_at"
     t.bigint "employee_id", null: false
     t.text "notes"
+    t.bigint "approver_id"
+    t.bigint "rollback_from_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["approver_id"], name: "index_stock_movements_on_approver_id"
     t.index ["employee_id"], name: "index_stock_movements_on_employee_id"
     t.index ["material_id"], name: "index_stock_movements_on_material_id"
+    t.index ["rollback_from_id"], name: "index_stock_movements_on_rollback_from_id"
     t.index ["work_order_id"], name: "index_stock_movements_on_work_order_id"
   end
 
@@ -309,6 +313,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_04_120245) do
     t.bigint "work_order_id", null: false
     t.bigint "material_id", null: false
     t.float "quantity"
+    t.float "returned_quantity", default: 0.0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["material_id"], name: "index_work_order_materials_on_material_id"
@@ -344,6 +349,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_04_120245) do
   add_foreign_key "employee_contracts", "positions"
   add_foreign_key "stock_movements", "employees"
   add_foreign_key "stock_movements", "materials"
+  add_foreign_key "stock_movements", "stock_movements", column: "rollback_from_id"
+  add_foreign_key "stock_movements", "users", column: "approver_id"
   add_foreign_key "stock_movements", "work_orders"
   add_foreign_key "work_order_employees", "employees"
   add_foreign_key "work_order_employees", "work_orders"
