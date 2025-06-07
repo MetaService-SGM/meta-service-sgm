@@ -2,8 +2,8 @@ require 'swagger_helper'
 
 RSpec.describe 'materials', type: :request do
   path '/materials' do
-    get('list materials') do
-      tags 'Materials'
+    get('list materials - Lista todos os Materiais (com ou sem filtro )') do
+      tags 'Materials - Materiais'
       produces 'application/json'
       parameter name: :q, in: :query, schema: {
         type: :object,
@@ -28,8 +28,8 @@ RSpec.describe 'materials', type: :request do
       end
     end
 
-    post('create material') do
-      tags 'Materials'
+    post('create material - Cadastra um Material') do
+      tags 'Materials - Materiais'
       consumes 'application/json'
       parameter name: :material, in: :body, schema: {
         type: :object,
@@ -57,8 +57,8 @@ RSpec.describe 'materials', type: :request do
   path '/materials/{id}' do
     parameter name: 'id', in: :path, type: :string
 
-    get('show material') do
-      tags 'Materials'
+    get('show material - Mostra detalhes de um Material') do
+      tags 'Materials - Materiais'
       produces 'application/json'
       response(200, 'successful') do
         let(:id) { '1' }
@@ -66,8 +66,8 @@ RSpec.describe 'materials', type: :request do
       end
     end
 
-    patch('update material') do
-      tags 'Materials'
+    patch('update material - Atualiza o cadastro de um Material') do
+      tags 'Materials - Materiais'
       consumes 'application/json'
       parameter name: :material, in: :body, schema: {
         type: :object,
@@ -83,8 +83,8 @@ RSpec.describe 'materials', type: :request do
       end
     end
 
-    delete('delete material') do
-      tags 'Materials'
+    delete('delete material - Exclui o cadastro de um Material') do
+      tags 'Materials - Materiais'
       response(204, 'no content') do
         let(:id) { '1' }
         run_test!

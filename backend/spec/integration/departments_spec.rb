@@ -2,8 +2,8 @@ require 'swagger_helper'
 
 RSpec.describe 'departments', type: :request do
   path '/departments' do
-    get 'List departments with filters' do
-      tags 'Departments'
+    get 'List departments with filters - Lista todos os cadastros dos Departamentos (com ou sem filtro)' do
+      tags 'Departments - Departamentos'
       produces 'application/json'
       parameter name: :q, in: :query, schema: {
         type: :object,
@@ -18,8 +18,8 @@ RSpec.describe 'departments', type: :request do
       end
     end
 
-    post('create department') do
-      tags 'Departments'
+    post('create department - Cadastra um Departamento') do
+      tags 'Departments - Departamentos'
       consumes 'application/json'
       parameter name: :department, in: :body, schema: {
         type: :object,
@@ -39,8 +39,8 @@ RSpec.describe 'departments', type: :request do
   path '/departments/{id}' do
     parameter name: 'id', in: :path, type: :string
 
-    get('show department') do
-      tags 'Departments'
+    get('show department - Mostra detalhes de um Departamento') do
+      tags 'Departments - Departamentos'
       produces 'application/json'
       response(200, 'successful') do
         let(:id) { '1' }
@@ -48,8 +48,8 @@ RSpec.describe 'departments', type: :request do
       end
     end
 
-    patch('update department') do
-      tags 'Departments'
+    patch('update department - Atualiza o cadastro de um Departamento') do
+      tags 'Departments - Departamentos'
       consumes 'application/json'
       parameter name: :department, in: :body, schema: {
         type: :object,
@@ -65,8 +65,8 @@ RSpec.describe 'departments', type: :request do
       end
     end
 
-    delete('delete department') do
-      tags 'Departments'
+    delete('delete department - Exclui o cadastro de um Departamento') do
+      tags 'Departments - Departamentos'
       response(204, 'no content') do
         let(:id) { '1' }
         run_test!

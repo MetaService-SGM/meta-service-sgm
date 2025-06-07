@@ -2,8 +2,8 @@ require 'swagger_helper'
 
 RSpec.describe 'contacts', type: :request do
   path '/contacts' do
-    get 'List contacts with filters' do
-      tags 'Contacts'
+    get 'List contacts with filters - Lista todos os contatos (com ou sem filtro)' do
+      tags 'Contacts - Contatos'
       produces 'application/json'
       parameter name: :q, in: :query, schema: {
         type: :object,
@@ -23,8 +23,8 @@ RSpec.describe 'contacts', type: :request do
       end
     end
 
-    post('create contact') do
-      tags 'Contacts'
+    post('create contact - Cadastra um contato') do
+      tags 'Contacts - Contatos'
       consumes 'application/json'
       parameter name: :contact, in: :body, schema: {
         type: :object,
@@ -64,8 +64,8 @@ RSpec.describe 'contacts', type: :request do
   path '/contacts/{id}' do
     parameter name: 'id', in: :path, type: :string
 
-    get('show contact') do
-      tags 'Contacts'
+    get('show contact - Mostra detalhes de um Contato') do
+      tags 'Contacts - Contatos'
       produces 'application/json'
       response(200, 'successful') do
         let(:id) { '1' }
@@ -73,8 +73,8 @@ RSpec.describe 'contacts', type: :request do
       end
     end
 
-    patch('update contact') do
-      tags 'Contacts'
+    patch('update contact - Atualiza o cadastro de um Contato') do
+      tags 'Contacts - Contatos'
       consumes 'application/json'
       parameter name: :contact, in: :body, schema: {
         type: :object,
@@ -92,8 +92,8 @@ RSpec.describe 'contacts', type: :request do
       end
     end
 
-    delete('delete contact') do
-      tags 'Contacts'
+    delete('delete contact - Excluio cadastro de um Contato') do
+      tags 'Contacts - Contatos'
       response(204, 'no content') do
         let(:id) { '1' }
         run_test!

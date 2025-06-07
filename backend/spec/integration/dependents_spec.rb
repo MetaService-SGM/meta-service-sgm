@@ -2,8 +2,8 @@ require 'swagger_helper'
 
 RSpec.describe 'dependents', type: :request do
   path '/dependents' do
-    get 'List dependents with filters' do
-      tags 'Dependents'
+    get 'List dependents with filters - Lista todos os cadastros dos Dependentes (com ou sem filtro)' do
+      tags 'Dependents - Dependentes'
       produces 'application/json'
       parameter name: :q, in: :query, schema: {
         type: :object,
@@ -22,8 +22,8 @@ RSpec.describe 'dependents', type: :request do
       end
     end
 
-    post('create dependent') do
-      tags 'Dependents'
+    post('create dependent - Cadastra um Dependente') do
+      tags 'Dependents - Dependentes'
       consumes 'application/json'
       parameter name: :dependent, in: :body, schema: {
         type: :object,
@@ -53,8 +53,8 @@ RSpec.describe 'dependents', type: :request do
   path '/dependents/{id}' do
     parameter name: 'id', in: :path, type: :string
 
-    get('show dependent') do
-      tags 'Dependents'
+    get('show dependent - Mostra detalhes de um Dependente') do
+      tags 'Dependents - Dependentes'
       produces 'application/json'
       response(200, 'successful') do
         let(:id) { '1' }
@@ -62,8 +62,8 @@ RSpec.describe 'dependents', type: :request do
       end
     end
 
-    patch('update dependent') do
-      tags 'Dependents'
+    patch('update dependent - Atualiza o casdastro de um Dependente') do
+      tags 'Dependents - Dependentes'
       consumes 'application/json'
       parameter name: :dependent, in: :body, schema: {
         type: :object,
@@ -80,8 +80,8 @@ RSpec.describe 'dependents', type: :request do
       end
     end
 
-    delete('delete dependent') do
-      tags 'Dependents'
+    delete('delete dependent - Exclui o cadastro de um Dependente') do
+      tags 'Dependents - Dependentes'
       response(204, 'no content') do
         let(:id) { '1' }
         run_test!

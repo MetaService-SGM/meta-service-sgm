@@ -2,8 +2,8 @@ require 'swagger_helper'
 
 RSpec.describe 'positions', type: :request do
   path '/positions' do
-    get('list positions') do
-      tags 'Positions'
+    get('list positions - Lista todos os Cargos (com ou sem filtro)') do
+      tags 'Positions - Cargos'
       produces 'application/json'
       parameter name: :q, in: :query, schema: {
         type: :object,
@@ -16,8 +16,8 @@ RSpec.describe 'positions', type: :request do
       end
     end
 
-    post('create position') do
-      tags 'Positions'
+    post('create position - Cadastra um Cargo') do
+      tags 'Positions - Cargos'
       consumes 'application/json'
       parameter name: :position, in: :body, schema: {
         type: :object,
@@ -37,8 +37,8 @@ RSpec.describe 'positions', type: :request do
   path '/positions/{id}' do
     parameter name: 'id', in: :path, type: :string
 
-    get('show position') do
-      tags 'Positions'
+    get('show position - Mostra detalhes de um Cargo') do
+      tags 'Positions - Cargos'
       produces 'application/json'
       response(200, 'successful') do
         let(:id) { '1' }
@@ -46,8 +46,8 @@ RSpec.describe 'positions', type: :request do
       end
     end
 
-    patch('update position') do
-      tags 'Positions'
+    patch('update position - Atualiza o cadastro de um Cargo') do
+      tags 'Positions - Cargos'
       consumes 'application/json'
       parameter name: :position, in: :body, schema: {
         type: :object,
@@ -63,8 +63,8 @@ RSpec.describe 'positions', type: :request do
       end
     end
 
-    delete('delete position') do
-      tags 'Positions'
+    delete('delete position - Exclui o cadastro de um Cargo') do
+      tags 'Positions - Cargos'
       response(204, 'no content') do
         let(:id) { '1' }
         run_test!

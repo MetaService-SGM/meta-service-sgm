@@ -2,8 +2,8 @@ require 'swagger_helper'
 
 RSpec.describe 'users', type: :request do
   path '/users' do
-    get('list users') do
-      tags 'Users'
+    get('list users - Lista todos os Usuários (com ou sem filtro)') do
+      tags 'Users - Usuários'
       produces 'application/json'
       parameter name: :q, in: :query, schema: {
         type: :object,
@@ -22,8 +22,8 @@ RSpec.describe 'users', type: :request do
       end
     end
 
-    post('create user') do
-      tags 'Users'
+    post('create user - Cadastra um Usuário') do
+      tags 'Users - Usuários'
       consumes 'application/json'
       parameter name: :user, in: :body, schema: {
         type: :object,
@@ -59,8 +59,8 @@ RSpec.describe 'users', type: :request do
   path '/users/{id}' do
     parameter name: 'id', in: :path, type: :string
 
-    get('show user') do
-      tags 'Users'
+    get('show user - Mostra detalhes de um Usuário') do
+      tags 'Users - Usuários'
       produces 'application/json'
       response(200, 'successful') do
         let(:id) { '1' }
@@ -68,8 +68,8 @@ RSpec.describe 'users', type: :request do
       end
     end
 
-    patch('update user') do
-      tags 'Users'
+    patch('update user - Atualiza o cadastro de um Usuário') do
+      tags 'Users - Usuários'
       consumes 'application/json'
       parameter name: :user, in: :body, schema: {
         type: :object,
@@ -88,8 +88,8 @@ RSpec.describe 'users', type: :request do
       end
     end
 
-    delete('delete user') do
-      tags 'Users'
+    delete('delete user - Excluui o cadastro de um Usuário') do
+      tags 'Users - Usuários'
       response(204, 'no content') do
         let(:id) { '1' }
         run_test!
