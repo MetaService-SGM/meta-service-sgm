@@ -2,8 +2,8 @@ require 'swagger_helper'
 
 RSpec.describe 'employee_contracts', type: :request do
   path '/employee_contracts' do
-    get('list employee_contracts') do
-      tags 'EmployeeContracts'
+    get('list employee_contracts with filters - Lista todos cadastros dos Contratos de Colaboradores (com ou sem filtro)') do
+      tags 'EmployeeContracts - Contratos de Colaborador'
       produces 'application/json'
       parameter name: :q, in: :query, schema: {
         type: :object,
@@ -33,8 +33,8 @@ RSpec.describe 'employee_contracts', type: :request do
       end
     end
 
-    post('create employee_contract') do
-      tags 'EmployeeContracts'
+    post('create employee_contract - Cadastra um Contrato de Colaborador') do
+      tags 'EmployeeContracts - Contratos de Colaborador'
       consumes 'application/json'
       parameter name: :employee_contract, in: :body, schema: {
         type: :object,
@@ -72,8 +72,8 @@ RSpec.describe 'employee_contracts', type: :request do
   path '/employee_contracts/{id}' do
     parameter name: 'id', in: :path, type: :string
 
-    get('show employee_contract') do
-      tags 'EmployeeContracts'
+    get('show employee_contract - Mostra detalhes de um Contrato de Colaborador') do
+      tags 'EmployeeContracts - Contratos de Colaborador'
       produces 'application/json'
       response(200, 'successful') do
         let(:id) { '1' }
@@ -81,8 +81,8 @@ RSpec.describe 'employee_contracts', type: :request do
       end
     end
 
-    patch('update employee_contract') do
-      tags 'EmployeeContracts'
+    patch('update employee_contract - Atualiza o cadastro de um Contrato de Colaborador') do
+      tags 'EmployeeContracts - Contratos de Colaborador'
       consumes 'application/json'
       parameter name: :employee_contract, in: :body, schema: {
         type: :object,
@@ -98,8 +98,8 @@ RSpec.describe 'employee_contracts', type: :request do
       end
     end
 
-    delete('delete employee_contract') do
-      tags 'EmployeeContracts'
+    delete('delete employee_contract - Exclui o cadastro de um Contrato de Colaborador') do
+      tags 'EmployeeContracts - Contratos de Colaborador'
       response(204, 'no content') do
         let(:id) { '1' }
         run_test!

@@ -2,8 +2,8 @@ require 'swagger_helper'
 
 RSpec.describe 'companies', type: :request do
   path '/companies' do
-    get 'List companies with filters' do
-      tags 'Companies'
+    get 'List companies with filters - Lista Todas as Empresas (com ou sem filtro)' do
+      tags 'Companies - Empresas'
       produces 'application/json'
       parameter name: :q, in: :query, schema: {
         type: :object,
@@ -22,8 +22,8 @@ RSpec.describe 'companies', type: :request do
       end
     end
 
-    post('create company') do
-      tags 'Companies'
+    post('create company - Cadastra uma Empresa') do
+      tags 'Companies - Empresas'
       consumes 'application/json'
       parameter name: :company, in: :body, schema: {
         type: :object,
@@ -57,8 +57,8 @@ RSpec.describe 'companies', type: :request do
   path '/companies/{id}' do
     parameter name: 'id', in: :path, type: :string
 
-    get('show company') do
-      tags 'Companies'
+    get('show company - Mostra detalhes de uma Empresa') do
+      tags 'Companies - Empresas'
       produces 'application/json'
       response(200, 'successful') do
         let(:id) { '1' }
@@ -66,8 +66,8 @@ RSpec.describe 'companies', type: :request do
       end
     end
 
-    patch('update company') do
-      tags 'Companies'
+    patch('update company - Atualiza o cadastro de uma Empresa') do
+      tags 'Companies - Empresas'
       consumes 'application/json'
       parameter name: :company, in: :body, schema: {
         type: :object,
@@ -84,8 +84,8 @@ RSpec.describe 'companies', type: :request do
       end
     end
 
-    delete('delete company') do
-      tags 'Companies'
+    delete('delete company - Exclui o cadastro de uma Empresa') do
+      tags 'Companies - Empresas'
       response(204, 'no content') do
         let(:id) { '1' }
         run_test!

@@ -13,5 +13,7 @@ load Rails.root.join("db/seeds/departments.rb")
 load Rails.root.join("db/seeds/employee_contracts.rb")
 load Rails.root.join("db/seeds/emergency_contacts.rb")
 load Rails.root.join("db/seeds/certifications.rb")
+load Rails.root.join("db/seeds/work_orders.rb")
+load Rails.root.join("db/seeds/stock_movements_seed.rb")
 
 puts "Seed finalizada!"

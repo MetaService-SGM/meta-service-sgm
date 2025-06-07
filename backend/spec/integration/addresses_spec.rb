@@ -2,8 +2,8 @@ require 'swagger_helper'
 
 RSpec.describe 'addresses', type: :request do
   path '/addresses' do
-    get 'List addresses with filters' do
-      tags 'Addresses'
+    get 'List addresses with filters - Lista todos endereços (com ou sem filtro)' do
+      tags 'Addresses - Endereços'
       produces 'application/json'
       parameter name: :q, in: :query, schema: {
         type: :object,
@@ -26,8 +26,8 @@ RSpec.describe 'addresses', type: :request do
       end
     end
 
-    post('create address') do
-      tags 'Addresses'
+    post('create address - Cadastra um endereço') do
+      tags 'Addresses - Endereços'
       consumes 'application/json'
       parameter name: :address, in: :body, schema: {
         type: :object,
@@ -54,8 +54,8 @@ RSpec.describe 'addresses', type: :request do
   path '/addresses/{id}' do
     parameter name: 'id', in: :path, type: :string
 
-    get('show address') do
-      tags 'Addresses'
+    get('show address - Mostra detalhes de um Endereço') do
+      tags 'Addresses - Endereços'
       produces 'application/json'
       response(200, 'successful') do
         let(:id) { '1' }
@@ -63,8 +63,8 @@ RSpec.describe 'addresses', type: :request do
       end
     end
 
-    patch('update address') do
-      tags 'Addresses'
+    patch('update address - Atualiza o cadastro de um Endereço') do
+      tags 'Addresses - Endereços'
       consumes 'application/json'
       parameter name: :address, in: :body, schema: {
         type: :object,
@@ -80,8 +80,8 @@ RSpec.describe 'addresses', type: :request do
       end
     end
 
-    delete('delete address') do
-      tags 'Addresses'
+    delete('delete address - Exclui cadastro de um Endereço') do
+      tags 'Addresses - Endereços'
       response(204, 'no content') do
         let(:id) { '1' }
         run_test!

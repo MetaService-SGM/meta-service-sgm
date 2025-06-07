@@ -2,8 +2,8 @@ require 'swagger_helper'
 
 RSpec.describe 'employees', type: :request do
   path '/employees' do
-    get('list employees') do
-      tags 'Employees'
+    get('list employees - Lista todos os Colaboradores') do
+      tags 'Employees - Colaboradores'
       produces 'application/json'
       parameter name: :q, in: :query, schema: {
         type: :object,
@@ -33,8 +33,8 @@ RSpec.describe 'employees', type: :request do
       end
     end
 
-    post('create employee') do
-      tags 'Employees'
+    post('create employee - Cadastra um Colaborador') do
+      tags 'Employees - Colaboradores'
       consumes 'application/json'
       parameter name: :employee, in: :body, schema: {
         type: :object,
@@ -69,8 +69,8 @@ RSpec.describe 'employees', type: :request do
   path '/employees/{id}' do
     parameter name: 'id', in: :path, type: :string, description: 'ID do funcionário'
 
-    get('show employee') do
-      tags 'Employees'
+    get('show employee - Mostra detalhes de um Colaborador') do
+      tags 'Employees - Colaboradores'
       produces 'application/json'
       response(200, 'successful') do
         let(:id) { '1' }
@@ -78,8 +78,8 @@ RSpec.describe 'employees', type: :request do
       end
     end
 
-    patch('update employee') do
-      tags 'Employees'
+    patch('update employee - Atualiza o cadastro de um Colaborador') do
+      tags 'Employees - Colaboradores'
       consumes 'application/json'
       parameter name: :employee, in: :body, schema: {
         type: :object,
@@ -95,8 +95,8 @@ RSpec.describe 'employees', type: :request do
       end
     end
 
-    delete('delete employee') do
-      tags 'Employees'
+    delete('delete employee - Exclui o cadastro de um Colaborador') do
+      tags 'Employees - Colaboradores'
       response(204, 'no content') do
         let(:id) { '1' }
         run_test!

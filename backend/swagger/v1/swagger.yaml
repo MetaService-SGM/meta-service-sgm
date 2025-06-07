@@ -3,12 +3,35 @@ openapi: 3.0.1
 info:
   title: Meta-Service-SGM API V1
   version: v1
+components:
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: access-token
+      description: 'Token de autenticação (Devise Token Auth). Requer também os headers:
+        client e uid.'
+    clientHeader:
+      type: apiKey
+      in: header
+      name: client
+    uidHeader:
+      type: apiKey
+      in: header
+      name: uid
+security:
+- tokenAuth: []
+- clientHeader: []
+- uidHeader: []
+servers:
+- url: http://localhost:3000
+  description: Servidor de Desenvolvimento
 paths:
   "/addresses":
     get:
-      summary: List addresses with filters
+      summary: List addresses with filters - Lista todos endereços (com ou sem filtro)
       tags:
-      - Addresses
+      - Addresses - Endereços
       parameters:
       - name: q
         in: query
@@ -43,9 +66,9 @@ paths:
                 items:
                   type: object
     post:
-      summary: create address
+      summary: create address - Cadastra um endereço
       tags:
-      - Addresses
+      - Addresses - Endereços
       parameters: []
       responses:
         '201':
@@ -82,16 +105,16 @@ paths:
       schema:
         type: string
     get:
-      summary: show address
+      summary: show address - Mostra detalhes de um Endereço
       tags:
-      - Addresses
+      - Addresses - Endereços
       responses:
         '200':
           description: successful
     patch:
-      summary: update address
+      summary: update address - Atualiza o cadastro de um Endereço
       tags:
-      - Addresses
+      - Addresses - Endereços
       parameters: []
       responses:
         '200':
@@ -105,24 +128,24 @@ paths:
                 city:
                   type: string
     delete:
-      summary: delete address
+      summary: delete address - Exclui cadastro de um Endereço
       tags:
-      - Addresses
+      - Addresses - Endereços
       responses:
         '204':
           description: no content
   "/certifications":
     get:
-      summary: list certifications
+      summary: list certifications - Lista Todos Certificados
       tags:
-      - Certifications
+      - Certifications - Certificados
       responses:
         '200':
           description: successful
     post:
-      summary: create certification
+      summary: create certification - Cadastra um Certificado
       tags:
-      - Certifications
+      - Certifications - Certificados
       parameters: []
       responses:
         '201':
@@ -157,16 +180,16 @@ paths:
       schema:
         type: string
     get:
-      summary: show certification
+      summary: show certification - Mostra detalhes de um Certificado
       tags:
-      - Certifications
+      - Certifications - Certificados
       responses:
         '200':
           description: successful
     patch:
-      summary: update certification
+      summary: update certification - Atualiza o Cadastro de um Certificado
       tags:
-      - Certifications
+      - Certifications - Certificados
       parameters: []
       responses:
         '200':
@@ -183,17 +206,17 @@ paths:
                   type: string
                   format: date
     delete:
-      summary: delete certification
+      summary: delete certification - Exclui um Certificado
       tags:
-      - Certifications
+      - Certifications - Certificados
       responses:
         '204':
           description: no content
   "/companies":
     get:
-      summary: List companies with filters
+      summary: List companies with filters - Lista Todas as Empresas (com ou sem filtro)
       tags:
-      - Companies
+      - Companies - Empresas
       parameters:
       - name: q
         in: query
@@ -220,9 +243,9 @@ paths:
                 items:
                   type: object
     post:
-      summary: create company
+      summary: create company - Cadastra uma Empresa
       tags:
-      - Companies
+      - Companies - Empresas
       parameters: []
       responses:
         '201':
@@ -256,16 +279,16 @@ paths:
       schema:
         type: string
     get:
-      summary: show company
+      summary: show company - Mostra detalhes de uma Empresa
       tags:
-      - Companies
+      - Companies - Empresas
       responses:
         '200':
           description: successful
     patch:
-      summary: update company
+      summary: update company - Atualiza o cadastro de uma Empresa
       tags:
-      - Companies
+      - Companies - Empresas
       parameters: []
       responses:
         '200':
@@ -281,17 +304,17 @@ paths:
                 business_segment:
                   type: string
     delete:
-      summary: delete company
+      summary: delete company - Exclui o cadastro de uma Empresa
       tags:
-      - Companies
+      - Companies - Empresas
       responses:
         '204':
           description: no content
   "/contacts":
     get:
-      summary: List contacts with filters
+      summary: List contacts with filters - Lista todos os contatos (com ou sem filtro)
       tags:
-      - Contacts
+      - Contacts - Contatos
       parameters:
       - name: q
         in: query
@@ -320,9 +343,9 @@ paths:
                 items:
                   type: object
     post:
-      summary: create contact
+      summary: create contact - Cadastra um contato
       tags:
-      - Contacts
+      - Contacts - Contatos
       parameters: []
       responses:
         '201':
@@ -365,16 +388,16 @@ paths:
       schema:
         type: string
     get:
-      summary: show contact
+      summary: show contact - Mostra detalhes de um Contato
       tags:
-      - Contacts
+      - Contacts - Contatos
       responses:
         '200':
           description: successful
     patch:
-      summary: update contact
+      summary: update contact - Atualiza o cadastro de um Contato
       tags:
-      - Contacts
+      - Contacts - Contatos
       parameters: []
       responses:
         '200':
@@ -392,17 +415,18 @@ paths:
                 whatsapp:
                   type: string
     delete:
-      summary: delete contact
+      summary: delete contact - Excluio cadastro de um Contato
       tags:
-      - Contacts
+      - Contacts - Contatos
       responses:
         '204':
           description: no content
   "/departments":
     get:
-      summary: List departments with filters
+      summary: List departments with filters - Lista todos os cadastros dos Departamentos
+        (com ou sem filtro)
       tags:
-      - Departments
+      - Departments - Departamentos
       parameters:
       - name: q
         in: query
@@ -421,9 +445,9 @@ paths:
                 items:
                   type: object
     post:
-      summary: create department
+      summary: create department - Cadastra um Departamento
       tags:
-      - Departments
+      - Departments - Departamentos
       parameters: []
       responses:
         '201':
@@ -446,16 +470,16 @@ paths:
       schema:
         type: string
     get:
-      summary: show department
+      summary: show department - Mostra detalhes de um Departamento
       tags:
-      - Departments
+      - Departments - Departamentos
       responses:
         '200':
           description: successful
     patch:
-      summary: update department
+      summary: update department - Atualiza o cadastro de um Departamento
       tags:
-      - Departments
+      - Departments - Departamentos
       parameters: []
       responses:
         '200':
@@ -469,17 +493,18 @@ paths:
                 name:
                   type: string
     delete:
-      summary: delete department
+      summary: delete department - Exclui o cadastro de um Departamento
       tags:
-      - Departments
+      - Departments - Departamentos
       responses:
         '204':
           description: no content
   "/dependents":
     get:
-      summary: List dependents with filters
+      summary: List dependents with filters - Lista todos os cadastros dos Dependentes
+        (com ou sem filtro)
       tags:
-      - Dependents
+      - Dependents - Dependentes
       parameters:
       - name: q
         in: query
@@ -508,9 +533,9 @@ paths:
                 items:
                   type: object
     post:
-      summary: create dependent
+      summary: create dependent - Cadastra um Dependente
       tags:
-      - Dependents
+      - Dependents - Dependentes
       parameters: []
       responses:
         '201':
@@ -541,16 +566,16 @@ paths:
       schema:
         type: string
     get:
-      summary: show dependent
+      summary: show dependent - Mostra detalhes de um Dependente
       tags:
-      - Dependents
+      - Dependents - Dependentes
       responses:
         '200':
           description: successful
     patch:
-      summary: update dependent
+      summary: update dependent - Atualiza o casdastro de um Dependente
       tags:
-      - Dependents
+      - Dependents - Dependentes
       parameters: []
       responses:
         '200':
@@ -566,24 +591,25 @@ paths:
                 kinship:
                   type: string
     delete:
-      summary: delete dependent
+      summary: delete dependent - Exclui o cadastro de um Dependente
       tags:
-      - Dependents
+      - Dependents - Dependentes
       responses:
         '204':
           description: no content
   "/emergency_contacts":
     get:
-      summary: list emergency contacts
+      summary: list emergency contacts - Lista todos os cadastros dos Contatos de
+        Emergência
       tags:
-      - EmergencyContacts
+      - EmergencyContacts - Contatos de Emergência
       responses:
         '200':
           description: successful
     post:
-      summary: create emergency contact
+      summary: create emergency contact - Cadastra um Contato de Emergência
       tags:
-      - EmergencyContacts
+      - EmergencyContacts - Contatos de Emergência
       parameters: []
       responses:
         '201':
@@ -617,16 +643,16 @@ paths:
       schema:
         type: string
     get:
-      summary: show emergency contact
+      summary: show emergency contact - Mostra detalhes de um Contato de Emergência
       tags:
-      - EmergencyContacts
+      - EmergencyContacts - Contatos de Emergência
       responses:
         '200':
           description: successful
     patch:
-      summary: update emergency contact
+      summary: update emergency contact - Atualiza o cadastro de um Contato de Emergência
       tags:
-      - EmergencyContacts
+      - EmergencyContacts - Contatos de Emergência
       parameters: []
       responses:
         '200':
@@ -642,17 +668,18 @@ paths:
                 carrier:
                   type: string
     delete:
-      summary: delete emergency contact
+      summary: delete emergency contact - Exclui o cadastro de um Contato de Emergência
       tags:
-      - EmergencyContacts
+      - EmergencyContacts - Contatos de Emergência
       responses:
         '204':
           description: no content
   "/employee_contracts":
     get:
-      summary: list employee_contracts
+      summary: list employee_contracts with filters - Lista todos cadastros dos Contratos
+        de Colaboradores (com ou sem filtro)
       tags:
-      - EmployeeContracts
+      - EmployeeContracts - Contratos de Colaborador
       parameters:
       - name: q
         in: query
@@ -702,9 +729,9 @@ paths:
         '200':
           description: successful
     post:
-      summary: create employee_contract
+      summary: create employee_contract - Cadastra um Contrato de Colaborador
       tags:
-      - EmployeeContracts
+      - EmployeeContracts - Contratos de Colaborador
       parameters: []
       responses:
         '201':
@@ -768,16 +795,16 @@ paths:
       schema:
         type: string
     get:
-      summary: show employee_contract
+      summary: show employee_contract - Mostra detalhes de um Contrato de Colaborador
       tags:
-      - EmployeeContracts
+      - EmployeeContracts - Contratos de Colaborador
       responses:
         '200':
           description: successful
     patch:
-      summary: update employee_contract
+      summary: update employee_contract - Atualiza o cadastro de um Contrato de Colaborador
       tags:
-      - EmployeeContracts
+      - EmployeeContracts - Contratos de Colaborador
       parameters: []
       responses:
         '200':
@@ -791,17 +818,17 @@ paths:
                 contract_type:
                   type: string
     delete:
-      summary: delete employee_contract
+      summary: delete employee_contract - Exclui o cadastro de um Contrato de Colaborador
       tags:
-      - EmployeeContracts
+      - EmployeeContracts - Contratos de Colaborador
       responses:
         '204':
           description: no content
   "/employees":
     get:
-      summary: list employees
+      summary: list employees - Lista todos os Colaboradores
       tags:
-      - Employees
+      - Employees - Colaboradores
       parameters:
       - name: q
         in: query
@@ -851,9 +878,9 @@ paths:
         '200':
           description: successful
     post:
-      summary: create employee
+      summary: create employee - Cadastra um Colaborador
       tags:
-      - Employees
+      - Employees - Colaboradores
       parameters: []
       responses:
         '201':
@@ -909,16 +936,16 @@ paths:
       schema:
         type: string
     get:
-      summary: show employee
+      summary: show employee - Mostra detalhes de um Colaborador
       tags:
-      - Employees
+      - Employees - Colaboradores
       responses:
         '200':
           description: successful
     patch:
-      summary: update employee
+      summary: update employee - Atualiza o cadastro de um Colaborador
       tags:
-      - Employees
+      - Employees - Colaboradores
       parameters: []
       responses:
         '200':
@@ -932,17 +959,17 @@ paths:
                 full_name:
                   type: string
     delete:
-      summary: delete employee
+      summary: delete employee - Exclui o cadastro de um Colaborador
       tags:
-      - Employees
+      - Employees - Colaboradores
       responses:
         '204':
           description: no content
   "/materials":
     get:
-      summary: list materials
+      summary: list materials - Lista todos os Materiais (com ou sem filtro )
       tags:
-      - Materials
+      - Materials - Materiais
       parameters:
       - name: q
         in: query
@@ -981,9 +1008,9 @@ paths:
         '200':
           description: successful
     post:
-      summary: create material
+      summary: create material - Cadastra um Material
       tags:
-      - Materials
+      - Materials - Materiais
       parameters: []
       responses:
         '201':
@@ -1022,16 +1049,16 @@ paths:
       schema:
         type: string
     get:
-      summary: show material
+      summary: show material - Mostra detalhes de um Material
       tags:
-      - Materials
+      - Materials - Materiais
       responses:
         '200':
           description: successful
     patch:
-      summary: update material
+      summary: update material - Atualiza o cadastro de um Material
       tags:
-      - Materials
+      - Materials - Materiais
       parameters: []
       responses:
         '200':
@@ -1045,17 +1072,17 @@ paths:
                 current_quantity:
                   type: integer
     delete:
-      summary: delete material
+      summary: delete material - Exclui o cadastro de um Material
       tags:
-      - Materials
+      - Materials - Materiais
       responses:
         '204':
           description: no content
   "/positions":
     get:
-      summary: list positions
+      summary: list positions - Lista todos os Cargos (com ou sem filtro)
       tags:
-      - Positions
+      - Positions - Cargos
       parameters:
       - name: q
         in: query
@@ -1068,9 +1095,9 @@ paths:
         '200':
           description: successful
     post:
-      summary: create position
+      summary: create position - Cadastra um Cargo
       tags:
-      - Positions
+      - Positions - Cargos
       parameters: []
       responses:
         '201':
@@ -1093,16 +1120,16 @@ paths:
       schema:
         type: string
     get:
-      summary: show position
+      summary: show position - Mostra detalhes de um Cargo
       tags:
-      - Positions
+      - Positions - Cargos
       responses:
         '200':
           description: successful
     patch:
-      summary: update position
+      summary: update position - Atualiza o cadastro de um Cargo
       tags:
-      - Positions
+      - Positions - Cargos
       parameters: []
       responses:
         '200':
@@ -1116,24 +1143,24 @@ paths:
                 name:
                   type: string
     delete:
-      summary: delete position
+      summary: delete position - Exclui o cadastro de um Cargo
       tags:
-      - Positions
+      - Positions - Cargos
       responses:
         '204':
           description: no content
   "/providers":
     get:
-      summary: list providers
+      summary: list providers - Lista Todos Fornecedores
       tags:
-      - Providers
+      - Providers - Fornecedores
       responses:
         '200':
           description: successful
     post:
-      summary: create provider
+      summary: create provider - Cadastra um Fornecedor
       tags:
-      - Providers
+      - Providers - Fornecedores
       parameters: []
       responses:
         '201':
@@ -1162,16 +1189,16 @@ paths:
       schema:
         type: string
     get:
-      summary: show provider
+      summary: show provider - Mostra detalhes de um Fornecedor
       tags:
-      - Providers
+      - Providers - Fornecedores
       responses:
         '200':
           description: successful
     patch:
-      summary: update provider
+      summary: update provider - Atualiza o Cadastro de um Fornecedor
       tags:
-      - Providers
+      - Providers - Fornecedores
       parameters: []
       responses:
         '200':
@@ -1185,17 +1212,179 @@ paths:
                 email:
                   type: string
     delete:
-      summary: delete provider
+      summary: delete provider - Exclui um Fornecedor
       tags:
-      - Providers
+      - Providers - Fornecedores
       responses:
         '204':
           description: no content
+  "/stock_movements":
+    get:
+      summary: List stock movements - Lista todos os movimentos de estoque
+      tags:
+      - Stock Movements - Movimentos de Estoque
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: sucesso
+  "/stock_movements/create_in":
+    post:
+      summary: Create entry movements - Cria movimento de entrada
+      tags:
+      - Stock Movements - Movimentos de Estoque
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '201':
+          description: criado com sucesso
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stock_movement:
+                  type: object
+                  properties:
+                    material_id:
+                      type: integer
+                    work_order_id:
+                      type: integer
+                    quantity:
+                      type: number
+                    moved_at:
+                      type: string
+                      format: date_time
+                    notes:
+                      type: string
+                    employee_id:
+                      type: integer
+                  required:
+                  - material_id
+                  - work_order_id
+                  - quantity
+                  - moved_at
+                  - employee_id
+  "/stock_movements/create_out":
+    post:
+      summary: Create outgoing movement. - Cria movimento de saída
+      tags:
+      - Stock Movements - Movimentos de Estoque
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '201':
+          description: criado com sucesso
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stock_movement:
+                  type: object
+                  properties:
+                    material_id:
+                      type: integer
+                    work_order_id:
+                      type: integer
+                    quantity:
+                      type: number
+                    moved_at:
+                      type: string
+                      format: date
+                    notes:
+                      type: string
+                    employee_id:
+                      type: integer
+                  required:
+                  - material_id
+                  - work_order_id
+                  - quantity
+                  - moved_at
+                  - employee_id
+  "/stock_movements/create_return":
+    post:
+      summary: Create return movement - Cria movimento de retorno
+      tags:
+      - Stock Movements - Movimentos de Estoque
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '201':
+          description: criado com sucesso
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stock_movement:
+                  type: object
+                  properties:
+                    material_id:
+                      type: integer
+                    work_order_id:
+                      type: integer
+                    quantity:
+                      type: number
+                    moved_at:
+                      type: string
+                      format: date
+                    notes:
+                      type: string
+                    employee_id:
+                      type: integer
+                  required:
+                  - material_id
+                  - work_order_id
+                  - quantity
+                  - moved_at
+                  - employee_id
+  "/stock_movements/create_rollback":
+    post:
+      summary: Create movements rollback - Cria rollback de movimento
+      tags:
+      - Stock Movements - Movimentos de Estoque
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '201':
+          description: rollback criado com sucesso
+        '404':
+          description: movimentação não encontrada
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stock_movement:
+                  type: object
+                  properties:
+                    stock_movement_id:
+                      type: integer
+                    moved_at:
+                      type: string
+                      format: date
+                    notes:
+                      type: string
+                    employee_id:
+                      type: integer
+                  required:
+                  - stock_movement_id
+                  - moved_at
+                  - employee_id
   "/users":
     get:
-      summary: list users
+      summary: list users - Lista todos os Usuários (com ou sem filtro)
       tags:
-      - Users
+      - Users - Usuários
       parameters:
       - name: q
         in: query
@@ -1220,9 +1409,9 @@ paths:
         '200':
           description: successful
     post:
-      summary: create user
+      summary: create user - Cadastra um Usuário
       tags:
-      - Users
+      - Users - Usuários
       parameters: []
       responses:
         '201':
@@ -1259,16 +1448,16 @@ paths:
       schema:
         type: string
     get:
-      summary: show user
+      summary: show user - Mostra detalhes de um Usuário
       tags:
-      - Users
+      - Users - Usuários
       responses:
         '200':
           description: successful
     patch:
-      summary: update user
+      summary: update user - Atualiza o cadastro de um Usuário
       tags:
-      - Users
+      - Users - Usuários
       parameters: []
       responses:
         '200':
@@ -1288,12 +1477,217 @@ paths:
                 active:
                   type: boolean
     delete:
-      summary: delete user
+      summary: delete user - Excluui o cadastro de um Usuário
       tags:
-      - Users
+      - Users - Usuários
       responses:
         '204':
           description: no content
-servers:
-- url: http://localhost:3000
-  description: Develop Server
+  "/work_orders":
+    get:
+      summary: List work orders - Lista todas as ordens de serviço
+      tags:
+      - Work Orders - Ordens de Serviço
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: sucesso
+    post:
+      summary: Create work order - Cria uma nova ordem de serviço
+      tags:
+      - Work Orders - Ordens de Serviço
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '201':
+          description: criado com sucesso
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_order:
+                  type: object
+                  properties:
+                    client_order_number:
+                      type: string
+                    opened_at:
+                      type: string
+                      format: date
+                    started_at:
+                      type: string
+                      format: date
+                    expected_end_at:
+                      type: string
+                      format: date
+                    status:
+                      type: string
+                      enum:
+                      - open
+                      - in_progress
+                      - closed
+                      - canceled
+                    priority:
+                      type: string
+                      enum:
+                      - low
+                      - medium
+                      - high
+                      - urgent
+                    requester_name:
+                      type: string
+                    requester_department:
+                      type: string
+                    requester_contact:
+                      type: string
+                    responsible:
+                      type: string
+                    notes:
+                      type: string
+                    expected_days:
+                      type: integer
+                    value:
+                      type: string
+                    work_order_materials_attributes:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          material_id:
+                            type: integer
+                          quantity:
+                            type: number
+                          returned_quantity:
+                            type: number
+                    work_order_employees_attributes:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          employee_id:
+                            type: integer
+                  required:
+                  - client_order_number
+                  - opened_at
+                  - started_at
+                  - expected_end_at
+                  - status
+                  - priority
+                  - requester_name
+                  - requester_department
+                  - requester_contact
+                  - responsible
+                  - expected_days
+                  - value
+  "/work_orders/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Show work order - Mostra detalhes de uma ordem de serviço
+      tags:
+      - Work Orders - Ordens de Serviço
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: sucesso
+        '404':
+          description: não encontrado
+    delete:
+      summary: Delete work order - Exclui a ordem de serviço (se possível)
+      tags:
+      - Work Orders - Ordens de Serviço
+      security:
+      - bearer_auth: []
+      responses:
+        '204':
+          description: excluído com sucesso
+        '422':
+          description: não é possível excluir (ordem com materiais ou colaboradores)
+    patch:
+      summary: Update work order - Atualiza uma ordem de serviço
+      tags:
+      - Work Orders - Ordens de Serviço
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '200':
+          description: ordem atualizada com sucesso
+        '404':
+          description: ordem não encontrada
+        '422':
+          description: parâmetros inválidos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                work_order:
+                  type: object
+                  properties:
+                    client_order_number:
+                      type: string
+                    opened_at:
+                      type: string
+                      format: date
+                    started_at:
+                      type: string
+                      format: date
+                    expected_end_at:
+                      type: string
+                      format: date
+                    status:
+                      type: string
+                      enum:
+                      - open
+                      - in_progress
+                      - closed
+                      - canceled
+                    priority:
+                      type: string
+                      enum:
+                      - low
+                      - medium
+                      - high
+                      - urgent
+                    requester_name:
+                      type: string
+                    requester_department:
+                      type: string
+                    requester_contact:
+                      type: string
+                    responsible:
+                      type: string
+                    notes:
+                      type: string
+                    expected_days:
+                      type: integer
+                    value:
+                      type: string
+                    work_order_employees_attributes:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          employee_id:
+                            type: integer
+                    work_order_materials_attributes:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          material_id:
+                            type: integer
+                          quantity:
+                            type: number
+                          returned_quantity:
+                            type: number
