@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_03_180540) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_04_120245) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -249,6 +249,21 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_03_180540) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "stock_movements", force: :cascade do |t|
+    t.bigint "material_id", null: false
+    t.bigint "work_order_id", null: false
+    t.string "movement_type"
+    t.float "quantity"
+    t.datetime "moved_at"
+    t.bigint "employee_id", null: false
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_stock_movements_on_employee_id"
+    t.index ["material_id"], name: "index_stock_movements_on_material_id"
+    t.index ["work_order_id"], name: "index_stock_movements_on_work_order_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -281,6 +296,43 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_03_180540) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  create_table "work_order_employees", force: :cascade do |t|
+    t.bigint "work_order_id", null: false
+    t.bigint "employee_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_work_order_employees_on_employee_id"
+    t.index ["work_order_id"], name: "index_work_order_employees_on_work_order_id"
+  end
+
+  create_table "work_order_materials", force: :cascade do |t|
+    t.bigint "work_order_id", null: false
+    t.bigint "material_id", null: false
+    t.float "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["material_id"], name: "index_work_order_materials_on_material_id"
+    t.index ["work_order_id"], name: "index_work_order_materials_on_work_order_id"
+  end
+
+  create_table "work_orders", force: :cascade do |t|
+    t.string "client_order_number"
+    t.date "opened_at"
+    t.date "started_at"
+    t.date "expected_end_at"
+    t.integer "status", default: 0
+    t.integer "priority", default: 1
+    t.string "requester_name"
+    t.string "requester_department"
+    t.string "requester_contact"
+    t.string "responsible"
+    t.text "notes"
+    t.integer "expected_days"
+    t.decimal "value", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "certifications", "employees"
@@ -290,4 +342,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_03_180540) do
   add_foreign_key "employee_contracts", "departments"
   add_foreign_key "employee_contracts", "employees"
   add_foreign_key "employee_contracts", "positions"
+  add_foreign_key "stock_movements", "employees"
+  add_foreign_key "stock_movements", "materials"
+  add_foreign_key "stock_movements", "work_orders"
+  add_foreign_key "work_order_employees", "employees"
+  add_foreign_key "work_order_employees", "work_orders"
+  add_foreign_key "work_order_materials", "materials"
+  add_foreign_key "work_order_materials", "work_orders"
 end
