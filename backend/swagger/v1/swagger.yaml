@@ -134,6 +134,47 @@ paths:
       responses:
         '204':
           description: no content
+  "/api/v1/alerts":
+    get:
+      summary: List alerts with filters - Lista todos os alerts com ou sem filtros
+      tags:
+      - Alerts - Alertas
+      parameters:
+      - name: category
+        in: query
+        description: Filtra por categoria (material ou certification)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Lista de alerts retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    category:
+                      type: string
+                    resolved:
+                      type: boolean
+                    created_at:
+                      type: string
+                      format: date_time
+                    updated_at:
+                      type: string
+                      format: date_time
+                  required:
+                  - id
+                  - category
+                  - resolved
+                  - created_at
+                  - updated_at
+        '400':
+          description: Parâmetros inválidos
   "/certifications":
     get:
       summary: list certifications - Lista Todos Certificados
