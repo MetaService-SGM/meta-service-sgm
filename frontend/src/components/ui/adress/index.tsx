@@ -19,6 +19,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { AddressInput } from "@/components/ui/input/inputFieldForm";
+import { FormActionsButton } from "../button/FormActionsButton";
 
 const addressSchema = z.object({
   cep: z
@@ -59,25 +61,78 @@ export function AddressForm() {
     // Aqui você pode salvar ou ir para a próxima etapa
   }
 
-  // Dentro do componente AddressForm
+  // Função de máscara do CEP
+  const applyCepMask = (value: string) => {
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{5})(\d)/, "$1-$2")
+      .slice(0, 9);
+  };
+
+  // Requisição para a API viacep
   const handleCepChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const cep = e.target.value.replace(/\D/g, "");
     if (cep.length === 8) {
+      form.clearErrors("cep");
       try {
         const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        if (!response.ok) throw new Error("CEP não encontrado");
         const data = await response.json();
-        if (!data.erro) {
-          form.setValue("cep", data.cep);
-          form.setValue("uf", data.uf);
-          form.setValue("cidade", data.localidade);
-          form.setValue("bairro", data.bairro);
-          form.setValue("rua", data.logradouro);
-        }
-      } catch (error) {
-        console.error("Erro ao buscar CEP:", error);
+        if (data.erro) throw new Error("CEP não encontrado");
+
+        // Preenche os campos
+        form.setValue("cep", data.cep);
+        form.setValue("uf", data.uf.toLowerCase().replace(/\s+/g, "")); // Padroniza o valor
+        form.setValue("cidade", data.localidade);
+        form.setValue("bairro", data.bairro);
+        form.setValue("rua", data.logradouro);
+      } catch (error: unknown) {
+        form.setError("cep", {
+          message:
+            error instanceof Error
+              ? error.message
+              : "Erro desconhecido ao buscar CEP",
+        });
       }
     }
   };
+
+  interface BrazilianStateProps {
+    uf: string;
+    name: string;
+    value: string;
+  }
+
+  // Array de estados para mapear
+  const statesBrazil: BrazilianStateProps[] = [
+    { uf: "AC", name: "Acre", value: "acre" },
+    { uf: "AL", name: "Alagoas", value: "alagoas" },
+    { uf: "AP", name: "Amapa", value: "amapa" },
+    { uf: "AM", name: "Amazonas", value: "amazonas" },
+    { uf: "BA", name: "Bahia", value: "bahia" },
+    { uf: "CE", name: "Ceara", value: "ceara" },
+    { uf: "ES", name: "EspiritoSanto", value: "espiritoSanto" },
+    { uf: "MA", name: "Maranhao", value: "maranhao" },
+    { uf: "MT", name: "MatoGrosso", value: "matoGrosso" },
+    { uf: "MS", name: "MatoGrossoDoSul", value: "matoGrossoDoSul" },
+    { uf: "MG", name: "MinasGerais", value: "minasGerais" },
+    { uf: "PA", name: "Para", value: "para" },
+    { uf: "PB", name: "Paraiba", value: "paraiba" },
+    { uf: "PR", name: "Parana", value: "parana" },
+    { uf: "PE", name: "Pernambuco", value: "pernambuco" },
+    { uf: "PI", name: "Piaui", value: "piaui" },
+    { uf: "RJ", name: "RioDeJaneiro", value: "rioDeJaneiro" },
+    { uf: "RN", name: "RioGrandeDoNorte", value: "rioGrandeDoNorte" },
+    { uf: "RS", name: "RioGrandeDoSul", value: "rioGrandeDoSul" },
+    { uf: "RO", name: "Rondonia", value: "rondonia" },
+    { uf: "RR", name: "Roraima", value: "roraima" },
+    { uf: "SC", name: "SantaCatarina", value: "santaCatarina" },
+    { uf: "SP", name: "SaoPaulo", value: "saoPaulo" },
+    { uf: "SE", name: "Sergipe", value: "sergipe" },
+    { uf: "TO", name: "Tocantins", value: "tocantins" },
+    { uf: "DF", name: "DistritoFederal", value: "distritoFederal" },
+  ];
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -98,8 +153,11 @@ export function AddressForm() {
                       placeholder="Ex: 00000-000"
                       {...field}
                       onChange={(e) => {
-                        field.onChange(e);
-                        handleCepChange(e);
+                        const maskedValue = applyCepMask(e.target.value);
+                        field.onChange(maskedValue);
+                        if (maskedValue.length === 9) {
+                          handleCepChange(e);
+                        }
                       }}
                     />
                   </FormControl>
@@ -117,39 +175,14 @@ export function AddressForm() {
                   <FormControl>
                     <Select>
                       <SelectTrigger>
-                        <SelectValue
-                          placeholder="Escolha o Estado"
-                          {...field}
-                        />
+                        <SelectValue placeholder="Selecione" {...field} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="acre">AC</SelectItem>
-                        <SelectItem value="alagoas">AL</SelectItem>
-                        <SelectItem value="amapa">AP</SelectItem>
-                        <SelectItem value="amazonas">AM</SelectItem>
-                        <SelectItem value="bahia">BA</SelectItem>
-                        <SelectItem value="ceara">CE</SelectItem>
-                        <SelectItem value="EspiritoSanto">ES</SelectItem>
-                        <SelectItem value="goias">GO</SelectItem>
-                        <SelectItem value="maranhao">MA</SelectItem>
-                        <SelectItem value="matoGrosso">MT</SelectItem>
-                        <SelectItem value="matoGrossoDoSul">MS</SelectItem>
-                        <SelectItem value="minasGerais">MG</SelectItem>
-                        <SelectItem value="para">PA</SelectItem>
-                        <SelectItem value="paraiba">PB</SelectItem>
-                        <SelectItem value="parana">PR</SelectItem>
-                        <SelectItem value="pernambuco">PE</SelectItem>
-                        <SelectItem value="piaui">PI</SelectItem>
-                        <SelectItem value="rioDeJaneiro">RJ</SelectItem>
-                        <SelectItem value="rioGrandeDoNorte">RN</SelectItem>
-                        <SelectItem value="rioGrandeDoSul">RS</SelectItem>
-                        <SelectItem value="rondonia">RO</SelectItem>
-                        <SelectItem value="roraima">RR</SelectItem>
-                        <SelectItem value="santaCatarina">SC</SelectItem>
-                        <SelectItem value="saoPaulo">SP</SelectItem>
-                        <SelectItem value="sergipe">SE</SelectItem>
-                        <SelectItem value="tocantins">TO</SelectItem>
-                        <SelectItem value="distritoFederal">DF</SelectItem>
+                        {statesBrazil.map((state) => (
+                          <SelectItem key={state.uf} value={state.value}>
+                            {state.uf}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -158,112 +191,61 @@ export function AddressForm() {
               )}
             />
 
-            <FormField
+            <AddressInput
               control={form.control}
               name="cidade"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cidade</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Cidade" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Cidade"
+              placeholder="Cidade"
             />
 
-            <FormField
+            <AddressInput
               control={form.control}
               name="bairro"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Bairro</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Bairro" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Bairro"
+              placeholder="Bairro"
             />
           </div>
 
           <div className="grid grid-cols-4 gap-4">
-            <FormField
+            <AddressInput
               control={form.control}
               name="rua"
-              render={({ field }) => (
-                <FormItem className="col-span-2">
-                  <FormLabel>Rua</FormLabel>
-                  <FormControl>
-                    <Input placeholder="ex: Rua das Flores" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Rua"
+              placeholder="ex: Rua das Flores"
+              className="col-span-2"
             />
 
-            <FormField
+            <AddressInput
               control={form.control}
               name="complemento"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Complemento</FormLabel>
-                  <FormControl>
-                    <Input placeholder="ex: Casa" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Complemento"
+              placeholder="ex: Casa"
             />
 
-            <FormField
+            <AddressInput
               control={form.control}
               name="numero"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Número</FormLabel>
-                  <FormControl>
-                    <Input placeholder="ex: 00" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Número"
+              placeholder="ex: 00"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <FormField
+            <AddressInput
               control={form.control}
               name="pontoEncontro"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Ponto de Encontro</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Ponto de Encontro" {...field} />
-                  </FormControl>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    será o ponto de encontro do funcionário para O.S. e outros
-                    fins
-                  </p>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Ponto de Encontro"
+              placeholder="Ponto de Encontro"
             />
 
-            <FormField
+            <AddressInput
               control={form.control}
               name="referencia"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Ponto de Referência</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Ponto de Referência" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Ponto de Referência"
+              placeholder="Ponto de Referência"
             />
           </div>
+          <FormActionsButton />
         </fieldset>
       </form>
     </Form>
