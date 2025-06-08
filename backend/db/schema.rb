@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_04_120245) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_07_202948) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,6 +55,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_04_120245) do
     t.string "addressable_type", null: false
     t.bigint "addressable_id", null: false
     t.index ["addressable_type", "addressable_id"], name: "index_enderecos_on_enderecoable"
+  end
+
+  create_table "alerts", force: :cascade do |t|
+    t.string "category"
+    t.string "message"
+    t.boolean "resolved", default: false
+    t.string "reference_type"
+    t.integer "reference_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "certifications", force: :cascade do |t|
