@@ -8,9 +8,8 @@ class User < ApplicationRecord
   
   enum role: { admin: 0, gerente: 1, contratado: 2 }
   
-  has_one :colaborador, foreign_key: :id, primary_key: :id, dependent: :destroy
-  has_many :entregas_epi, foreign_key: :id_colaborador, class_name: "EntregaEpi", dependent: :nullify
-  has_many :contratos_colaborador, foreign_key: :id_colaborador, class_name: "ContratoColaborador", dependent: :nullify
+  has_one :employee, foreign_key: :id, primary_key: :id, dependent: :destroy
+  has_many :employee_contracts, foreign_key: :employee_id, dependent: :nullify
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
@@ -20,7 +19,7 @@ class User < ApplicationRecord
   
   def self.ransackable_attributes(auth_object = nil)
     %w[
-      name email role cpf tipo_contrato ativo admin
+      name email role cpf contract_type active admin
     ]
   end
 

@@ -2,16 +2,16 @@ class MaterialSerializer
   def self.call(material)
     {
       id: material.id,
-      nome: material.nome,
-      categoria: material.categoria,
-      unidade_medida: material.unidade_medida,
-      quantidade_minima: material.quantidade_minima,
-      quantidade_atual: material.quantidade_atual,
-      certif_aprov: material.certif_aprov,
-      tipo: material.tipo,
-      cor: material.cor,
-      tamanho: material.tamanho,
-      cod_int: material.cod_int
+      name: material.name,
+      category: material.category,
+      unit_of_measure: material.unit_of_measure,
+      minimum_quantity: material.minimum_quantity,
+      current_quantity: material.current_quantity,
+      approval_certificate: material.approval_certificate,
+      material_type: material.material_type,
+      color: material.color,
+      size: material.size,
+      internal_code: material.internal_code
     }
   end
 end

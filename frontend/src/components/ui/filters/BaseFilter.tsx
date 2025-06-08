@@ -1,6 +1,6 @@
 // BaseFilter.tsx
 import React from 'react';
-import { FilterConfig, FilterType } from './types';
+import { FilterConfig } from './types';
 
 interface BaseFilterProps {
   config: FilterConfig[];

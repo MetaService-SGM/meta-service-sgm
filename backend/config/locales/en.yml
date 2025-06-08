@@ -36,15 +36,15 @@ en:
       invalid: "Invalid CPF number."
   activerecord:
     models:
-      contato: "Contact"
+      contact: "Contact"
     attributes:
-      contato:
+      contact:
         numero: "Number"
         email: "Email"
         whatsapp: "WhatsApp"
         telegram: "Telegram"
         signal: "Signal"
-      colaborador:
+      employee:
         escolaridades:
           ensino_fundamental_incompleto: "Incomplete Elementary School"
           ensino_fundamental_completo: "Complete Elementary School"

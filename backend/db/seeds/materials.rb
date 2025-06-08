@@ -1,36 +1,34 @@
-puts "Apagando materiais existentes..."
+puts "Deleting existing materials..."
 Material.destroy_all
 
-puts "🌱 Criando materiais..."
+puts "🌱 Creating materials..."
 
-require 'faker'
 Faker::Config.locale = 'pt-BR'
 
-categorias = ['EPI', 'Limpeza', 'Papelaria', 'Ferramenta', 'Informática']
-unidades = ['unitário', 'par', 'centímetros', 'polegadas', 'metros']
-cores = %w[Preta Branca Azul Vermelha Amarela Verde Transparente]
-tamanhos = %w[P M G 38 39 40 41 42]
+categories = ['EPI', 'Cleaning', 'Stationery', 'Tool', 'IT']
+units = ['unit', 'pair', 'centimeters', 'inches', 'meters']
+colors = %w[Black White Blue Red Yellow Green Transparent]
+sizes = %w[S M L 38 39 40 41 42]
 
 50.times do
-  categoria = categorias.sample
+  category = categories.sample
 
   attrs = {
-    nome: Faker::Commerce.product_name,
-    categoria: categoria,
-    unidade_medida: unidades.sample,
-    quantidade_minima: rand(5..50),
-    quantidade_atual: rand(10..200),
-    tipo: Faker::Commerce.material,
-    cor: cores.sample,
-    tamanho: [true, false].sample ? tamanhos.sample : nil
+    name: Faker::Commerce.product_name,
+    category: category,
+    unit_of_measure: units.sample,
+    minimum_quantity: rand(5..50),
+    current_quantity: rand(10..200),
+    material_type: Faker::Commerce.material,
+    color: colors.sample,
+    size: [true, false].sample ? sizes.sample : nil
   }
 
-  if categoria == 'EPI'
-    attrs[:certif_aprov] = "CA#{rand(10000..99999)}"
+  if category == 'EPI'
+    attrs[:approval_certificate] = "CA#{rand(10000..99999)}"
   end
 
   Material.create!(attrs)
 end
 
-
-puts "✅ Materiais criados com sucesso!"
+puts "✅ Materials successfully created!"

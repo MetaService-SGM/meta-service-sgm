@@ -20,7 +20,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:name, :email, :password, :cpf, :role, :tipo_contrato, :ativo, :admin]
+    [:name, :email, :password, :cpf, :role, :contract_type, :active, :admin]
   end
 
   class Scope < ApplicationPolicy::Scope

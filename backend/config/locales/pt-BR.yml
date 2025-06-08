@@ -11,15 +11,15 @@ pt-BR:
       missing_id: "O parâmetro ID é obrigatório"
   activerecord:
     models:
-      contato: "Contato"
+      contact: "Contact"
     attributes:
-      contato:
+      contact:
         numero: "Número"
         email: "Email"
         whatsapp: "WhatsApp"
         telegram: "Telegram"
         signal: "Signal"
-      colaborador:
+      employee:
         escolaridades:
           ensino_fundamental_incompleto: "Ensino Fundamental Incompleto"
           ensino_fundamental_completo: "Ensino Fundamental Completo"

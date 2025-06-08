@@ -19,9 +19,9 @@ class MaterialPolicy < ApplicationPolicy
       user.admin?
     end
   
-    class Scope < Scope
-      def resolve
-        scope.all
-      end
+  class Scope < ApplicationPolicy::Scope
+    def resolve
+      scope.all
     end
   end
+end
