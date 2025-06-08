@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :certifications, only: %i[index show create update destroy]
   resources :departments, only: %i[index show create update destroy]
   resources :employee_contracts, only: %i[index show create update destroy]
+  resources :asos
 
   resources :work_orders do
     resources :work_order_materials, only: [:create, :update, :destroy]
