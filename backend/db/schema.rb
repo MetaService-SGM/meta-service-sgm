@@ -57,6 +57,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_07_215538) do
     t.index ["addressable_type", "addressable_id"], name: "index_enderecos_on_enderecoable"
   end
 
+  create_table "alerts", force: :cascade do |t|
+    t.string "category"
+    t.string "message"
+    t.boolean "resolved", default: false
+    t.string "reference_type"
+    t.integer "reference_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+
   create_table "asos", force: :cascade do |t|
     t.boolean "fit_for_activity"
     t.date "issued_at"

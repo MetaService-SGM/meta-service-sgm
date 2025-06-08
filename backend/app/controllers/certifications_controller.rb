@@ -19,7 +19,7 @@ class CertificationsController < ApplicationController
     if certification.save
       render json: CertificationSerializer.call(certification), status: :created
     else
-      puts certification.errors.full_messages # <-- Adicione esta linha
+      puts certification.errors.full_messages
       render json: { errors: certification.errors.full_messages }, status: :unprocessable_entity
     end
   end

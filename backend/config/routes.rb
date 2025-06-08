@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :asos
   mount_devise_token_auth_for 'User', at: 'auth'
 
   resources :employees
@@ -14,6 +13,7 @@ Rails.application.routes.draw do
   resources :certifications, only: %i[index show create update destroy]
   resources :departments, only: %i[index show create update destroy]
   resources :employee_contracts, only: %i[index show create update destroy]
+  resources :asos
 
   resources :work_orders do
     resources :work_order_materials, only: [:create, :update, :destroy]
@@ -35,4 +35,15 @@ Rails.application.routes.draw do
 
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
+
+  require 'sidekiq/web'
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :alerts, only: [:index]
+    end
+  end
 end

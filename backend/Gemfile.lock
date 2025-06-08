@@ -94,6 +94,7 @@ GEM
     bootsnap (1.18.4)
       msgpack (~> 1.2)
     builder (3.3.0)
+    chronic (0.10.2)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.3)
     cpf_cnpj (1.0.1)
@@ -119,6 +120,11 @@ GEM
       railties (>= 6.1)
     drb (2.2.3)
     erubi (1.13.1)
+    factory_bot (6.5.3)
+      activesupport (>= 6.1.0)
+    factory_bot_rails (6.4.4)
+      factory_bot (~> 6.5)
+      railties (>= 5.0.0)
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
     ffi (1.17.2-x64-mingw-ucrt)
@@ -320,6 +326,8 @@ GEM
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    whenever (1.0.0)
+      chronic (>= 0.6.3)
     zeitwerk (2.7.2)
 
 PLATFORMS
@@ -334,6 +342,7 @@ DEPENDENCIES
   devise (~> 4.9)
   devise_token_auth
   dotenv-rails
+  factory_bot_rails
   faker
   image_processing (~> 1.2)
   jsonapi-serializer (~> 2.2)
@@ -347,6 +356,7 @@ DEPENDENCIES
   rubocop
   sidekiq
   tzinfo-data
+  whenever
 
 RUBY VERSION
    ruby 3.2.3p157
