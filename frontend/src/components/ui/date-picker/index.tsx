@@ -24,14 +24,25 @@ import { ptBR } from "date-fns/locale";
 interface DatePickerProps {
   startYear?: number;
   endYear?: number;
+  value?: Date;
+  onChange?: (date: Date) => void;
 }
 
 // Picker com popover
 export function DatePicker({
   startYear = getYear(new Date()) - 100,
   endYear = getYear(new Date()) + 100,
+  value,
+  onChange,
 }: DatePickerProps) {
-  const [date, setDate] = React.useState<Date>(new Date());
+  const [internalDate, setInternalDate] = React.useState<Date>(value || new Date());
+
+  // Atualiza a data interna quando o valor externo muda
+  React.useEffect(() => {
+    if (value) {
+      setInternalDate(value);
+    }
+  }, [value]);
 
   const months = [
     "Janeiro",
@@ -53,18 +64,21 @@ export function DatePicker({
   );
 
   const handleMonthChange = (month: string) => {
-    const newDate = setMonth(date, months.indexOf(month));
-    setDate(newDate);
+    const newDate = setMonth(internalDate, months.indexOf(month));
+    setInternalDate(newDate);
+    onChange?.(newDate);
   };
 
   const handleYearChange = (year: string) => {
-    const newDate = setYear(date, parseInt(year));
-    setDate(newDate);
+    const newDate = setYear(internalDate, parseInt(year));
+    setInternalDate(newDate);
+    onChange?.(newDate);
   };
 
-  const handleSelect = (selectedData: Date | undefined) => {
-    if (selectedData) {
-      setDate(selectedData);
+    const handleSelect = (selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      setInternalDate(selectedDate);
+      onChange?.(selectedDate);
     }
   };
 
@@ -75,11 +89,11 @@ export function DatePicker({
           variant={"outline"}
           className={cn(
             "w-[250px] justify-evenly text-left font-nunito font-normal",
-            !date && "text-muted-foreground"
+            !internalDate && "text-muted-foreground"
           )}
         >
-          {date ? (
-            format(date, "PPP", { locale: ptBR })
+          {internalDate ? (
+            format(internalDate, "PPP", { locale: ptBR })
           ) : (
             <span>Escolha a data</span>
           )}
@@ -90,7 +104,7 @@ export function DatePicker({
         <div className="flex justify-around p-2 ">
           <Select
             onValueChange={handleMonthChange}
-            value={months[getMonth(date)]}
+            value={months[getMonth(internalDate)]}
           >
             <SelectTrigger className="w-[120px] mt-2 font-nunito shadow-sm text-sm border focus:ring-2 focus:ring-[#2B426E] cursor-pointer">
               <SelectValue placeholder="Mês" />
@@ -105,7 +119,7 @@ export function DatePicker({
           </Select>
           <Select
             onValueChange={handleYearChange}
-            value={getYear(date).toString()}
+            value={getYear(internalDate).toString()}
           >
             <SelectTrigger className="w-[120px] mt-2 font-nunito shadow-sm text-sm border focus:ring-2 focus:ring-[#2B426E] cursor-pointer">
               <SelectValue placeholder="Ano" />
@@ -123,13 +137,13 @@ export function DatePicker({
         <div className="mt-6">
             <Calendar
               mode="single"
-              selected={date}
+              selected={internalDate}
               onSelect={handleSelect}
               className="rounded-md border"
               locale={ptBR}
               initialFocus
-              month={date}
-              onMonthChange={setDate}
+              month={internalDate}
+              onMonthChange={setInternalDate}
             />
         </div>
       </PopoverContent>

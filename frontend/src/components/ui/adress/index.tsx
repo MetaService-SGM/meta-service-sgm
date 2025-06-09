@@ -27,7 +27,7 @@ const addressSchema = z.object({
     .string()
     .regex(/^\d{5}-?\d{3}$/, "CEP inválido")
     .transform((cep) => cep.replace(/-/g, "")),
-  uf: z.string(),
+  uf: z.string().nonempty("UF é obrigatória"),
   cidade: z.string().min(2, "Cidade é obrigatória"),
   bairro: z.string().min(2, "Bairro é obrigatório"),
   rua: z.string().min(2, "Rua é obrigatória"),
@@ -59,6 +59,7 @@ export function AddressForm() {
   function onSubmit(data: AddressFormData) {
     console.log("Endereço:", data);
     // Aqui você pode salvar ou ir para a próxima etapa
+    
   }
 
   // Função de máscara do CEP

@@ -3,10 +3,12 @@
 import { Button } from "@/components/ui/button";
 
 interface FormActionsProps {
+  onClick?: () => void;
   onCancel?: () => void;
   onSaveDraft?: () => void;
   onNext?: () => void;
   nextLabel?: string;
+  disabled?: boolean;
 }
 
 export function FormActionsButton({
@@ -14,14 +16,15 @@ export function FormActionsButton({
   onSaveDraft,
   onNext,
   nextLabel = "Próximo",
+  disabled = false 
 }: FormActionsProps) {
   return (
     <div className="flex justify-end gap-4 my-6">
       
-      <Button type="button" variant="outline" onClick={onCancel}>
+      <Button type="button" variant="outline" onClick={onCancel} disabled={disabled}>
         Cancelar
       </Button>
-      <Button type="button" variant="secondary" size="lg" onClick={onSaveDraft}>
+      <Button type="button" variant="secondary" size="lg" onClick={onSaveDraft} >
         Salvar rascunho
       </Button>
       <Button
