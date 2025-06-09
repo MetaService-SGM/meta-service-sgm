@@ -37,5 +37,8 @@ module Backend
     # Internationalization (I18n) Configuration
     config.i18n.default_locale = :en
     config.i18n.available_locales = [:en, :'pt-BR']
+
+    # Set Sidekiq as the adapter for Active Job to enable background job processing
+    config.active_job.queue_adapter = :sidekiq
   end
 end
