@@ -8,6 +8,8 @@ class AddressSerializer
              :street,
              :number,
              :complement,
+             :meeting_point,
+             :landmark,
              :addressable_type,
              :addressable_id
 
