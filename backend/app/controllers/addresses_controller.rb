@@ -47,6 +47,8 @@ class AddressesController < ApplicationController
       :street,
       :number,
       :complement,
+      :meeting_point,
+      :landmark,
       :addressable_type,
       :addressable_id
     )

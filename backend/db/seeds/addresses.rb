@@ -15,10 +15,12 @@ if Employee.exists?
         street: Faker::Address.street_name,
         number: Faker::Address.building_number,
         complement: Faker::Address.secondary_address,
+        meeting_point: Faker::Lorem.sentence(word_count: 3),
+        landmark: Faker::Lorem.sentence(word_count: 3),
         addressable: employee
       )
     rescue => e
-      puts "Error creating address for Employee ID #{employee.id}: #{e.message}"
+      puts "❌ Error creating address for Employee ID #{employee.id}: #{e.message}"
     end
   end
 
@@ -43,7 +45,7 @@ if Company.exists?
         addressable: company
       )
     rescue => e
-      puts "Error creating address for Company ID #{company.id}: #{e.message}"
+      puts "❌ Error creating address for Company ID #{company.id}: #{e.message}"
     end
   end
 

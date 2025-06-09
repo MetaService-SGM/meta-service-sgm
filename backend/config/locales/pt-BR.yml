@@ -9,6 +9,8 @@ pt-BR:
       unauthorized: "Você não tem autorização para realizar esta ação"
       parameter_missing: "O parâmetro %{param} é obrigatório"
       missing_id: "O parâmetro ID é obrigatório"
+      address_fields_not_allowed: "Os campos 'meeting_point' e 'landmark' só podem ser preenchidos para colaboradores."
+
   activerecord:
     models:
       contact: "Contact"

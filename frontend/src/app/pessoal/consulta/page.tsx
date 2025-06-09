@@ -30,7 +30,7 @@ export default function Home() {
             <h2 className="font-bold mb-4 text-center text-xl">
               Dados Pessoais
             </h2>
-            <ul className="text-sm text-gray-700 space-y-1">
+            <ul className="text-sm text-gray-700  space-y-1">
               <li>
                 <strong>Apelido:</strong> Eminho
               </li>

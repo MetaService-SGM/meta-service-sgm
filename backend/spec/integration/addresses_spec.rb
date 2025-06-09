@@ -15,6 +15,8 @@ RSpec.describe 'addresses', type: :request do
           street_cont: { type: :string },
           number_eq: { type: :string },
           complement_cont: { type: :string },
+          meeting_point_cont: { type: :string },
+          landmark_cont: { type: :string },
           addressable_type_eq: { type: :string },
           addressable_id_eq: { type: :integer }
         }
@@ -39,13 +41,32 @@ RSpec.describe 'addresses', type: :request do
           street: { type: :string },
           number: { type: :string },
           complement: { type: :string },
+          meeting_point: { type: :string },
+          landmark: { type: :string },
           addressable_type: { type: :string },
           addressable_id: { type: :integer }
-        }
+        },
+        required: %w[
+          zip_code state city district street number addressable_type addressable_id
+        ]
       }
 
       response(201, 'created') do
-        let(:address) { { zip_code: '12345678', city: 'São Paulo' } }
+        let(:address) do
+          {
+            zip_code: '12345-678',
+            state: 'SP',
+            city: 'São Paulo',
+            district: 'Centro',
+            street: 'Rua A',
+            number: '100',
+            complement: 'Apto 2',
+            meeting_point: 'Em frente ao mercado',
+            landmark: 'Próximo à praça',
+            addressable_type: 'Employee',
+            addressable_id: 1
+          }
+        end
         run_test!
       end
     end
@@ -69,13 +90,21 @@ RSpec.describe 'addresses', type: :request do
       parameter name: :address, in: :body, schema: {
         type: :object,
         properties: {
-          city: { type: :string }
+          zip_code: { type: :string },
+          state: { type: :string },
+          city: { type: :string },
+          district: { type: :string },
+          street: { type: :string },
+          number: { type: :string },
+          complement: { type: :string },
+          meeting_point: { type: :string },
+          landmark: { type: :string }
         }
       }
 
       response(200, 'updated') do
         let(:id) { '1' }
-        let(:address) { { city: 'Campinas' } }
+        let(:address) { { city: 'Campinas', meeting_point: 'Portaria' } }
         run_test!
       end
     end
