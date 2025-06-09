@@ -48,15 +48,10 @@ export default function Home() {
            value={filtro}
            onChange={e => setFiltro(e.target.value)}
         />
-
-          
-            <button className="bg-blue-600 text-white px-8 py-2 gap-2 mb-3 rounded   hover:bg-blue-700">
-            Filtrar
-            </button>
           </div>
-
+          
         <div className="flex space-x-4 mb-2">
-          {['Produto', 'Tamanho', 'Data', 'Quantidade'].map(opt => (
+          {['Produto', 'Tamanho', 'Data', 'Quantidade', 'Código interno' ].map(opt => (
             <label key={opt} className="flex items-center space-x-1">
               <input
                 type="radio"
