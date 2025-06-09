@@ -89,7 +89,7 @@ export default function Home() {
         </thead>
         <tbody>
           {filtrados.map(item => (
-            <tr key={item.id}>
+            <tr key={item.id} className="even:bg-white odd:bg-gray-50 divide-x divide-black">
               <td className="border p-2">{item.id}</td>
               <td className="border p-2">{item.produto}</td>
               <td className="border p-2">{item.tamanho}</td>
