@@ -52,6 +52,10 @@ paths:
               type: string
             complement_cont:
               type: string
+            meeting_point_cont:
+              type: string
+            landmark_cont:
+              type: string
             addressable_type_eq:
               type: string
             addressable_id_eq:
@@ -93,10 +97,23 @@ paths:
                   type: string
                 complement:
                   type: string
+                meeting_point:
+                  type: string
+                landmark:
+                  type: string
                 addressable_type:
                   type: string
                 addressable_id:
                   type: integer
+              required:
+              - zip_code
+              - state
+              - city
+              - district
+              - street
+              - number
+              - addressable_type
+              - addressable_id
   "/addresses/{id}":
     parameters:
     - name: id
@@ -125,7 +142,23 @@ paths:
             schema:
               type: object
               properties:
+                zip_code:
+                  type: string
+                state:
+                  type: string
                 city:
+                  type: string
+                district:
+                  type: string
+                street:
+                  type: string
+                number:
+                  type: string
+                complement:
+                  type: string
+                meeting_point:
+                  type: string
+                landmark:
                   type: string
     delete:
       summary: delete address - Exclui cadastro de um Endereço
