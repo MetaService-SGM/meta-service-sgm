@@ -3,8 +3,8 @@ import Image from "next/image";
 
 export const Header = () => {
   return (
-    <header className="bg-[#2B426E] text-white px-10 py-1.5">
-      <div className="flex items-center justify-between max-w-[1860px] mx-auto w-full px-6 sm:px-10 lg:px-20 py-4">
+    <header className="bg-[#2B426E] text-white px-2 py-1">
+      <div className="flex items-center justify-between max-w-[1860px] mx-auto w-full px-2 sm:px-2 lg:px-20">
         {/* Logo */}
         <div className="flex items-center">
           <Link

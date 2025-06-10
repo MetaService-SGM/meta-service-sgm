@@ -37,9 +37,9 @@ const NAV_ITEMS = [
   },
   {
     logo: <AiFillPieChart />,
-    src: "/materials",
-    alt: "Ícone de materiais",
-    label: "Gerenciamento de Materiais",
+    src: "/estoque",
+    alt: "Ícone de Estoque",
+    label: "Gerenciamento de Estoque",
   },
   {
     logo: <MdEditSquare />,

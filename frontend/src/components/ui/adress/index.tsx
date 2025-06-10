@@ -59,7 +59,6 @@ export function AddressForm() {
   function onSubmit(data: AddressFormData) {
     console.log("Endereço:", data);
     // Aqui você pode salvar ou ir para a próxima etapa
-    
   }
 
   // Função de máscara do CEP
@@ -81,9 +80,14 @@ export function AddressForm() {
         const data = await response.json();
         if (data.erro) throw new Error("CEP não encontrado");
 
+        // Encontra o estado correspondente ao UF retornado
+        const estadoEncontrado = statesBrazil.find(
+          (state) => state.uf === data.uf
+        );
+
         // Preenche os campos
         form.setValue("cep", data.cep);
-        form.setValue("uf", data.uf.toLowerCase().replace(/\s+/g, "")); // Padroniza o valor
+        form.setValue("uf", estadoEncontrado?.value || ""); // Usa o value do estado
         form.setValue("cidade", data.localidade);
         form.setValue("bairro", data.bairro);
         form.setValue("rua", data.logradouro);
@@ -136,116 +140,127 @@ export function AddressForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
         <fieldset className="grid grid-cols-1 gap-4">
-          <legend className="text-lg font-semibold text-[#2B426E] mb-5">
-            Endereço
+          <legend className="text-lg font-semibold mb-4 text-gray-800">
+            Endereço Pessoal
           </legend>
 
-          <div className="grid grid-cols-4 gap-4">
-            <FormField
-              control={form.control}
-              name="cep"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>CEP</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Ex: 00000-000"
-                      {...field}
-                      onChange={(e) => {
-                        const maskedValue = applyCepMask(e.target.value);
-                        field.onChange(maskedValue);
-                        if (maskedValue.length === 9) {
-                          handleCepChange(e);
-                        }
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <div className="bg-white p-6 rounded-lg shadow-sm mb-4">
+            <div className="grid grid-cols-4 gap-4">
+              <FormField
+                control={form.control}
+                name="cep"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>CEP</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Ex: 00000-000"
+                        {...field}
+                        onChange={(e) => {
+                          const maskedValue = applyCepMask(e.target.value);
+                          field.onChange(maskedValue);
+                          if (maskedValue.length === 9) {
+                            handleCepChange(e);
+                          }
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="uf"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>UF</FormLabel>
-                  <FormControl>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecione" {...field} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {statesBrazil.map((state) => (
-                          <SelectItem key={state.uf} value={state.value}>
-                            {state.uf}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="uf"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>UF</FormLabel>
+                    <FormControl>
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {statesBrazil.map((state) => (
+                            <SelectItem key={state.uf} value={state.value}>
+                              {state.uf}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <AddressInput
-              control={form.control}
-              name="cidade"
-              label="Cidade"
-              placeholder="Cidade"
-            />
+              <AddressInput
+                control={form.control}
+                name="cidade"
+                label="Cidade"
+                placeholder="Cidade"
+              />
 
-            <AddressInput
-              control={form.control}
-              name="bairro"
-              label="Bairro"
-              placeholder="Bairro"
-            />
+              <AddressInput
+                control={form.control}
+                name="bairro"
+                label="Bairro"
+                placeholder="Bairro"
+              />
+            </div>
+
+            <div className="grid grid-cols-4 gap-4 mt-4">
+              <AddressInput
+                control={form.control}
+                name="rua"
+                label="Rua"
+                placeholder="ex: Rua das Flores"
+                className="col-span-2"
+              />
+
+              <AddressInput
+                control={form.control}
+                name="complemento"
+                label="Complemento"
+                placeholder="ex: Casa"
+              />
+
+              <AddressInput
+                control={form.control}
+                name="numero"
+                label="Número"
+                placeholder="ex: 00"
+              />
+            </div>
           </div>
 
-          <div className="grid grid-cols-4 gap-4">
-            <AddressInput
-              control={form.control}
-              name="rua"
-              label="Rua"
-              placeholder="ex: Rua das Flores"
-              className="col-span-2"
-            />
+          <div className="bg-white p-6 rounded-lg shadow-sm">
+             <h3 className="text-lg font-semibold mb-4 text-gray-800">
+              Ponto de Encontro
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              <AddressInput
+                control={form.control}
+                name="pontoEncontro"
+                label="Local de Encontro"
+                placeholder="Digite aqui..."
+              />
 
-            <AddressInput
-              control={form.control}
-              name="complemento"
-              label="Complemento"
-              placeholder="ex: Casa"
-            />
-
-            <AddressInput
-              control={form.control}
-              name="numero"
-              label="Número"
-              placeholder="ex: 00"
-            />
+              <AddressInput
+                control={form.control}
+                name="referencia"
+                label="Ponto de Referência"
+                placeholder="Digite aqui..."
+              />
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <AddressInput
-              control={form.control}
-              name="pontoEncontro"
-              label="Ponto de Encontro"
-              placeholder="Ponto de Encontro"
-            />
-
-            <AddressInput
-              control={form.control}
-              name="referencia"
-              label="Ponto de Referência"
-              placeholder="Ponto de Referência"
-            />
-          </div>
           <FormActionsButton />
         </fieldset>
       </form>
