@@ -89,7 +89,7 @@ const NAV_ITEMS = [
   },
   {
     logo: <IoCopy />,
-    src: "/companies",
+    src: "/registerCompanies",
     alt: "Ícone de empresas",
     label: "Empresas Contratadas",
   },

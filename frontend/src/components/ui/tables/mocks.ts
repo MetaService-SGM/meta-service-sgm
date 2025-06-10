@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid"
 import { ServiceOrder } from "./ServiceOrderTable"
-import { Companies } from "./TableCompanies"
+import { Company } from "./TableCompanies"
 import { Alert } from "./AlertTable"
 import { Product } from "./StockTable"
 import { Employee } from "./EmployeeTable"
@@ -200,30 +200,55 @@ export const mockProducts: Product[] = [
     },
 ]
 
-export const mockCompanies: Companies[] = [
-    {
-        companyId: uuidv4(),
-        companyCNPJ: "12.345.678/0001-90",
-        companyName: "MetaService Soluções Industriais",
-        companySegment: "Manutenção Industrial",
-        companyCity: "São Paulo",
-        companyCEP: "01001-000",
-    },
-    {
-        companyId: uuidv4(),
-        companyCNPJ: "98.765.432/0001-12",
-        companyName: "TecnoSteel Engenharia",
-        companySegment: "Engenharia Mecânica",
-        companyCity: "Belo Horizonte",
-        companyCEP: "30140-110",
-    },
-    {
-        companyId: uuidv4(),
-        companyCNPJ: "23.456.789/0001-34",
-        companyName: "GreenPower Energia",
-        companySegment: "Energia Renovável",
-        companyCity: "Curitiba",
-        companyCEP: "80010-000",
-    }
-]
-
+export const mockCompanies: Company[] = [
+  {
+    id: uuidv4(),
+    cnpj: "12.345.678/0001-90",
+    razao_social: "MetaService Soluções Industriais Ltda",
+    nome_fantasia: "MetaService Industrial",
+    segmento: "Manutenção Industrial",
+    inscricao_estadual: "123.456.789.112",
+    inscricao_municipal: "9876543",
+    created_at: "2023-01-15T10:30:00Z",
+    updated_at: "2023-06-20T14:45:00Z"
+  },
+  {
+    id: uuidv4(),
+    cnpj: "98.765.432/0001-12",
+    razao_social: "TecnoSteel Engenharia S.A.",
+    nome_fantasia: "TecnoSteel",
+    segmento: "Engenharia Mecânica",
+    inscricao_estadual: "987.654.321.112",
+    inscricao_municipal: "1234567",
+    created_at: "2023-02-20T09:15:00Z",
+    updated_at: "2023-05-10T11:20:00Z"
+  },
+  {
+    id: uuidv4(),
+    cnpj: "23.456.789/0001-34",
+    razao_social: "GreenPower Energia Renovável Ltda",
+    nome_fantasia: "GreenPower",
+    segmento: "Energia Renovável",
+    inscricao_estadual: "456.789.123.112",
+    created_at: "2023-03-10T14:00:00Z",
+    updated_at: "2023-07-05T16:30:00Z"
+  },
+  {
+    id: uuidv4(),
+    cnpj: "45.678.912/0001-56",
+    razao_social: "AgroFértil Comércio de Insumos Agrícolas",
+    segmento: "Agronegócio",
+    inscricao_municipal: "6543210",
+    created_at: "2023-04-05T08:45:00Z",
+    updated_at: "2023-08-15T10:10:00Z"
+  },
+  {
+    id: uuidv4(),
+    cnpj: "56.789.123/0001-78",
+    razao_social: "VivaBem Saúde e Bem-Estar",
+    nome_fantasia: "Clínica VivaBem",
+    segmento: "Saúde",
+    created_at: "2023-05-12T11:20:00Z",
+    updated_at: "2023-09-01T09:30:00Z"
+  }
+];
