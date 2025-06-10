@@ -1,52 +1,66 @@
-export interface Companies {
-    companyId: string;
-    companyCNPJ: string;
-    companyName: string;
-    companySegment: string;
-    companyCity: string;
-    companyCEP: string;
+export interface Company {
+  id: string;
+  cnpj: string;
+  razao_social: string;
+  nome_fantasia?: string;
+  segmento: string;
+  inscricao_estadual?: string;
+  inscricao_municipal?: string;
+  created_at: string;
+  updated_at: string;
 }
 
 interface TableCompaniesProps {
-    data: Companies[]
+  data: Company[];
 }
 
-
-export default function TableCompanies(props: TableCompaniesProps) {
+export default function TableCompanies({ data }: TableCompaniesProps) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm mt-6 font-sans">
+    <div className="overflow-hidden rounded-xl border border-gray-200 shadow-lg mt-8 font-sans">
       <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+        <thead className="bg-gradient-to-r from-blue-600 to-blue-800">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">ID</th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">CNPJ</th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Razão Social</th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Segmento</th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Cidade</th>
-            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">CEP</th>
+            <th className="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">CNPJ</th>
+            <th className="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Razão Social</th>
+            <th className="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Nome Fantasia</th>
+            <th className="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Segmento</th>
+            <th className="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Inscrições</th>
+            <th className="px-6 py-4 text-left text-sm font-semibold text-white uppercase tracking-wider">Cadastro</th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {props.data.map((e) => (
-            <tr key={e.companyId} className="hover:bg-gray-50 transition-colors duration-150">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{e.companyId}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 font-mono">
-                {e.companyCNPJ.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, "$1.$2.$3/$4-$5")}
+          {data.map((company) => (
+            <tr key={company.id} className="hover:bg-gray-50 transition-colors duration-150">
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">
+                {company.cnpj}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{e.companyName}</td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <div className="text-sm font-medium text-gray-900">{company.razao_social}</div>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                {company.nome_fantasia || '-'}
+              </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
-                  {e.companySegment}
+                  {company.segmento}
                 </span>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{e.companyCity}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 font-mono">
-                {e.companyCEP.replace(/^(\d{5})(\d{3})$/, "$1-$2")}
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                <div className="flex flex-col gap-1">
+                  <span className="font-medium">IE: {company.inscricao_estadual || 'Não informada'}</span>
+                  <span className="font-medium">IM: {company.inscricao_municipal || 'Não informada'}</span>
+                </div>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <div className="flex flex-col">
+                  <span>Criado em: {new Date(company.created_at).toLocaleDateString()}</span>
+                  <span>Atualizado em: {new Date(company.updated_at).toLocaleDateString()}</span>
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  )
+  );
 }
