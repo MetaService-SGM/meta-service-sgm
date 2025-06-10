@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :companies, only: %i[index show create update destroy]
   resources :positions, only: %i[index show create update destroy]
   resources :certifications, only: %i[index show create update destroy]
+  resources :documents, only: %i[index show create update destroy]
   resources :departments, only: %i[index show create update destroy]
   resources :employee_contracts, only: %i[index show create update destroy]
   resources :asos
