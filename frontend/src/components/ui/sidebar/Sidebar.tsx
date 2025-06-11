@@ -31,15 +31,15 @@ const NAV_ITEMS = [
   },
   {
     logo: <IoCopy />,
-    src: "/companies",
+    src: "/empresa/cadastro",
     alt: "Ícone de empresas",
     label: "Empresas Contratadas",
   },
   {
     logo: <AiFillPieChart />,
     src: "/estoque",
-    alt: "Ícone de Estoque",
-    label: "Gerenciamento de Estoque",
+    alt: "Ícone de materiais",
+    label: "Gerenciamento de Materiais",
   },
   {
     logo: <MdEditSquare />,
@@ -76,7 +76,7 @@ export default function Sidebar() {
 
       {/* Sidebar fixa sobre o placeholder */}
       <nav className="fixed sidebar w-[20%] flex flex-col min-h-svh">
-        <div className="flex-1 overflow-y-auto px-6 py-2">
+        <div className="flex-1 overflow-y-auto py-2">
           <div className="space-y-4">
             {NAV_ITEMS.map((item, index) => (
               <div
