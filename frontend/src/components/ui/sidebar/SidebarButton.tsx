@@ -37,7 +37,7 @@ export const SidebarButton = ({
       className={`flex items-center w-full p-3 transition-colors gap-1 ${
         active
           ? "bg-blue-100 text-blue-600"
-          : "hover:bg-[#F2F7FF] cursor-pointer hover:border-l-4 hover:border-l-[#2B426E]"
+          : "hover:bg-[#F2F7FF] cursor-pointer hover:border-l-6 rounded hover:border-l-[#2B426E]"
       }`}
     >
       {typeof logo === "string" ? (
