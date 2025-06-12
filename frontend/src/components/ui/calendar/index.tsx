@@ -9,7 +9,7 @@ import { buttonVariants } from "@/components/ui/button";
 
 import { ptBR } from "date-fns/locale";
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>
+export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
 // Componente base
 function Calendar({
@@ -49,7 +49,6 @@ function Calendar({
         day: cn(
           buttonVariants({ variant: "outline" }),
           "h-8 w-8 rounded-full p-0 font-semibold aria-selected:opacity-100 hover:bg-[#2B426E] hover:text-primary-foreground"
-           
         ),
         day_range_start:
           "bg-[#2B426E] day-range-start aria-selected:bg-primary aria-selected:text-primary-foreground",
@@ -67,17 +66,29 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        IconLeft: ({...props }) => (
-          <ChevronLeft className={cn("h-4 w-4", className)} {...props} />
+        PreviousMonthButton: ({ ...props }) => (
+          <button
+            {...props}
+            type="button"
+            className="absolute left-1 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 flex items-center justify-center"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
         ),
-        IconRight: ({ ...props }) => (
-          <ChevronRight className={cn("h-4 w-4", className)} {...props} />
+        NextMonthButton: ({ ...props }) => (
+          <button
+            {...props}
+            type="button"
+            className="absolute right-1 h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 flex items-center justify-center"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
         ),
       }}
       {...props}
     />
   );
 }
-Calendar.displayName = "Calendar"
+Calendar.displayName = "Calendar";
 
 export { Calendar };

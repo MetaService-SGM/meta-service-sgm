@@ -69,12 +69,11 @@ const levelOfEducationOptions = [
 ];
 
 const disabilityOptions = [
-  {value: "fisica" , label: "Deficiência Física" },
-  {value: "auditiva" , label: "Deficiência Auditiva" },
-  {value: "visual" , label: "Deficiência Visual" },
-  {value: "intelectual" , label: "Deficiência Intelectual" },
-]
-
+  { value: "fisica", label: "Deficiência Física" },
+  { value: "auditiva", label: "Deficiência Auditiva" },
+  { value: "visual", label: "Deficiência Visual" },
+  { value: "intelectual", label: "Deficiência Intelectual" },
+];
 
 const formSchema = z.object({
   nome: z.string().min(3, "Nome é obrigatório"),
