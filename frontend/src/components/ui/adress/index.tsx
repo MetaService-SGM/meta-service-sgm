@@ -153,7 +153,7 @@ export function AddressForm() {
                 name="cep"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>CEP</FormLabel>
+                    <FormLabel>CEP*</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Ex: 00000-000"
@@ -177,7 +177,7 @@ export function AddressForm() {
                 name="uf"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>UF</FormLabel>
+                    <FormLabel>UF*</FormLabel>
                     <FormControl>
                       <Select
                         value={field.value}
@@ -203,14 +203,14 @@ export function AddressForm() {
               <AddressInput
                 control={form.control}
                 name="cidade"
-                label="Cidade"
+                label="Cidade*"
                 placeholder="Cidade"
               />
 
               <AddressInput
                 control={form.control}
                 name="bairro"
-                label="Bairro"
+                label="Bairro*"
                 placeholder="Bairro"
               />
             </div>
@@ -219,7 +219,7 @@ export function AddressForm() {
               <AddressInput
                 control={form.control}
                 name="rua"
-                label="Rua"
+                label="Rua*"
                 placeholder="ex: Rua das Flores"
                 className="col-span-2"
               />
@@ -234,7 +234,7 @@ export function AddressForm() {
               <AddressInput
                 control={form.control}
                 name="numero"
-                label="Número"
+                label="Número*"
                 placeholder="ex: 00"
               />
             </div>

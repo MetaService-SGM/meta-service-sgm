@@ -1,11 +1,16 @@
 "use client";
 
-import React from "react";
-import { StepIndicator } from "@/components/ui/step-indicator";
-import { PageLayout } from "@/components/ui/layout/PageLayout";
-import EmployeeRegistrationLayout from "@/components/ui/layout/EmployeeRegistrationLayout";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -13,80 +18,350 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { StepIndicator } from "@/components/ui/step-indicator";
+import { PageLayout } from "@/components/ui/layout/PageLayout";
+import { FormActionsButton } from "@/components/ui/button/FormActionsButton";
+
+// Schema de validação com mensagens personalizadas
+const contactSchema = z.object({
+  mobileCarrier1: z.string().min(1, "Selecione uma operadora"),
+  mobile1: z
+    .string()
+    .min(15, "Digite um número completo")
+    .regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Formato inválido (99) 99999-9999"),
+  mobileCarrier2: z.string().optional(),
+  mobile2: z
+    .string()
+    .regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Formato inválido (99) 99999-9999")
+    .optional()
+    .or(z.literal("")),
+  emergencyContact: z
+    .string()
+    .min(3, "Mínimo 3 caracteres")
+    .max(50, "Máximo 50 caracteres"),
+  relationship: z.string().min(1, "Selecione um vínculo"),
+  emergencyCarrier: z.string().min(1, "Selecione uma operadora"),
+  emergencyPhone: z
+    .string()
+    .min(15, "Digite um número completo")
+    .regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Formato inválido (99) 99999-9999"),
+  personalEmail: z
+    .string()
+    .email("Digite um email válido")
+    .max(100, "Máximo 100 caracteres"),
+});
+
+type ContactFormData = z.infer<typeof contactSchema>;
+
+// Operadoras disponíveis
+const carriers = [
+  { value: "vivo", label: "Vivo" },
+  { value: "claro", label: "Claro" },
+  { value: "tim", label: "Tim" },
+  { value: "oi", label: "Oi" },
+  { value: "outro", label: "Outro" },
+];
+
+// Relacionamentos disponíveis
+const relationships = [
+  { value: "spouse", label: "Cônjuge" },
+  { value: "parent", label: "Pai/Mãe" },
+  { value: "child", label: "Filho(a)" },
+  { value: "sibling", label: "Irmão(ã)" },
+  { value: "friend", label: "Amigo(a)" },
+  { value: "other", label: "Outro" },
+];
 
 export default function EmployeeRegistration() {
+  const form = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      mobileCarrier1: "",
+      mobile1: "",
+      mobileCarrier2: "",
+      mobile2: "",
+      emergencyContact: "",
+      relationship: "",
+      emergencyCarrier: "",
+      emergencyPhone: "",
+      personalEmail: "",
+    },
+  });
+
+  const onSubmit = (data: ContactFormData) => {
+    console.log("Dados válidos:", data);
+    // Lógica para enviar os dados
+  };
+
+  // Função de máscara para telefone
+  const applyPhoneMask = (value: string) => {
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{2})(\d)/, "($1) $2")
+      .replace(/(\d{5})(\d)/, "$1-$2")
+      .slice(0, 15);
+  };
+
   return (
     <PageLayout>
-      <EmployeeRegistrationLayout>
-        <StepIndicator activeStep={3} />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <StepIndicator activeStep={3} />
 
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold">Contatos</h2>
+          <fieldset className="space-y-6">
+            <legend className="sr-only">Informações de Contato</legend>
 
-          {/* Linha 1 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label>Operadora de Celular 1</Label>
-              <Input placeholder="Ex: Tim" />
-            </div>
-            <div>
-              <Label>Celular 1</Label>
-              <Input placeholder="ex: (99) 9 9999–9999" />
-            </div>
-          </div>
+            {/* Seção Telefones Pessoais */}
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+              <h3 className="text-lg font-semibold mb-6 text-gray-800">
+                Telefones Pessoais
+              </h3>
 
-          {/* Linha 2 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label>Operadora de Celular 2</Label>
-              <Input placeholder="Ex: Tim" />
-            </div>
-            <div>
-              <Label>Celular 2</Label>
-              <Input placeholder="ex: (99) 9 9999–9999" />
-            </div>
-          </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Celular 1 */}
+                <FormField
+                  control={form.control}
+                  name="mobileCarrier1"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Operadora do Celular 1 *</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {carriers.map((carrier) => (
+                              <SelectItem
+                                key={carrier.value}
+                                value={carrier.value}
+                              >
+                                {carrier.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-          {/* Linha 3 */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <Label>Contato de Emergência</Label>
-              <Input placeholder="Ex: Maria" />
-            </div>
-            <div>
-              <Label>Vínculo com o Contato</Label>
-              <Input placeholder="Ex: Esposa" />
-            </div>
-            <div>
-              <Label>Operadora do Telefone de Emergência</Label>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Ex: Vivo" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="vivo">Vivo</SelectItem>
-                  <SelectItem value="claro">Claro</SelectItem>
-                  <SelectItem value="tim">Tim</SelectItem>
-                  <SelectItem value="oi">Oi</SelectItem>
-                  <SelectItem value="outro">Outro</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
+                <FormField
+                  control={form.control}
+                  name="mobile1"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Número do Celular 1 *</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="(99) 99999-9999"
+                          {...field}
+                          onChange={(e) => {
+                            const maskedValue = applyPhoneMask(e.target.value);
+                            field.onChange(maskedValue);
+                          }}
+                          
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-          {/* Linha 4 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label>Telefone de Emergência</Label>
-              <Input placeholder="ex: (99) 9 9999–9999" />
+                {/* Celular 2 */}
+                <FormField
+                  control={form.control}
+                  name="mobileCarrier2"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Operadora do Celular 2</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {carriers.map((carrier) => (
+                              <SelectItem
+                                key={carrier.value}
+                                value={carrier.value}
+                              >
+                                {carrier.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="mobile2"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Número do Celular 2</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="(99) 99999-9999"
+                          {...field}
+                          onChange={(e) => {
+                            const maskedValue = applyPhoneMask(e.target.value);
+                            field.onChange(maskedValue);
+                          }}
+                          
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
-            <div>
-              <Label>Email Pessoal</Label>
-              <Input placeholder="Ex: andersonlima@example.com" />
+
+            {/* Seção Contato de Emergência */}
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+              <h3 className="text-lg font-semibold mb-6 text-gray-800">
+                Contato de Emergência
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <FormField
+                  control={form.control}
+                  name="emergencyContact"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nome do Contato *</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Ex: Maria Silva"
+                          {...field}
+                          maxLength={50}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="relationship"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Vínculo *</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {relationships.map((rel) => (
+                              <SelectItem key={rel.value} value={rel.value}>
+                                {rel.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="emergencyCarrier"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Operadora *</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {carriers.map((carrier) => (
+                              <SelectItem
+                                key={carrier.value}
+                                value={carrier.value}
+                              >
+                                {carrier.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <FormField
+                  control={form.control}
+                  name="emergencyPhone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Telefone de Emergência *</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="(99) 99999-9999"
+                          {...field}
+                          onChange={(e) => {
+                            const maskedValue = applyPhoneMask(e.target.value);
+                            field.onChange(maskedValue);
+                          }}
+                          
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="personalEmail"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email Pessoal *</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="exemplo@email.com"
+                          {...field}
+                          maxLength={100}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
-          </div>
-        </div>
-      </EmployeeRegistrationLayout>
+          </fieldset>
+
+          <FormActionsButton />
+        </form>
+      </Form>
     </PageLayout>
   );
 }
