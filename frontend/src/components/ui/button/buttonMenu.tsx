@@ -12,7 +12,7 @@ export default function ButtonMenu() {
   };
 
   return (
-    <div className="flex min-h-screen justify-center gap-10 text-center">
+    <div className="flex justify-center gap-10 text-center">
       <Button onClick={handleClickConsultation} variant={"select"}>
         Consultar
       </Button>
