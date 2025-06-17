@@ -31,3 +31,17 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Fly.io local volumes
+fly-db/
+
+# SQLite (caso alguém rode rails db:setup em SQLite)
+*.sqlite3
+*.sqlite3-journal
+fly-db/

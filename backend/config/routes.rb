@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
 
+  root "home#index"
+
   resources :employees
   resources :addresses, only: %i[index show create update destroy]
   resources :materials, only: %i[index show create update destroy]

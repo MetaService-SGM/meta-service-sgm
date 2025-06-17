@@ -1,4 +1,4 @@
-class WorkOrderMaterialPolicy < ApplicationPolicy
+class WorkOrderMaterialsPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.joins(:work_order).merge(WorkOrderPolicy::Scope.new(user, WorkOrder).resolve)

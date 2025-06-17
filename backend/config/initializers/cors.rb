@@ -14,3 +14,24 @@
 #       methods: [:get, :post, :put, :patch, :delete, :options, :head]
 #   end
 # end
+
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    # develop
+    origins 'http://localhost:3000'
+
+    resource '*',
+      headers: :any,
+      expose: ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+      methods: %i[get post put patch delete options head]
+  end
+
+#   allow do
+#     # production
+#     origins 'https://seu-front.vercel.app'  
+#     resource '*',
+#       headers: :any,
+#       expose: ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+#       methods: %i[get post put patch delete options head]
+#   end
+end

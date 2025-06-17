@@ -1,4 +1,4 @@
-class CompanysController < ApplicationController
+class CompaniesController < ApplicationController
   def index
     @q = policy_scope(Company).ransack(params[:q])
     @companies = @q.result

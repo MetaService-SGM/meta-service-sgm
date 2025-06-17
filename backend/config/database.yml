@@ -10,8 +10,12 @@ default: &default
 
 development:
   <<: *default
-  database: meta_service_sgm_development
+  database: <%= ENV.fetch("DB_NAME", "meta_service_sgm_development") %>
 
 test:
   <<: *default
   database: meta_service_sgm_test
+
+production:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
