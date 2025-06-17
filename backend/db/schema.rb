@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_10_191936) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_13_124808) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -75,8 +75,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_10_191936) do
     t.date "expires_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "employee_contracts_id", null: false
-    t.index ["employee_contracts_id"], name: "index_asos_on_employee_contracts_id"
+    t.bigint "employee_contract_id", null: false
+    t.index ["employee_contract_id"], name: "index_asos_on_employee_contract_id"
   end
 
   create_table "certifications", force: :cascade do |t|
@@ -373,7 +373,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_10_191936) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "asos", "employee_contracts", column: "employee_contracts_id"
+  add_foreign_key "asos", "employee_contracts"
   add_foreign_key "certifications", "employees"
   add_foreign_key "certifications", "positions"
   add_foreign_key "dependents", "employees"
