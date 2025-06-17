@@ -6,6 +6,7 @@ import { PageLayout } from "@/components/ui/layout/PageLayout";
 import EmployeeTable, { Employee } from "@/components/ui/tables/EmployeeTable";
 import { mockEmployee } from "@/components/ui/tables/mocks";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
+import ButtonMenu from '@/components/ui/button/buttonMenu';
 
 export default function Staff() {
   // Estado inicial com todos os funcionários mockados
@@ -22,7 +23,7 @@ export default function Staff() {
       );
     }
 
-    // Filtro por nome (case insensitive)
+    // Filtro por nome 
     if (filterValues.name) {
       const searchTerm = filterValues.name.toLowerCase();
       result = result.filter(emp =>
@@ -39,6 +40,8 @@ export default function Staff() {
     }
 
     // Atualiza o estado com os resultados filtrados
+
+    /// Att lowercase
     setFilteredEmployees(result);
   };
 
@@ -46,6 +49,7 @@ export default function Staff() {
     <PageLayout>
       <div className="p-4">
         <Breadcrumb />
+        <ButtonMenu />
         <h1 className="text-2xl font-bold text-gray-800 mb-4">Funcionários</h1>
         
         {/* Componente de Filtro */}
