@@ -1,9 +1,9 @@
-import BemvindoPage from "./bemVindo";
+import LoginPage from "./login/page";
 
 export default function App() {
   return (
     <>
-      <BemvindoPage></BemvindoPage>
+      <LoginPage></LoginPage>
     </>
   );
 }
