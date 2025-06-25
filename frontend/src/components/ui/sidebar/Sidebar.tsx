@@ -49,7 +49,7 @@ const NAV_ITEMS = [
   },
   {
     logo: <GoBellFill />,
-    src: "/alerts",
+    src: "/alertas",
     alt: "Ícone de alertas",
     label: "Alertas",
   },
