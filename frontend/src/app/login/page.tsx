@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -21,7 +20,7 @@ export default function LoginPage() {
     const role = localStorage.getItem("role");
 
     if (token && role) {
-      router.push("/bemvindo");
+      router.push("/");
     }
   }, [router]);
 
@@ -38,7 +37,6 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validação simples dos campos
     if (!formData.email || !formData.password) {
       setErro("Por favor, preencha todos os campos");
       return;
@@ -48,38 +46,49 @@ export default function LoginPage() {
     setErro("");
 
     try {
-      // Requisição para API de autenticação (substituir pela sua URL real)
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email.trim(),
-          password: formData.password,
-        }),
-      });
+      const response = await fetch(
+        "https://meta-service-sgm.fly.dev/auth/sign_in",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email.trim(),
+            password: formData.password,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Credenciais inválidas");
+        throw new Error(data.errors?.[0] || "Credenciais inválidas");
       }
 
-      if (!data.token || !data.user) {
-        throw new Error("Dados de autenticação incompletos");
+      // Captura dos headers de autenticação
+      const token = response.headers.get("access-token");
+      const client = response.headers.get("client");
+      const uid = response.headers.get("uid");
+      const tokenType = response.headers.get("token-type");
+
+      if (!token || !client || !uid || !tokenType) {
+        throw new Error("Headers de autenticação ausentes");
       }
 
-      // Salvando dados no localStorage
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("userId", data.user.id);
-      localStorage.setItem("name", data.user.name);
-      localStorage.setItem("role", data.user.role);
+      // Armazenar os headers no localStorage
+      localStorage.setItem("access-token", token);
+      localStorage.setItem("client", client);
+      localStorage.setItem("uid", uid);
+      localStorage.setItem("token-type", tokenType);
 
-      // Redireciona após login bem-sucedido
-      router.push("/bemvindo");
+      // Armazenar dados do usuário (ajuste conforme a estrutura da resposta da sua API)
+      localStorage.setItem("userId", data.data.id);
+      localStorage.setItem("name", data.data.name);
+      localStorage.setItem("role", data.data.role);
+
+      router.push("/bemVindo");
     } catch (error) {
-      // Tratamento de erros
       if (error instanceof Error) {
         setErro(error.message);
       } else {
