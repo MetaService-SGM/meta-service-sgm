@@ -7,7 +7,11 @@ module Api
         alerts = alerts.where(resolved: ActiveModel::Type::Boolean.new.cast(params[:resolved])) if params[:resolved].present?
         alerts = alerts.order(created_at: :desc)
 
-        render json: alerts.as_json(only: [:id, :category, :message, :resolved, :reference_type, :reference_id, :created_at])
+        render json: alerts.map { |alert|
+          alert.as_json(
+            only: [:id, :category, :message, :resolved, :reference_type, :reference_id, :created_at]
+          ).merge(employee_name: alert.employee_name)
+        }
       end
     end
   end

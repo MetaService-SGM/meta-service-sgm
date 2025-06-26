@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: meta-service-sgm
+    env: ruby
+    plan: free
+    buildCommand: bundle install && bundle exec rails db:migrate
+    startCommand: bundle exec rails s -p 3000 -b 0.0.0.0
+    autoDeploy: true
+    envVars:
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
+
+  - type: worker
+    name: meta-sidekiq
+    env: ruby
+    plan: free
+    buildCommand: bundle install
+    startCommand: bundle exec sidekiq
+    autoDeploy: true
+    envVars:
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
