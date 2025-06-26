@@ -6,6 +6,7 @@ class Employee < ApplicationRecord
   has_many :contacts, as: :contactable, dependent: :destroy
   has_many :emergency_contacts, dependent: :destroy
   has_one :employee_contract, dependent: :destroy
+  has_many :certifications
 
   has_one_attached :foto
   

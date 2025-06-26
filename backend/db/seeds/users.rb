@@ -1,4 +1,3 @@
-# db/seeds/users.rb
 
 puts "Apagando usuários existentes..."
 User.destroy_all

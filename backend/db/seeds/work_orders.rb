@@ -17,7 +17,6 @@ if materials.empty?
 end
 
 20.times do |i|
-  # Escolhe aleatoriamente entre um nome de funcionário ou um nome fake
   responsible_name = if employees.any? && [true, false].sample
                         employees.sample.full_name
                       else
@@ -29,8 +28,8 @@ end
     opened_at: Date.current - rand(1..300),
     started_at: Date.current - rand(1..200),
     expected_end_at: Date.current + rand(1..30),
-    status: rand(0..2), # enum status: { pending: 0, in_progress: 1, closed: 2 }
-    priority: rand(0..2), # enum priority: { low: 0, medium: 1, high: 2 }
+    status: rand(0..2), 
+    priority: rand(0..2), 
     requester_name: Faker::Name.name,
     requester_department: "Setor #{(i % 5) + 1}",
     requester_contact: Faker::PhoneNumber.cell_phone_in_e164,
