@@ -13,7 +13,7 @@ import { SidebarButton } from "./SidebarButton";
 const NAV_ITEMS = [
   {
     logo: <FaHouse />,
-    src: "/",
+    src: "/bemVindo",
     alt: "Ícone de boas-vindas",
     label: "Bem-vindo",
   },
