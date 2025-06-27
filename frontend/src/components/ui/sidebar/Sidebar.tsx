@@ -55,9 +55,9 @@ const NAV_ITEMS = [
   },
   {
     logo: <FaGear />,
-    src: "/settings",
-    alt: "Ícone de configurações",
-    label: "Configurações",
+    src: "/gerenciamento",
+    alt: "Gerenciamento de Usuários",
+    label: "Gerenciamento de Usuários",
   },
 ];
 

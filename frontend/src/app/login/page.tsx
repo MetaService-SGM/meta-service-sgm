@@ -1,9 +1,10 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; // Use isso apenas se estiver usando pasta 'app'
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/input/inputField";
+import { toast } from "react-hot-toast";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -14,17 +15,29 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  // Verifica se já existe token salvo e redireciona o usuário logado
+  // Verificar se o usuário já está logado
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role");
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("access-token");
+      const client = localStorage.getItem("client");
+      const uid = localStorage.getItem("uid");
+      const role = localStorage.getItem("role");
 
-    if (token && role) {
-      router.push("/");
+      if (token && client && uid && role) {
+        toast.success("Você já está logado! Redirecionando...", {
+          duration: 2000,
+        });
+
+        const timer = setTimeout(() => {
+          console.log("Redirecionando para /bemVindo");
+          router.replace("/bemVindo");
+        }, 2000);
+
+        return () => clearTimeout(timer);
+      }
     }
   }, [router]);
 
-  // Manipula alterações dos campos do formulário
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prev) => ({
@@ -33,7 +46,6 @@ export default function LoginPage() {
     }));
   };
 
-  // Manipula envio do formulário
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -63,10 +75,14 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.errors?.[0] || "Credenciais inválidas");
+        const errorMessage =
+          data.errors?.[0].toLowerCase().includes("invalid") ||
+          data.errors?.[0].toLowerCase().includes("credenciais")
+            ? "E-mail ou senha incorretos"
+            : data.errors?.[0] || "Erro ao fazer login";
+        throw new Error(errorMessage);
       }
 
-      // Captura dos headers de autenticação
       const token = response.headers.get("access-token");
       const client = response.headers.get("client");
       const uid = response.headers.get("uid");
@@ -76,18 +92,17 @@ export default function LoginPage() {
         throw new Error("Headers de autenticação ausentes");
       }
 
-      // Armazenar os headers no localStorage
+      // Salvar dados no localStorage
       localStorage.setItem("access-token", token);
       localStorage.setItem("client", client);
       localStorage.setItem("uid", uid);
       localStorage.setItem("token-type", tokenType);
-
-      // Armazenar dados do usuário (ajuste conforme a estrutura da resposta da sua API)
       localStorage.setItem("userId", data.data.id);
       localStorage.setItem("name", data.data.name);
       localStorage.setItem("role", data.data.role);
 
-      router.push("/bemVindo");
+      console.log("Login bem-sucedido, redirecionando para /bemVindo");
+      router.replace("/bemVindo");
     } catch (error) {
       if (error instanceof Error) {
         setErro(error.message);
@@ -98,7 +113,7 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
-  // Lista de inputs utilizada no formulário
+
   const INPUT_ITEMS = [
     {
       id: "email",
@@ -120,7 +135,7 @@ export default function LoginPage() {
 
   return (
     <main className="min-h-screen flex flex-row bg-gradient-to-b from-[#14add6] to-[#384295]">
-      {/* Seção Esquerda - Logo */}
+      {/* Seção da esquerda - Logo */}
       <div className="w-1/2 flex items-center justify-center p-8">
         <div className="shadow-xl flex items-center justify-center">
           <Image
@@ -134,7 +149,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Seção Direita - Formulário */}
+      {/* Seção da direita - Formulário */}
       <div className="md:w-1/2 rounded-bl-3xl flex flex-col justify-center items-center p-16 gap-10 bg-gray-50 mb-3">
         <h1
           style={{ fontFamily: "var(--font-nunito)" }}
@@ -147,7 +162,6 @@ export default function LoginPage() {
           onSubmit={handleSubmit}
           className="h-1/2 space-y-4 w-full max-w-md"
         >
-          {/* Renderização dos campos de input */}
           {INPUT_ITEMS.map((input) => (
             <InputField
               key={input.id}
@@ -163,7 +177,6 @@ export default function LoginPage() {
             />
           ))}
 
-          {/* Link de recuperação de senha */}
           <div className="text-left">
             <a
               href="#"
@@ -173,14 +186,12 @@ export default function LoginPage() {
             </a>
           </div>
 
-          {/* Mensagem de erro */}
           {erro && (
             <div className="text-red-500 text-sm py-2" role="alert">
               {erro}
             </div>
           )}
 
-          {/* Botão de envio */}
           <Button
             variant="login"
             type="submit"

@@ -4,6 +4,8 @@ import { Geist, Geist_Mono, Nunito } from "next/font/google";
 import "./reset.css";
 import "./globals.css";
 import { PageTransitionLoader } from "@/components/ui/page-transition-loader";
+import { Toaster } from "react-hot-toast";
+import AuthGuard from "@/components/utils/AuthGuard";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -42,8 +44,9 @@ export default function RootLayout({
           antialiased
         `}
       >
+        <Toaster position="top-right" />
         <PageTransitionLoader />
-        {children}
+        <AuthGuard>{children}</AuthGuard>
       </body>
     </html>
   );
