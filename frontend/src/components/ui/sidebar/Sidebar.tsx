@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { FaHouse, FaGear } from "react-icons/fa6";
-import { MdSpaceDashboard, MdEditSquare } from "react-icons/md";
+// import { MdSpaceDashboard, MdEditSquare } from "react-icons/md";
 import { IoPersonSharp, IoCopy } from "react-icons/io5";
 import { GoBellFill } from "react-icons/go";
 import { AiFillPieChart } from "react-icons/ai";
@@ -17,12 +17,12 @@ const NAV_ITEMS = [
     alt: "Ícone de boas-vindas",
     label: "Bem-vindo",
   },
-  {
-    logo: <MdSpaceDashboard />,
-    src: "/dashboard",
-    alt: "Ícone de dashboard",
-    label: "Dashboard",
-  },
+  // {
+  //   logo: <MdSpaceDashboard />,
+  //   src: "/dashboard",
+  //   alt: "Ícone de dashboard",
+  //   label: "Dashboard",
+  // },
   {
     logo: <IoPersonSharp />,
     src: "/pessoal",
@@ -41,12 +41,12 @@ const NAV_ITEMS = [
     alt: "Ícone de materiais",
     label: "Gerenciamento de Materiais",
   },
-  {
-    logo: <MdEditSquare />,
-    src: "/orders",
-    alt: "Ícone de ordens",
-    label: "Ordem de Serviço",
-  },
+  // {
+  //   logo: <MdEditSquare />,
+  //   src: "/orders",
+  //   alt: "Ícone de ordens",
+  //   label: "Ordem de Serviço",
+  // },
   {
     logo: <GoBellFill />,
     src: "/alertas",
