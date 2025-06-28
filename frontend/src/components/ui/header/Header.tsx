@@ -3,8 +3,8 @@ import Image from "next/image";
 
 export const Header = () => {
   return (
-    <header className="bg-[#2B426E] text-white px-2 py-1">
-      <div className="flex items-center justify-between max-w-[1860px] mx-auto w-full px-2 sm:px-2 lg:px-20">
+    <header className="bg-[#2B426E] text-white px-2 py-1 max-w-94.5">
+      <div className="flex items-center justify-between  ">
         {/* Logo */}
         <div className="flex items-center">
           <Link
@@ -14,7 +14,7 @@ export const Header = () => {
           >
             <Image
               src="/images/logo/logo-sgm-sidebar.png"
-              width={120}
+              width={110}
               height={80}
               alt="Logo SGM"
               className="object-contain"
@@ -29,15 +29,11 @@ export const Header = () => {
             className="flex items-center gap-3 p-2 rounded-md hover:bg-blue-900 transition-colors"
             aria-label="Acessar configurações do perfil"
           >
-            <Image
-              src="/images/icons/perfil.png"
-              width={40}
-              height={40}
-              className="rounded-full border-2 border-sidebar-border"
-              alt="Foto de Perfil"
-            />
+            
+         
+            
             <div className="flex flex-col">
-              <span className="text-sm font-semibold">Ricardo</span>
+              <span className="text-sm font-semibold ml-3">Ricardo</span>
               <span className="text-xs">
                 Administrador
               </span>
