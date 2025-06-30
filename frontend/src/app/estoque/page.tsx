@@ -39,6 +39,24 @@ export default function Estoque() {
 
   const [materiaisLocais, setMateriaisLocais] = useState<Material[]>([]);
 
+  // Função para pegar headers com token para autenticação
+  function getAuthHeaders() {
+    const accessToken = localStorage.getItem("access-token");
+    const client = localStorage.getItem("client");
+    const uid = localStorage.getItem("uid");
+
+    if (!accessToken || !client || !uid) {
+      throw new Error("Token de autenticação não encontrado");
+    }
+
+    return {
+      "access-token": accessToken,
+      client,
+      uid,
+      "Content-Type": "application/json",
+    };
+  }
+
   // Ler materiais do localStorage quando montar
   useEffect(() => {
     try {
@@ -174,4 +192,3 @@ export default function Estoque() {
     </PageLayout>
   );
 }
-

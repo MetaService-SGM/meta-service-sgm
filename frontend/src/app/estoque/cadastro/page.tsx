@@ -32,6 +32,24 @@ export default function CadastroMateriais() {
     descricao: '',
   });
 
+  // Função para pegar headers com token para autenticação
+  function getAuthHeaders() {
+    const accessToken = localStorage.getItem("access-token");
+    const client = localStorage.getItem("client");
+    const uid = localStorage.getItem("uid");
+
+    if (!accessToken || !client || !uid) {
+      throw new Error("Token de autenticação não encontrado");
+    }
+
+    return {
+      "access-token": accessToken,
+      client,
+      uid,
+      "Content-Type": "application/json",
+    };
+  }
+
   // Carrega o rascunho ao iniciar
   useEffect(() => {
     const rascunhoSalvo = localStorage.getItem(LOCAL_STORAGE_KEY_RASCUNHO);
@@ -65,14 +83,32 @@ export default function CadastroMateriais() {
         descricao: '',
       });
       localStorage.removeItem(LOCAL_STORAGE_KEY_RASCUNHO);
+      router.push('/estoque');
+
     }
   };
 
-  const router = useRouter();
+  let router = useRouter();
 
   const enviarFormulario = () => {
     const caValido = /^\d{6}$/.test(formData.ca);
     const codigoInternoValido = /^\d{8}$/.test(formData.codigoInterno);
+
+    // Validação dos campos obrigatórios
+    const camposFaltando: string[] = [];
+
+    if (!formData.ca) camposFaltando.push('C.A');
+    if (!formData.produto) camposFaltando.push('Produto');
+    if (!formData.data) camposFaltando.push('Data de Emissão');
+    if (!formData.quantidade) camposFaltando.push('Quantidade');
+    if (!formData.tamanho) camposFaltando.push('Tamanho');
+    if (!formData.cor) camposFaltando.push('Cor');
+    if (!formData.codigoInterno) camposFaltando.push('Código Interno');
+
+    if (camposFaltando.length > 0) {
+      alert(`Por favor, preencha os seguintes campos obrigatórios:\n- ${camposFaltando.join('\n- ')}`);
+      return;
+    }
 
     if (!caValido || !codigoInternoValido) {
       alert('Verifique os campos:\n- C.A deve conter 6 números\n- Código Interno deve conter 8 números');
@@ -234,6 +270,7 @@ export default function CadastroMateriais() {
           <div className="flex justify-end space-x-4 mt-6">
             <button
               onClick={cancelar}
+             
               className="bg-white border border-gray-300 shadow rounded-md px-4 py-2 hover:bg-gray-100 transition"
             >
               Cancelar
@@ -258,4 +295,3 @@ export default function CadastroMateriais() {
     </PageLayout>
   );
 }
-
