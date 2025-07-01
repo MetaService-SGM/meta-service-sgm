@@ -2,18 +2,29 @@
 
 import { useEffect, useState } from "react";
 import { PageLayout } from "@/components/ui/layout/PageLayout";
+import { TitlePage } from "@/components/ui/title/TitlePage";
+
+type AlertCategory = "certification" | "material";
 
 interface Alert {
   id: number;
-  category: "certification" | "material";
+  category: AlertCategory;
   message: string;
   resolved: boolean;
   reference_type: string;
   reference_id: number;
   created_at: string;
+  employee_name?: string;
 }
 
-const FILTROS = [
+type FiltroValue = "todos" | "mais_recente" | "mais_antigo" | AlertCategory;
+
+interface FiltroOption {
+  label: string;
+  value: FiltroValue;
+}
+
+const FILTROS: FiltroOption[] = [
   { label: "Todos", value: "todos" },
   { label: "Mais recente", value: "mais_recente" },
   { label: "Mais antigo", value: "mais_antigo" },
@@ -25,27 +36,38 @@ export default function AlertaPage() {
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [erro, setErro] = useState("");
   const [loading, setLoading] = useState(true);
-  const [filtro, setFiltro] = useState("todos");
+  const [filtro, setFiltro] = useState<FiltroValue>("todos");
 
   useEffect(() => {
     const fetchAlerts = async () => {
       try {
-        const response = await fetch("https://meta-service-sgm.fly.dev/api/v1/alerts", {
-          headers: {
-            "Content-Type": "application/json",
-            "access-token": localStorage.getItem("access-token") || "",
-            client: localStorage.getItem("client") || "",
-            uid: localStorage.getItem("uid") || "",
-          },
-        });
+        const token = localStorage.getItem("access-token");
+        if (!token) throw new Error("Token de acesso não encontrado");
 
-        if (!response.ok) throw new Error("Erro ao buscar alertas");
+        const response = await fetch(
+          "https://meta-service-sgm.fly.dev/api/v1/alerts",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "access-token": token,
+              client: localStorage.getItem("client") || "",
+              uid: localStorage.getItem("uid") || "",
+            },
+          }
+        );
 
-        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(`Erro ${response.status}: ${response.statusText}`);
+        }
+
+        const data: Alert[] = await response.json();
         setAlerts(data);
-      } catch (err: any) {
-        console.error(err);
-        setErro("Não foi possível carregar os alertas.");
+      } catch (err) {
+        if (err instanceof Error) {
+          setErro(err.message);
+        } else {
+          setErro("Ocorreu um erro desconhecido");
+        }
       } finally {
         setLoading(false);
       }
@@ -54,7 +76,7 @@ export default function AlertaPage() {
     fetchAlerts();
   }, []);
 
-  const applyFiltro = () => {
+  const applyFiltro = (): Alert[] => {
     let filtrado = [...alerts];
 
     if (filtro === "mais_recente") {
@@ -74,7 +96,7 @@ export default function AlertaPage() {
     return filtrado;
   };
 
-  const formatDate = (dateStr: string) => {
+  const formatDate = (dateStr: string): string => {
     const d = new Date(dateStr);
     return d.toLocaleDateString("pt-BR", {
       day: "2-digit",
@@ -112,8 +134,8 @@ export default function AlertaPage() {
 
   return (
     <PageLayout>
-      <main className="p-8 bg-gray-100 min-h-screen">
-        <h1 className="text-2xl font-bold mb-6 text-[#2b426e]">🔔 Alertas</h1>
+      <main className="min-h-screen">
+        <TitlePage>Alertas</TitlePage>
 
         {/* Filtros */}
         <div className="mb-4 flex flex-wrap gap-4">
@@ -124,7 +146,7 @@ export default function AlertaPage() {
                 name="filtro"
                 value={f.value}
                 checked={filtro === f.value}
-                onChange={(e) => setFiltro(e.target.value)}
+                onChange={(e) => setFiltro(e.target.value as FiltroValue)}
               />
               {f.label}
             </label>
@@ -148,7 +170,6 @@ export default function AlertaPage() {
                   <th className="py-2 px-4 text-left">Data</th>
                   <th className="py-2 px-4 text-left">Nome Colaborador</th>
                   <th className="py-2 px-4 text-left">Status</th>
-                  <th className="py-2 px-4 text-left">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -167,12 +188,17 @@ export default function AlertaPage() {
                         {formatDate(alert.created_at)}
                       </td>
                       <td className="py-2 px-4">
-                        {alert.category === "certification"
-                          ? alert.employee_name || "—"
+                        {alert.category === "certification" &&
+                        alert.employee_name
+                          ? alert.employee_name
                           : "—"}
                       </td>
                       <td className="py-2 px-4">
-                        {alert.resolved ? "✅" : "🔴"}
+                        {alert.resolved ? (
+                          <span className="text-green-500">✅ Resolvido</span>
+                        ) : (
+                          <span className="text-red-500">🔴 Pendente</span>
+                        )}
                       </td>
                     </tr>
                   );
