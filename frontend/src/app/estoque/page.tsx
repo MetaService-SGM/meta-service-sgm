@@ -1,6 +1,7 @@
 'use client';
 
 import { PageLayout } from '@/components/ui/layout/PageLayout';
+import { TitlePage } from '@/components/ui/title/TitlePage';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState, useEffect } from 'react';
 
@@ -40,22 +41,22 @@ export default function Estoque() {
   const [materiaisLocais, setMateriaisLocais] = useState<Material[]>([]);
 
   // Função para pegar headers com token para autenticação
-  function getAuthHeaders() {
-    const accessToken = localStorage.getItem("access-token");
-    const client = localStorage.getItem("client");
-    const uid = localStorage.getItem("uid");
+  // function getAuthHeaders() {
+  //   const accessToken = localStorage.getItem("access-token");
+  //   const client = localStorage.getItem("client");
+  //   const uid = localStorage.getItem("uid");
 
-    if (!accessToken || !client || !uid) {
-      throw new Error("Token de autenticação não encontrado");
-    }
+  //   if (!accessToken || !client || !uid) {
+  //     throw new Error("Token de autenticação não encontrado");
+  //   }
 
-    return {
-      "access-token": accessToken,
-      client,
-      uid,
-      "Content-Type": "application/json",
-    };
-  }
+  //   return {
+  //     "access-token": accessToken,
+  //     client,
+  //     uid,
+  //     "Content-Type": "application/json",
+  //   };
+  // }
 
   // Ler materiais do localStorage quando montar
   useEffect(() => {
@@ -100,8 +101,8 @@ export default function Estoque() {
 
   return (
     <PageLayout>
-      <div className="min-h-screen bg-white flex flex-col items-center p-4">
-        <h1 className="text-2xl font-bold mb-4 text-center w-full">Consulta de Materiais</h1>
+      <div className="min-h-screen bg-white flex flex-col items-center">
+        <TitlePage>Consulta de Materiais</TitlePage>
 
         <div className="bg-gray-100 p-8 rounded shadow-md w-full max-w-5xl mb-6">
           <div className="flex gap-2 mb-2 flex-wrap items-center justify-between">
@@ -110,12 +111,12 @@ export default function Estoque() {
               placeholder="Digite aqui..."
               className="border p-2 flex-grow min-w-[200px] rounded"
               value={filtro}
-              onChange={e => setFiltro(e.target.value)}
+              onChange={(e) => setFiltro(e.target.value)}
               aria-label="Campo de filtro"
             />
 
             <div className="flex space-x-4 items-center mt-2 md:mt-0">
-              {opcoesCampos.map(opt => (
+              {opcoesCampos.map((opt) => (
                 <label key={opt.value} className="flex items-center space-x-1">
                   <input
                     type="radio"
@@ -129,7 +130,7 @@ export default function Estoque() {
               ))}
 
               <button
-                onClick={() => router.push('/estoque/cadastro')}
+                onClick={() => router.push("/estoque/cadastro")}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-semibold ml-70 py-2 px-4 rounded"
               >
                 Cadastrar Material
@@ -149,15 +150,19 @@ export default function Estoque() {
               <th className="border p-2">CA</th>
               <th className="border p-2">Cor</th>
               <th className="border p-2">Código Interno</th>
-              <th className="border p-2 w-24">Ações</th> {/* Coluna para botão apagar */}
+              <th className="border p-2 w-24">Ações</th>{" "}
+              {/* Coluna para botão apagar */}
             </tr>
           </thead>
           <tbody>
-            {filtrados.map(item => {
+            {filtrados.map((item) => {
               // Apenas habilita apagar se o item veio do localStorage
-              const podeApagar = materiaisLocais.some(m => m.id === item.id);
+              const podeApagar = materiaisLocais.some((m) => m.id === item.id);
               return (
-                <tr key={item.id} className="even:bg-white odd:bg-gray-50 divide-x divide-black">
+                <tr
+                  key={item.id}
+                  className="even:bg-white odd:bg-gray-50 divide-x divide-black"
+                >
                   <td className="border p-2">{item.id}</td>
                   <td className="border p-2">{item.produto}</td>
                   <td className="border p-2">{item.tamanho}</td>
