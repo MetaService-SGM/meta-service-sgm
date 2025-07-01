@@ -4,14 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+const roleLabels: Record<string, string> = {
+  admin: "Administrador",
+};
+
 export const Header = () => {
   const [name, setName] = useState("Usuário");
   const [role, setRole] = useState("Função");
-
-  // Mapeia os papéis para nomes legíveis
-  const roleLabels: Record<string, string> = {
-    admin: "Administrador",
-  };
 
   useEffect(() => {
     const nome = localStorage.getItem("name");
@@ -22,7 +21,7 @@ export const Header = () => {
       const roleFormatada = roleLabels[funcao.toLowerCase()] || funcao;
       setRole(roleFormatada);
     }
-  }, []);
+  }, []); 
 
   return (
     <header className="bg-[#2B426E] text-white px-2 py-1 max-w-94.5">
