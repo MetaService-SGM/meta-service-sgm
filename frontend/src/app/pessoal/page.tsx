@@ -6,6 +6,7 @@ import { PageLayout } from "@/components/ui/layout/PageLayout";
 import EmployeeTable, { Employee } from "@/components/ui/tables/EmployeeTable";
 import { mockEmployee } from "@/components/ui/tables/mocks";
 import ButtonMenu from '@/components/ui/button/buttonMenu';
+import { TitlePage } from '@/components/ui/title/TitlePage';
 
 export default function Staff() {
   // Estado inicial com todos os funcionários mockados
@@ -46,10 +47,10 @@ export default function Staff() {
 
   return (
     <PageLayout>
-      <div className="p-4">
+      <div>
         <ButtonMenu />
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">Funcionários</h1>
-        
+        <TitlePage>Funcionários</TitlePage>
+
         {/* Componente de Filtro */}
         <EmployeeFilter onFilter={handleFilter} />
 
