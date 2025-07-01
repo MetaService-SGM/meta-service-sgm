@@ -36,7 +36,7 @@ export const SidebarButton = ({
       onClick={handleClick}
       className={`flex items-center w-full p-3 transition-colors gap-1 ${
         active
-          ? "bg-blue-100 text-blue-600"
+          ? "bg-blue-100 border-l-6 border-l-[#2B426E] rounded"
           : "hover:bg-[#F2F7FF] cursor-pointer hover:border-l-6 rounded hover:border-l-[#2B426E]"
       }`}
     >

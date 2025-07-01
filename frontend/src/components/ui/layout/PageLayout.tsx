@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import { Header } from "../header/Header";
 import { MainBackground } from "./MainBackGround";
 import Sidebar from "../sidebar/Sidebar";
 
@@ -10,12 +9,9 @@ type PageLayoutProps = {
 
 export function PageLayout({ children }: PageLayoutProps) {
   return (
-    <div className="min-h-svh">
-      <Header />
       <div className="flex">
         <Sidebar />
         <MainBackground>{children}</MainBackground>
       </div>
-    </div>
   );
 }

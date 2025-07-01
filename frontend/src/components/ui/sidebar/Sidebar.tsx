@@ -1,14 +1,14 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation"; // ⬅️ IMPORTANTE
 import { FaHouse, FaGear } from "react-icons/fa6";
-// import { MdSpaceDashboard, MdEditSquare } from "react-icons/md";
 import { IoPersonSharp, IoCopy } from "react-icons/io5";
 import { GoBellFill } from "react-icons/go";
 import { AiFillPieChart } from "react-icons/ai";
 import { IoIosLogOut } from "react-icons/io";
 import { Button } from "../button";
 import { SidebarButton } from "./SidebarButton";
+import { Header } from "../header/Header";
 
 const NAV_ITEMS = [
   {
@@ -17,12 +17,6 @@ const NAV_ITEMS = [
     alt: "Ícone de boas-vindas",
     label: "Bem-vindo",
   },
-  // {
-  //   logo: <MdSpaceDashboard />,
-  //   src: "/dashboard",
-  //   alt: "Ícone de dashboard",
-  //   label: "Dashboard",
-  // },
   {
     logo: <IoPersonSharp />,
     src: "/pessoal",
@@ -41,12 +35,6 @@ const NAV_ITEMS = [
     alt: "Ícone de materiais",
     label: "Gerenciamento de Materiais",
   },
-  // {
-  //   logo: <MdEditSquare />,
-  //   src: "/orders",
-  //   alt: "Ícone de ordens",
-  //   label: "Ordem de Serviço",
-  // },
   {
     logo: <GoBellFill />,
     src: "/alertas",
@@ -63,6 +51,7 @@ const NAV_ITEMS = [
 
 export default function Sidebar() {
   const router = useRouter();
+  const pathname = usePathname(); // ⬅️ PEGAR A ROTA ATUAL
 
   const handleLogout = () => {
     localStorage.clear();
@@ -71,21 +60,25 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Placeholder para ocupar espaço no layout */}
-      <div className="bg-white min-h-svh w-[26%] shadow-[4px_0px_4px_0px_rgba(0,0,0,0.25)]" />
+      <div className="bg-white min-h-svh w-[26%] max-w-[26%] shadow-[4px_0px_4px_0px_rgba(0,0,0,0.25)]">
+        <Header />
+      </div>
 
-      {/* Sidebar fixa sobre o placeholder */}
       <nav className="fixed sidebar w-[20%] flex flex-col min-h-svh">
         <div className="flex-1 overflow-y-auto py-2">
           <div className="space-y-4">
-            {NAV_ITEMS.map((item, index) => (
-              <div
-                key={`nav-item-${index}`}
-                className={index === 0 ? "mt-6" : ""}
-              >
-                <SidebarButton {...item} />
-              </div>
-            ))}
+            {NAV_ITEMS.map((item, index) => {
+              // compara se a rota atual começa com o caminho do item
+              const isActive = pathname.startsWith(item.src);
+              return (
+                <div
+                  key={`nav-item-${index}`}
+                  className={index === 0 ? "mt-18" : ""}
+                >
+                  <SidebarButton {...item} active={isActive} />
+                </div>
+              );
+            })}
           </div>
         </div>
 
