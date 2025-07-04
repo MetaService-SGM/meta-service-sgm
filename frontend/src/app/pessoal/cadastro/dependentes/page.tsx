@@ -93,7 +93,7 @@ export default function DependentsPage() {
     <PageLayout>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <StepIndicator activeStep={5} />
+          <StepIndicator activeStep={6} />
 
           <div className="bg-white p-6 rounded-lg shadow-sm">
             <h2 className="text-xl font-semibold mb-6 text-gray-800">

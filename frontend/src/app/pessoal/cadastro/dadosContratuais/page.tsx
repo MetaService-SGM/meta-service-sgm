@@ -20,11 +20,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { StepIndicator } from "@/components/ui/step-indicator";
 import { PageLayout } from "@/components/ui/layout/PageLayout";
 import { FormActionsButton } from "@/components/ui/button/FormActionsButton";
-import { v4 as uuidv4 } from "uuid";
 import { DatePicker } from "@/components/ui/date-picker";
 
 // Geração dinâmica de opções de horário
@@ -52,7 +50,6 @@ const shiftHours = {
 
 // Schema de validação
 const contractSchema = z.object({
-  registration: z.string().uuid(),
   department: z.string().min(2, "Mínimo 2 caracteres"),
   position: z.string().min(1, "Selecione um cargo"),
   contractType: z.string().min(1, "Selecione um tipo"),
@@ -93,17 +90,10 @@ const shifts = [
   { value: "integral", label: "Integral" },
 ];
 
-const hierarchyLevels = [
-  { value: "junior", label: "Júnior" },
-  { value: "pleno", label: "Pleno" },
-  { value: "senior", label: "Sênior" },
-];
-
 export default function EmployeeRegistration() {
   const form = useForm<ContractFormData>({
     resolver: zodResolver(contractSchema),
     defaultValues: {
-      registration: uuidv4().substring(0, 8),
       department: "",
       position: "",
       contractType: "",
@@ -152,34 +142,13 @@ export default function EmployeeRegistration() {
   return (
     <PageLayout>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
           <StepIndicator activeStep={4} />
 
-          <fieldset className="space-y-6">
+          <fieldset className="space-y-8">
             <legend className="text-lg font-semibold mb-6 text-gray-800">
               Dados Contratuais
             </legend>
-
-            {/* Linha 1 - Matrícula */}
-            <div>
-              <FormField
-                control={form.control}
-                name="registration"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Matrícula</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled
-                        className="bg-muted cursor-not-allowed w-fit"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
 
             {/* Linha 2 - Departamento e Cargo */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -192,10 +161,7 @@ export default function EmployeeRegistration() {
                     <div className="flex gap-2">
                       <FormControl>
                         <Input placeholder="Ex: Financeiro" {...field} />
-                      </FormControl>
-                      <Button variant="outline" type="button">
-                        +
-                      </Button>
+                      </FormControl>             
                     </div>
                     <FormMessage />
                   </FormItem>
@@ -226,9 +192,6 @@ export default function EmployeeRegistration() {
                           </SelectContent>
                         </Select>
                       </FormControl>
-                      <Button variant="outline" type="button">
-                        +
-                      </Button>
                     </div>
                     <FormMessage />
                   </FormItem>
@@ -261,10 +224,7 @@ export default function EmployeeRegistration() {
                             ))}
                           </SelectContent>
                         </Select>
-                      </FormControl>
-                      <Button variant="outline" type="button">
-                        +
-                      </Button>
+                      </FormControl>              
                     </div>
                     <FormMessage />
                   </FormItem>
@@ -280,10 +240,7 @@ export default function EmployeeRegistration() {
                     <div className="flex gap-2">
                       <FormControl>
                         <Input placeholder="Ex: Matriz Recife" {...field} />
-                      </FormControl>
-                      <Button variant="outline" type="button">
-                        +
-                      </Button>
+                      </FormControl>         
                     </div>
                     <FormMessage />
                   </FormItem>
@@ -495,25 +452,8 @@ export default function EmployeeRegistration() {
                     <FormLabel>Grau Hierárquico *</FormLabel>
                     <div className="flex gap-2">
                       <FormControl>
-                        <Select
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Selecione..." />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {hierarchyLevels.map((item) => (
-                              <SelectItem key={item.value} value={item.value}>
-                                {item.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <Button variant="outline" type="button">
-                        +
-                      </Button>
+                      <Input placeholder="Ex: Supervisor" {...field} />
+                      </FormControl>              
                     </div>
                     <FormMessage />
                   </FormItem>

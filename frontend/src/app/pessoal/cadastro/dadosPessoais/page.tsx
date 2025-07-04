@@ -76,6 +76,14 @@ const disabilityOptions = [
 ];
 
 const formSchema = z.object({
+  cpf: z
+    .string()
+    .min(11, "CPF deve ter 11 dígitos")
+    .max(14, "CPF inválido")
+    .regex(
+      /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/,
+      "Formato inválido (use XXX.XXX.XXXX-XX)"
+    ),
   nome: z.string().min(3, "Nome é obrigatório"),
   nomeSocial: z.string().optional(),
   dataNascimento: z.date(),
@@ -111,6 +119,7 @@ export default function EmployeeRegistration() {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      cpf: "",
       nome: "",
       nomeSocial: "",
       dataNascimento: new Date(),
@@ -142,6 +151,16 @@ export default function EmployeeRegistration() {
     }
   };
 
+  // Função para aplicar máscara de CPF
+  const applyCpfMask = (value: string) => {
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d)/, "$1.$2")
+      .replace(/(\d{3})(\d{2})$/, "$1-$2")
+      .slice(0, 14);
+  };
+
   return (
     <PageLayout>
       <Form {...form}>
@@ -153,7 +172,32 @@ export default function EmployeeRegistration() {
             <h3 className="text-lg font-semibold mb-4 text-gray-800">
               Informações Básicas
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Seção CPF */}
+              <div className="space-y-2">
+                <FormField
+                  control={form.control}
+                  name="cpf"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>CPF *</FormLabel>
+                      <FormControl>
+                        <Input
+                          className="w-[50%]"
+                          placeholder="000.000.000-00"
+                          {...field}
+                          onChange={(e) => {
+                            const maskedValue = applyCpfMask(e.target.value);
+                            field.onChange(maskedValue);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
               <FormField
                 control={form.control}
                 name="nome"
@@ -310,7 +354,7 @@ export default function EmployeeRegistration() {
                               : ""
                           }
                         >
-                          <SelectValue placeholder="Selecione" />
+                          <SelectValue className="w-[50%]" placeholder="Selecione" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>

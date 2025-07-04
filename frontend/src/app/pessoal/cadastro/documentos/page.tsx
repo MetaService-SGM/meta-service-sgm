@@ -19,14 +19,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 // Schema de validação
 const documentsSchema = z.object({
-  cpf: z
-    .string()
-    .min(11, "CPF deve ter 11 dígitos")
-    .max(14, "CPF inválido")
-    .regex(
-      /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/,
-      "Formato inválido (use XXX.XXX.XXXX-XX)"
-    ),
+
   estrangeiro: z.boolean().optional(),
   rg: z.string().min(5, "RG deve ter pelo menos 5 caracteres").optional(),
   tituloEleitor: z.string().min(12, "Título deve ter 12 dígitos").optional(),
@@ -45,7 +38,6 @@ export default function EmployeeRegistration() {
   const form = useForm<DocumentsFormData>({
     resolver: zodResolver(documentsSchema),
     defaultValues: {
-      cpf: "",
       estrangeiro: false,
       rg: "",
       tituloEleitor: "",
@@ -64,48 +56,15 @@ export default function EmployeeRegistration() {
     // Lógica para salvar ou avançar para próxima etapa
   }
 
-  // Função para aplicar máscara de CPF
-  const applyCpfMask = (value: string) => {
-    return value
-      .replace(/\D/g, "")
-      .replace(/(\d{3})(\d)/, "$1.$2")
-      .replace(/(\d{3})(\d)/, "$1.$2")
-      .replace(/(\d{3})(\d{2})$/, "$1-$2")
-      .slice(0, 14);
-  };
+ 
 
   return (
     <PageLayout>
       <StepIndicator activeStep={5} />
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <h2 className="text-lg font-semibold">Documentos</h2>
-
-          {/* Seção CPF */}
-          <div className="space-y-2">
-            <FormField
-              control={form.control}
-              name="cpf"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>CPF *</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="w-[15%]"
-                      placeholder="000.000.000-00"
-                      {...field}
-                      onChange={(e) => {
-                        const maskedValue = applyCpfMask(e.target.value);
-                        field.onChange(maskedValue);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
 
           <div className="border-t border-gray-200 my-4"></div>
 
