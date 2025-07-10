@@ -1,15 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
 
 const steps = [
-  { label: "Dados Pessoais", path: "/pessoal/cadastro/dadosPessoais" },
-  { label: "Endereço", path: "/pessoal/cadastro/endereco" },
-  { label: "Contatos", path: "/pessoal/cadastro/contatos" },
-  { label: "Dados Contratuais", path: "/pessoal/cadastro/dadosContratuais" },
-  { label: "Documentos", path: "/pessoal/cadastro/documentos" },
-  { label: "Dependentes", path: "/pessoal/cadastro/dependentes" },
+  { label: "Dados Pessoais"},
+  { label: "Endereço"},
+  { label: "Contatos"},
+  { label: "Dados Contratuais"},
+  { label: "Documentos"},
+  { label: "Dependentes"},
   {
     label: "Informações Pessoais",
     path: "/pessoal/cadastro/informacoesPessoais",
@@ -21,7 +20,6 @@ interface StepIndicatorProps {
 }
 
 export function StepIndicator({ activeStep }: StepIndicatorProps) {
-  const router = useRouter();
 
   return (
     <div className="flex flex-col w-full mb-8">
@@ -55,8 +53,7 @@ export function StepIndicator({ activeStep }: StepIndicatorProps) {
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.3 }}
-                onClick={() => router.push(stepItem.path)}
-                className={`cursor-pointer z-10 w-9 h-9 flex items-center justify-center rounded-full font-bold text-white
+                className={`z-10 w-9 h-9 flex items-center justify-center rounded-full font-bold text-white
                   ${
                     isActive
                       ? "bg-[#2B426E]"
