@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { PageLayout } from '@/components/ui/layout/PageLayout';
 import { TitlePage } from '@/components/ui/title/TitlePage';
 import { useRouter } from 'next/navigation';
@@ -26,18 +27,17 @@ const opcoesCampos = [
 
 const LOCAL_STORAGE_KEY = 'materiais';
 
+const BASE_MATERIAIS: Material[] = [
+  { id: 20, produto: 'Camisa mang. curta', tamanho: 'P', data: '12/02/2017', quantidade: 4, ca: '323334', cor: 'Azul', codigoInterno: '00000020' },
+  { id: 21, produto: 'Camisa mang. curta', tamanho: 'M', data: '12/02/2017', quantidade: 3, ca: '363738', cor: 'Branco', codigoInterno: '00000020' },
+  { id: 22, produto: 'Capacete de segurança', tamanho: '56', data: '10/02/2017', quantidade: 7, ca: '353734', cor: 'Amarelo', codigoInterno: '00000022' },
+  { id: 23, produto: 'Calça Jeans', tamanho: '52', data: '10/02/2017', quantidade: 1, ca: '353734', cor: 'Preto', codigoInterno: '00000023' },
+  { id: 24, produto: 'Calça Jeans', tamanho: '54', data: '10/02/2017', quantidade: 2, ca: '323334', cor: 'Azul', codigoInterno: '00000023' },
+  { id: 25, produto: 'Calça Jeans', tamanho: '58', data: '10/02/2017', quantidade: 4, ca: '323334', cor: 'Preto', codigoInterno: '00000023' },
+];
+
 export default function Estoque() {
   const router = useRouter();
-
-  const base: Material[] = [
-    { id: 20, produto: 'Camisa mang. curta', tamanho: 'P', data: '12/02/2017', quantidade: 4, ca: '323334', cor: 'Azul', codigoInterno: '00000020' },
-    { id: 21, produto: 'Camisa mang. curta', tamanho: 'M', data: '12/02/2017', quantidade: 3, ca: '363738', cor: 'Branco', codigoInterno: '00000020' },
-    { id: 22, produto: 'Capacete de segurança', tamanho: '56', data: '10/02/2017', quantidade: 7, ca: '353734', cor: 'Amarelo', codigoInterno: '00000022' },
-    { id: 23, produto: 'Calça Jeans', tamanho: '52', data: '10/02/2017', quantidade: 1, ca: '353734', cor: 'Preto', codigoInterno: '00000023' },
-    { id: 24, produto: 'Calça Jeans', tamanho: '54', data: '10/02/2017', quantidade: 2, ca: '323334', cor: 'Azul', codigoInterno: '00000023' },
-    { id: 25, produto: 'Calça Jeans', tamanho: '58', data: '10/02/2017', quantidade: 4, ca: '323334', cor: 'Preto', codigoInterno: '00000023' },
-  ];
-
   const [materiaisLocais, setMateriaisLocais] = useState<Material[]>([]);
 
   // Função para pegar headers com token para autenticação
@@ -81,14 +81,12 @@ export default function Estoque() {
   };
 
   // Combina base com materiais do localStorage e remove duplicados por id
-  const dados = useMemo(() => {
+   const dados = useMemo(() => {
     const map = new Map<number, Material>();
-
-    base.forEach(item => map.set(item.id, item));
+    BASE_MATERIAIS.forEach(item => map.set(item.id, item));
     materiaisLocais.forEach(item => map.set(item.id, item));
-
     return Array.from(map.values()).sort((a, b) => a.id - b.id);
-  }, [base, materiaisLocais]);
+  }, [materiaisLocais]);
 
   const [filtro, setFiltro] = useState('');
   const [campo, setCampo] = useState('produto');
@@ -129,12 +127,12 @@ export default function Estoque() {
                 </label>
               ))}
 
-              <button
+              <Button
                 onClick={() => router.push("/estoque/cadastro")}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold ml-70 py-2 px-4 rounded"
+                className="w-[15%] ml-70 py-2 px-4 "
               >
                 Cadastrar Material
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -150,8 +148,7 @@ export default function Estoque() {
               <th className="border p-2">CA</th>
               <th className="border p-2">Cor</th>
               <th className="border p-2">Código Interno</th>
-              <th className="border p-2 w-24">Ações</th>{" "}
-              {/* Coluna para botão apagar */}
+              <th className="border p-2 w-24">Ações</th>
             </tr>
           </thead>
           <tbody>
