@@ -6,8 +6,10 @@
       "dom.iterable",
       "esnext"
     ],
-    "allowJs": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": ["node", "react", "react-dom"],
     "skipLibCheck": true,
+    "allowJs": true,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -26,14 +28,17 @@
       "@/*": [
         "./src/*"
       ]
-    }
+    },
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts, global.d.ts",
+    ".next/types/**/*.ts",
     "next-env.d.ts",
-    ".next/types/**/*.ts"
+    "global.d.ts",
+    "src/**/*",
+    "app/**/*",
+    "components/**/*"
   ],
   "exclude": [
     "node_modules"
