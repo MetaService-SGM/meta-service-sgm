@@ -1,11 +1,11 @@
+// app/pessoal/cadastro/endereco/page.tsx
 "use client";
 
-import React from "react";
-import { AddressForm } from "@/components/ui/adress";
-import { StepIndicator } from "@/components/ui/step-indicator";
+import { AddressForm } from "@/components/ui/adress"; // Ajuste o caminho
 import { PageLayout } from "@/components/ui/layout/PageLayout";
+import { StepIndicator } from "@/components/ui/step-indicator";
 
-export default function EmployeeRegistration() {
+export default function AddressPage() {
   return (
     <PageLayout>
       <StepIndicator activeStep={2} />

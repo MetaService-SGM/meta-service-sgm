@@ -22,6 +22,9 @@ import { Input } from "@/components/ui/input";
 import { StepIndicator } from "@/components/ui/step-indicator";
 import { PageLayout } from "@/components/ui/layout/PageLayout";
 import { FormActionsButton } from "@/components/ui/button/FormActionsButton";
+import { useRouter } from "next/navigation"; 
+import { useState } from "react"; 
+import toast from "react-hot-toast";
 
 // Schema de validação com mensagens personalizadas
 const contactSchema = z.object({
@@ -33,9 +36,8 @@ const contactSchema = z.object({
   mobileCarrier2: z.string().optional(),
   mobile2: z
     .string()
-    .regex(/^\(\d{2}\) \d{5}-\d{4}$/, "Formato inválido (99) 99999-9999")
-    .optional()
-    .or(z.literal("")),
+    .regex(/^$|^\(\d{2}\) \d{5}-\d{4}$/, "Formato inválido (99) 99999-9999") // ✅ Corrigido: permite string vazia
+    .optional(),
   emergencyContact: z
     .string()
     .min(3, "Mínimo 3 caracteres")
@@ -73,7 +75,10 @@ const relationships = [
   { value: "other", label: "Outro" },
 ];
 
-export default function EmployeeRegistration() {
+export default function ContactRegistration() { 
+  const [isSubmitting, setIsSubmitting] = useState(false); 
+  const router = useRouter(); 
+
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
@@ -89,19 +94,107 @@ export default function EmployeeRegistration() {
     },
   });
 
-  const onSubmit = (data: ContactFormData) => {
-    console.log("Dados válidos:", data);
-    // Lógica para enviar os dados
-  };
-
   // Função de máscara para telefone
   const applyPhoneMask = (value: string) => {
-    return value
-      .replace(/\D/g, "")
-      .replace(/(\d{2})(\d)/, "($1) $2")
-      .replace(/(\d{5})(\d)/, "$1-$2")
-      .slice(0, 15);
+    const numbers = value.replace(/\D/g, "");
+    
+    if (numbers.length <= 2) {
+      return numbers;
+    }
+    if (numbers.length <= 7) {
+      return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+    }
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`.slice(0, 15);
   };
+
+  // Função para salvar rascunho
+  const onSaveDraft = async () => { 
+    const formData = form.getValues();
+    try {
+      localStorage.setItem("contact-draft", JSON.stringify(formData));
+      console.log("Rascunho salvo");
+      
+      // Mostra feedback para o usuário
+      toast.success("Rascunho salvo com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar rascunho:", error);
+    }
+  };
+
+  // Função de submit 
+  const onSubmit = async (data: ContactFormData) => { 
+    setIsSubmitting(true);
+    try {
+      console.log("Dados de contato enviados:", data);
+      
+      // Aqui você pode adicionar a lógica de API
+      // await api.post('/employees/contact', data);
+      
+      // Salva os dados antes de navegar
+      localStorage.setItem("contact-data", JSON.stringify(data));
+      
+      // Navega para a próxima página
+      router.push("/pessoal/cadastro/documentos"); 
+    } catch (error) {
+      console.error("Erro ao enviar dados:", error);
+      // Você pode adicionar tratamento de erro aqui (ex: toast de erro)
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Função para próximo (com validação)
+  const handleNextPage = () => {
+    form.trigger().then((isValid) => {
+      if (isValid) {
+        // Se válido, submete o formulário
+        form.handleSubmit(onSubmit)();
+      } else {
+        console.log("Formulário contém erros. Corrija antes de prosseguir.");
+
+        // Scroll para o primeiro erro
+        const firstError = Object.keys(form.formState.errors)[0];
+        if (firstError) {
+          const element = document.querySelector(`[name="${firstError}"]`);
+          element?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }
+    });
+  };
+
+  // Função para anterior (sem validação)
+  const handlePreviousPage = () => {
+    // Salva o rascunho antes de navegar
+    onSaveDraft();
+    router.push("/pessoal/cadastro/contatos"); // Volta para página anterior 
+  };
+
+  // Função para cancelar
+  const handleCancel = () => {
+    if (confirm("Tem certeza que deseja limpar todos os dados?")) {
+      form.reset();
+      localStorage.removeItem("contact-draft");
+    }
+  };
+
+  // Carregar rascunho salvo (opcional)
+  const loadDraft = () => {
+    try {
+      const draft = localStorage.getItem("contact-draft");
+      if (draft) {
+        const parsedDraft = JSON.parse(draft);
+        form.reset(parsedDraft);
+        console.log("Rascunho carregado");
+      }
+    } catch (error) {
+      console.error("Erro ao carregar rascunho:", error);
+    }
+  };
+
+  // Carregar rascunho quando o componente montar
+  useState(() => {
+    loadDraft();
+  });
 
   return (
     <PageLayout>
@@ -131,7 +224,7 @@ export default function EmployeeRegistration() {
                           value={field.value}
                           onValueChange={field.onChange}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className={form.formState.errors.mobileCarrier1 ? "border-red-500" : ""}>
                             <SelectValue placeholder="Selecione..." />
                           </SelectTrigger>
                           <SelectContent>
@@ -165,7 +258,7 @@ export default function EmployeeRegistration() {
                             const maskedValue = applyPhoneMask(e.target.value);
                             field.onChange(maskedValue);
                           }}
-                          
+                          className={form.formState.errors.mobile1 ? "border-red-500" : ""}
                         />
                       </FormControl>
                       <FormMessage />
@@ -219,7 +312,6 @@ export default function EmployeeRegistration() {
                             const maskedValue = applyPhoneMask(e.target.value);
                             field.onChange(maskedValue);
                           }}
-                          
                         />
                       </FormControl>
                       <FormMessage />
@@ -247,6 +339,7 @@ export default function EmployeeRegistration() {
                           placeholder="Ex: Maria Silva"
                           {...field}
                           maxLength={50}
+                          className={form.formState.errors.emergencyContact ? "border-red-500" : ""}
                         />
                       </FormControl>
                       <FormMessage />
@@ -265,7 +358,7 @@ export default function EmployeeRegistration() {
                           value={field.value}
                           onValueChange={field.onChange}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className={form.formState.errors.relationship ? "border-red-500" : ""}>
                             <SelectValue placeholder="Selecione..." />
                           </SelectTrigger>
                           <SelectContent>
@@ -293,7 +386,7 @@ export default function EmployeeRegistration() {
                           value={field.value}
                           onValueChange={field.onChange}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className={form.formState.errors.emergencyCarrier ? "border-red-500" : ""}>
                             <SelectValue placeholder="Selecione..." />
                           </SelectTrigger>
                           <SelectContent>
@@ -329,7 +422,7 @@ export default function EmployeeRegistration() {
                             const maskedValue = applyPhoneMask(e.target.value);
                             field.onChange(maskedValue);
                           }}
-                          
+                          className={form.formState.errors.emergencyPhone ? "border-red-500" : ""}
                         />
                       </FormControl>
                       <FormMessage />
@@ -349,6 +442,7 @@ export default function EmployeeRegistration() {
                           placeholder="exemplo@email.com"
                           {...field}
                           maxLength={100}
+                          className={form.formState.errors.personalEmail ? "border-red-500" : ""}
                         />
                       </FormControl>
                       <FormMessage />
@@ -359,7 +453,16 @@ export default function EmployeeRegistration() {
             </div>
           </fieldset>
 
-          <FormActionsButton />
+          <FormActionsButton
+            onCancel={handleCancel}
+            disabled={isSubmitting}
+            onPrevious={handlePreviousPage}
+            onNext={handleNextPage}
+            previousLabel="Voltar"
+            nextLabel={isSubmitting ? "Enviando..." : "Próximo"}
+            cancelLabel="Limpar"
+            onSaveDraft={onSaveDraft}
+          />
         </form>
       </Form>
     </PageLayout>

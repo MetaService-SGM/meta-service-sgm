@@ -6,27 +6,43 @@ interface FormActionsProps {
   onClick?: () => void;
   onCancel?: () => void;
   onSaveDraft?: () => void;
+  onPrevious?: () => void;
   onNext?: () => void;
+  previousLabel?: string;
   nextLabel?: string;
+  cancelLabel?: string;
   disabled?: boolean;
 }
 
 export function FormActionsButton({
   onCancel,
   onSaveDraft,
+  onPrevious,
   onNext,
+  previousLabel = "Voltar",
   nextLabel = "Próximo",
+  cancelLabel = "Limpar",
   disabled = false 
 }: FormActionsProps) {
   return (
     <div className="flex justify-end gap-4 my-6">
       
+      {onPrevious && (
+        <Button
+        type="submit"
+        className="bg-[#2B426E] hover:bg-[#1f2f4f] text-white"
+        onClick={onPrevious}
+      >
+        {previousLabel}
+      </Button>
+      )}
       <Button type="button" variant="outline" onClick={onCancel} disabled={disabled}>
-        Cancelar
+        {cancelLabel}
       </Button>
       <Button type="button" variant="secondary" size="lg" onClick={onSaveDraft} >
         Salvar rascunho
       </Button>
+
       <Button
         type="submit"
         className="bg-[#2B426E] hover:bg-[#1f2f4f] text-white"

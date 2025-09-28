@@ -19,15 +19,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { AddressInput } from "@/components/ui/input/inputFieldForm";
+// import { AddressInput } from "@/components/ui/input/inputFieldForm";
 import { FormActionsButton } from "../button/FormActionsButton";
+import { useState } from "react";
+import { useRouter } from "next/navigation"; // ✅ Corrigido: use next/navigation em vez de next/router
 
 const addressSchema = z.object({
   cep: z
     .string()
-    .regex(/^\d{5}-?\d{3}$/, "CEP inválido")
-    .transform((cep) => cep.replace(/-/g, "")),
-  uf: z.string().nonempty("UF é obrigatória"),
+    .min(8, "CEP deve ter 8 dígitos")
+    .regex(/^\d{5}-?\d{3}$/, "CEP inválido"),
+  uf: z.string().min(1, "UF é obrigatória"),
   cidade: z.string().min(2, "Cidade é obrigatória"),
   bairro: z.string().min(2, "Bairro é obrigatório"),
   rua: z.string().min(2, "Rua é obrigatória"),
@@ -39,8 +41,47 @@ const addressSchema = z.object({
 
 type AddressFormData = z.infer<typeof addressSchema>;
 
+interface BrazilianStateProps {
+  uf: string;
+  name: string;
+  value: string;
+}
+
+// Array de estados para mapear
+const statesBrazil: BrazilianStateProps[] = [
+  { uf: "AC", name: "Acre", value: "acre" },
+  { uf: "AL", name: "Alagoas", value: "alagoas" },
+  { uf: "AP", name: "Amapá", value: "amapa" },
+  { uf: "AM", name: "Amazonas", value: "amazonas" },
+  { uf: "BA", name: "Bahia", value: "bahia" },
+  { uf: "CE", name: "Ceará", value: "ceara" },
+  { uf: "ES", name: "Espírito Santo", value: "espiritoSanto" },
+  { uf: "MA", name: "Maranhão", value: "maranhao" },
+  { uf: "MT", name: "Mato Grosso", value: "matoGrosso" },
+  { uf: "MS", name: "Mato Grosso do Sul", value: "matoGrossoDoSul" },
+  { uf: "MG", name: "Minas Gerais", value: "minasGerais" },
+  { uf: "PA", name: "Pará", value: "para" },
+  { uf: "PB", name: "Paraíba", value: "paraiba" },
+  { uf: "PR", name: "Paraná", value: "parana" },
+  { uf: "PE", name: "Pernambuco", value: "pernambuco" },
+  { uf: "PI", name: "Piauí", value: "piaui" },
+  { uf: "RJ", name: "Rio de Janeiro", value: "rioDeJaneiro" },
+  { uf: "RN", name: "Rio Grande do Norte", value: "rioGrandeDoNorte" },
+  { uf: "RS", name: "Rio Grande do Sul", value: "rioGrandeDoSul" },
+  { uf: "RO", name: "Rondônia", value: "rondonia" },
+  { uf: "RR", name: "Roraima", value: "roraima" },
+  { uf: "SC", name: "Santa Catarina", value: "santaCatarina" },
+  { uf: "SP", name: "São Paulo", value: "saoPaulo" },
+  { uf: "SE", name: "Sergipe", value: "sergipe" },
+  { uf: "TO", name: "Tocantins", value: "tocantins" },
+  { uf: "DF", name: "Distrito Federal", value: "distritoFederal" },
+];
+
 // Componente do formulário de Endereço
 export function AddressForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter(); // ✅ Agora usando o hook correto
+
   const form = useForm<AddressFormData>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
@@ -55,11 +96,6 @@ export function AddressForm() {
       referencia: "",
     },
   });
-
-  function onSubmit(data: AddressFormData) {
-    console.log("Endereço:", data);
-    // Aqui você pode salvar ou ir para a próxima etapa
-  }
 
   // Função de máscara do CEP
   const applyCepMask = (value: string) => {
@@ -76,7 +112,8 @@ export function AddressForm() {
       form.clearErrors("cep");
       try {
         const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-        if (!response.ok) throw new Error("CEP não encontrado");
+        if (!response.ok) throw new Error("Erro ao buscar CEP");
+
         const data = await response.json();
         if (data.erro) throw new Error("CEP não encontrado");
 
@@ -86,57 +123,80 @@ export function AddressForm() {
         );
 
         // Preenche os campos
-        form.setValue("cep", data.cep);
-        form.setValue("uf", estadoEncontrado?.value || ""); // Usa o value do estado
-        form.setValue("cidade", data.localidade);
-        form.setValue("bairro", data.bairro);
-        form.setValue("rua", data.logradouro);
+        form.setValue("cep", data.cep || "");
+        form.setValue("uf", estadoEncontrado?.value || data.uf || "");
+        form.setValue("cidade", data.localidade || "");
+        form.setValue("bairro", data.bairro || "");
+        form.setValue("rua", data.logradouro || "");
+
+        // Limpa erros dos campos preenchidos
+        form.clearErrors(["uf", "cidade", "bairro", "rua"]);
       } catch (error: unknown) {
         form.setError("cep", {
           message:
-            error instanceof Error
-              ? error.message
-              : "Erro desconhecido ao buscar CEP",
+            error instanceof Error ? error.message : "Erro ao buscar CEP",
         });
       }
     }
   };
 
-  interface BrazilianStateProps {
-    uf: string;
-    name: string;
-    value: string;
-  }
+  // Função para próximo (com validação)
+  const handleNextPage = () => {
+    form.trigger().then((isValid) => {
+      if (isValid) {
+        // Se válido, submete o formulário
+        form.handleSubmit(onSubmit)();
+      } else {
+        console.log("Formulário contém erros. Corrija antes de prosseguir.");
 
-  // Array de estados para mapear
-  const statesBrazil: BrazilianStateProps[] = [
-    { uf: "AC", name: "Acre", value: "acre" },
-    { uf: "AL", name: "Alagoas", value: "alagoas" },
-    { uf: "AP", name: "Amapa", value: "amapa" },
-    { uf: "AM", name: "Amazonas", value: "amazonas" },
-    { uf: "BA", name: "Bahia", value: "bahia" },
-    { uf: "CE", name: "Ceara", value: "ceara" },
-    { uf: "ES", name: "EspiritoSanto", value: "espiritoSanto" },
-    { uf: "MA", name: "Maranhao", value: "maranhao" },
-    { uf: "MT", name: "MatoGrosso", value: "matoGrosso" },
-    { uf: "MS", name: "MatoGrossoDoSul", value: "matoGrossoDoSul" },
-    { uf: "MG", name: "MinasGerais", value: "minasGerais" },
-    { uf: "PA", name: "Para", value: "para" },
-    { uf: "PB", name: "Paraiba", value: "paraiba" },
-    { uf: "PR", name: "Parana", value: "parana" },
-    { uf: "PE", name: "Pernambuco", value: "pernambuco" },
-    { uf: "PI", name: "Piaui", value: "piaui" },
-    { uf: "RJ", name: "RioDeJaneiro", value: "rioDeJaneiro" },
-    { uf: "RN", name: "RioGrandeDoNorte", value: "rioGrandeDoNorte" },
-    { uf: "RS", name: "RioGrandeDoSul", value: "rioGrandeDoSul" },
-    { uf: "RO", name: "Rondonia", value: "rondonia" },
-    { uf: "RR", name: "Roraima", value: "roraima" },
-    { uf: "SC", name: "SantaCatarina", value: "santaCatarina" },
-    { uf: "SP", name: "SaoPaulo", value: "saoPaulo" },
-    { uf: "SE", name: "Sergipe", value: "sergipe" },
-    { uf: "TO", name: "Tocantins", value: "tocantins" },
-    { uf: "DF", name: "DistritoFederal", value: "distritoFederal" },
-  ];
+        // Scroll para o primeiro erro
+        const firstError = Object.keys(form.formState.errors)[0];
+        if (firstError) {
+          const element = document.querySelector(`[name="${firstError}"]`);
+          element?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }
+    });
+  };
+
+  // Função para anterior (sem validação)
+  const handlePreviousPage = () => {
+    // Salva o rascunho antes de navegar para a página anterior
+    OnSaveDraft();
+    router.push("/pessoal/cadastro/dadosPessoais");
+  };
+
+  // Função de submit
+  const onSubmit = async (data: AddressFormData) => {
+    setIsSubmitting(true);
+    try {
+      console.log("Dados enviados:", data);
+      // Lógica de API aqui
+      router.push("/pessoal/cadastro/contatos"); // Próxima página
+    } catch (error) {
+      console.error("Erro ao enviar dados:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Função para salvar rascunho (opcional)
+  const OnSaveDraft = async () => {
+    const formData = form.getValues();
+    try {
+      // Salvar no localStorage ou API como rascunho
+      localStorage.setItem("address-draft", JSON.stringify(formData));
+      localStorage.getItem("address-draft");
+      console.log("Rascunho salvo");
+    } catch (error) {
+      console.error("Erro ao salvar rascunho:", error);
+    }
+  };
+
+  // Função para cancelar
+  const handleCancel = () => {
+    form.reset();
+  };
 
   return (
     <Form {...form}>
@@ -161,8 +221,19 @@ export function AddressForm() {
                         onChange={(e) => {
                           const maskedValue = applyCepMask(e.target.value);
                           field.onChange(maskedValue);
-                          if (maskedValue.length === 9) {
+
+                          // Chama a busca do CEP quando completo
+                          if (maskedValue.replace(/\D/g, "").length === 8) {
                             handleCepChange(e);
+                          }
+                        }}
+                        onBlur={(e) => {
+                          // Validação final no blur
+                          const cep = e.target.value.replace(/\D/g, "");
+                          if (cep.length > 0 && cep.length !== 8) {
+                            form.setError("cep", {
+                              message: "CEP deve ter 8 dígitos",
+                            });
                           }
                         }}
                       />
@@ -178,90 +249,188 @@ export function AddressForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>UF*</FormLabel>
-                    <FormControl>
-                      <Select
-                        value={field.value}
-                        onValueChange={field.onChange}
-                      >
-                        <SelectTrigger>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <FormControl>
+                        <SelectTrigger
+                          className={
+                            form.formState.errors.uf ? "border-red-500" : ""
+                          }
+                        >
                           <SelectValue placeholder="Selecione" />
                         </SelectTrigger>
-                        <SelectContent>
-                          {statesBrazil.map((state) => (
-                            <SelectItem key={state.uf} value={state.value}>
-                              {state.uf}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      </FormControl>
+                      <SelectContent>
+                        {statesBrazil.map((state) => (
+                          <SelectItem key={state.uf} value={state.value}>
+                            {state.uf} - {state.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="cidade"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Cidade*</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Cidade"
+                        {...field}
+                        className={
+                          form.formState.errors.cidade ? "border-red-500" : ""
+                        }
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <AddressInput
-                control={form.control}
-                name="cidade"
-                label="Cidade*"
-                placeholder="Cidade"
-              />
-
-              <AddressInput
+              <FormField
                 control={form.control}
                 name="bairro"
-                label="Bairro*"
-                placeholder="Bairro"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Bairro*</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Bairro"
+                        {...field}
+                        className={
+                          form.formState.errors.bairro ? "border-red-500" : ""
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
             </div>
 
             <div className="grid grid-cols-4 gap-4 mt-4">
-              <AddressInput
+              <FormField
                 control={form.control}
                 name="rua"
-                label="Rua*"
-                placeholder="ex: Rua das Flores"
-                className="col-span-2"
+                render={({ field }) => (
+                  <FormItem className="col-span-2">
+                    <FormLabel>Rua*</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="ex: Rua das Flores"
+                        {...field}
+                        className={
+                          form.formState.errors.rua ? "border-red-500" : ""
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
 
-              <AddressInput
+              <FormField
                 control={form.control}
                 name="complemento"
-                label="Complemento"
-                placeholder="ex: Casa"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Complemento</FormLabel>
+                    <FormControl>
+                      <Input placeholder="ex: Casa" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
 
-              <AddressInput
+              <FormField
                 control={form.control}
                 name="numero"
-                label="Número*"
-                placeholder="ex: 00"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Número*</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="ex: 00"
+                        {...field}
+                        className={
+                          form.formState.errors.numero ? "border-red-500" : ""
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
             </div>
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-sm">
-             <h3 className="text-lg font-semibold mb-4 text-gray-800">
+            <h3 className="text-lg font-semibold mb-4 text-gray-800">
               Ponto de Encontro
             </h3>
             <div className="grid grid-cols-2 gap-4">
-              <AddressInput
+              <FormField
                 control={form.control}
                 name="pontoEncontro"
-                label="Local de Encontro"
-                placeholder="Digite aqui..."
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Local de Encontro*</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Digite aqui..."
+                        {...field}
+                        className={
+                          form.formState.errors.pontoEncontro
+                            ? "border-red-500"
+                            : ""
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
 
-              <AddressInput
+              <FormField
                 control={form.control}
                 name="referencia"
-                label="Ponto de Referência"
-                placeholder="Digite aqui..."
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Ponto de Referência*</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Digite aqui..."
+                        {...field}
+                        className={
+                          form.formState.errors.referencia
+                            ? "border-red-500"
+                            : ""
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
             </div>
           </div>
 
-          <FormActionsButton />
+          <FormActionsButton
+            onCancel={handleCancel}
+            disabled={isSubmitting}
+            onPrevious={handlePreviousPage}
+            onNext={handleNextPage}
+            previousLabel="Voltar"
+            nextLabel={isSubmitting ? "Enviando..." : "Próximo"}
+            cancelLabel="Limpar"
+            onSaveDraft={OnSaveDraft}
+          />
         </fieldset>
       </form>
     </Form>

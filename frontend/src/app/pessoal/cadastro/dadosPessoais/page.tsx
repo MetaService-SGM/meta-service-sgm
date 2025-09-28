@@ -27,7 +27,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { UploadIcon } from "lucide-react";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const genderOptions = [
   { value: "masculino", label: "Masculino" },
@@ -110,11 +110,7 @@ export default function EmployeeRegistration() {
     "Nenhum arquivo selecionado"
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // const router = useRouter();
-
-  // const handleNextPage = () => {
-  // router.push("/pessoal/cadastro/endereco"); // caminho da página de destino
-  // };
+  const router = useRouter();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -139,13 +135,20 @@ export default function EmployeeRegistration() {
     },
   });
 
+  // Função de submit
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
       console.log("Dados enviados:", data);
-      // Adiciona lógica de submissão aqui
+
+      // Aqui você pode adicionar a lógica de API
+      // await api.post('/employees', data);
+
+      // Após enviar os dados, redireciona para a próxima página
+      router.push("/pessoal/cadastro/endereco");
     } catch (error) {
-      console.error("Submission error:", error);
+      console.error("Erro ao enviar dados:", error);
+      // Você pode adicionar tratamento de erro aqui (ex: toast de erro)
     } finally {
       setIsSubmitting(false);
     }
@@ -159,6 +162,28 @@ export default function EmployeeRegistration() {
       .replace(/(\d{3})(\d)/, "$1.$2")
       .replace(/(\d{3})(\d{2})$/, "$1-$2")
       .slice(0, 14);
+  };
+
+ 
+  // Função para validação antes de prosseguir
+  const handleNextPage = () => {
+    // Dispara a validação do formulário
+    form.trigger().then((isValid) => {
+      if (isValid) {
+        // Se válido, submete o formulário (que já redireciona no onSubmit)
+        form.handleSubmit(onSubmit)();
+      } else {
+        // Se inválido, mostra mensagem ou scroll para o primeiro erro
+        console.log("Formulário contém erros. Corrija antes de prosseguir.");
+        
+        // Opcional: Scroll para o primeiro erro
+        const firstError = Object.keys(form.formState.errors)[0];
+        if (firstError) {
+          const element = document.querySelector(`[name="${firstError}"]`);
+          element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    });
   };
 
   return (
@@ -354,7 +379,10 @@ export default function EmployeeRegistration() {
                               : ""
                           }
                         >
-                          <SelectValue className="w-[50%]" placeholder="Selecione" />
+                          <SelectValue
+                            className="w-[50%]"
+                            placeholder="Selecione"
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -635,7 +663,8 @@ export default function EmployeeRegistration() {
           <FormActionsButton
             onCancel={() => form.reset()}
             disabled={isSubmitting}
-            // onNext={handleNextPage}
+            onNext={handleNextPage}
+            nextLabel="Próximo"
           />
         </form>
       </Form>

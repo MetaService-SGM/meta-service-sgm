@@ -1,10 +1,14 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation"; // Use isso apenas se estiver usando pasta 'app'
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/input/inputField";
 import { toast } from "react-hot-toast";
+
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "https://meta-service-sgm.fly.dev";
+const DEMO_MODE = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -13,37 +17,43 @@ export default function LoginPage() {
   });
   const [erro, setErro] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isApiOnline, setIsApiOnline] = useState(true);
   const router = useRouter();
+
+  // Verificar status da API
+  useEffect(() => {
+    const checkApiStatus = async () => {
+      try {
+        const response = await fetch(`${API_URL}/health`, {
+          method: "HEAD",
+          cache: "no-cache",
+        });
+        setIsApiOnline(response.ok);
+      } catch {
+        setIsApiOnline(false);
+        console.warn("API offline, usando modo fallback");
+      }
+    };
+
+    if (!DEMO_MODE) {
+      checkApiStatus();
+    }
+  }, []);
 
   // Verificar se o usuário já está logado
   useEffect(() => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("access-token");
-      const client = localStorage.getItem("client");
-      const uid = localStorage.getItem("uid");
-      const role = localStorage.getItem("role");
-
-      if (token && client && uid && role) {
-        toast.success("Você já está logado! Redirecionando...", {
-          duration: 2000,
-        });
-
-        const timer = setTimeout(() => {
-          console.log("Redirecionando para /bemVindo");
-          router.replace("/bemVindo");
-        }, 2000);
-
-        return () => clearTimeout(timer);
+      if (token) {
+        toast.success("Você já está logado! Redirecionando...");
+        setTimeout(() => router.replace("/bemVindo"), 2000);
       }
     }
   }, [router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,61 +64,59 @@ export default function LoginPage() {
       return;
     }
 
+    // Modo demonstração
+    if (DEMO_MODE || !isApiOnline) {
+      localStorage.setItem("access-token", "demo-token");
+      localStorage.setItem("client", "demo-client");
+      localStorage.setItem("uid", formData.email);
+      localStorage.setItem("token-type", "Bearer");
+      localStorage.setItem("userId", "1");
+      localStorage.setItem("name", "Usuário Demonstração");
+      localStorage.setItem("role", "user");
+
+      toast.success("Modo demonstração - Login bem-sucedido!");
+      router.replace("/bemVindo");
+      return;
+    }
+
     setLoading(true);
     setErro("");
 
     try {
-      const response = await fetch(
-        "https://meta-service-sgm.fly.dev/auth/sign_in",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: formData.email.trim(),
-            password: formData.password,
-          }),
-        }
-      );
-
-      const data = await response.json();
+      const response = await fetch(`${API_URL}/auth/sign_in`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email.trim(),
+          password: formData.password,
+        }),
+      });
 
       if (!response.ok) {
-        const errorMessage =
-          data.errors?.[0].toLowerCase().includes("invalid") ||
-          data.errors?.[0].toLowerCase().includes("credenciais")
-            ? "E-mail ou senha incorretos"
-            : data.errors?.[0] || "Erro ao fazer login";
-        throw new Error(errorMessage);
+        const data = await response.json();
+        throw new Error(data.errors?.[0] || "Erro ao fazer login");
       }
 
+      const data = await response.json();
       const token = response.headers.get("access-token");
       const client = response.headers.get("client");
       const uid = response.headers.get("uid");
-      const tokenType = response.headers.get("token-type");
 
-      if (!token || !client || !uid || !tokenType) {
+      if (!token || !client || !uid) {
         throw new Error("Headers de autenticação ausentes");
       }
 
-      // Salvar dados no localStorage
       localStorage.setItem("access-token", token);
       localStorage.setItem("client", client);
       localStorage.setItem("uid", uid);
-      localStorage.setItem("token-type", tokenType);
+      localStorage.setItem("token-type", "Bearer");
       localStorage.setItem("userId", data.data.id);
       localStorage.setItem("name", data.data.name);
       localStorage.setItem("role", data.data.role);
 
-      console.log("Login bem-sucedido, redirecionando para /bemVindo");
       router.replace("/bemVindo");
     } catch (error) {
-      if (error instanceof Error) {
-        setErro(error.message);
-      } else {
-        setErro("Erro ao fazer login");
-      }
+      setErro(error instanceof Error ? error.message : "Erro ao fazer login");
     } finally {
       setLoading(false);
     }
